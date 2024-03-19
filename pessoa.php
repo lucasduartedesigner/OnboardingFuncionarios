@@ -14,14 +14,15 @@ $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 //var_dump($dados);
 
 //Verificar se o usuario clicou no botao
-if(!empty($dados['CadUsuario'])){
-    $query_usuario = "INSERT INTO pessoa 
-                (nome, cpf, idLogin, datacriacao) VALUES
-                (:nome, :cpf, :idLogin, NOW())";
-    $cad_usuario = $conn->prepare($query_usuario);
-    $cad_usuario->bindParam(':nome', $dados['nome'], PDO::PARAM_STR);
-    $cad_usuario->bindParam(':cpf', $dados['cpf'], PDO::PARAM_STR);
-    $cad_usuario->execute();
+if(!empty($dados['cadpessoa'])){
+    $query_pessoa = ("INSERT INTO pessoa 
+                (nome, cpf, email,) VALUES
+                (:nome, :cpf, :email)");
+    $cad_pessoa = $conn->prepare($query_pessoa);
+    $cad_pessoa->bindParam(':nome', $dados['nome'], PDO::PARAM_STR);
+    $cad_pessoa->bindParam(':cpf', $dados['cpf'], PDO::PARAM_STR);
+    $cad_pessoa->bindParam(':email', $dados['email'], PDO::PARAM_STR);
+    $cad_pessoa->execute();
     //var_dump($conn->lastInsertId());
     //Recuperar o ultimo id inserido
     $id_usuario = $conn->lastInsertId();
