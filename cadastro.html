@@ -1,0 +1,384 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Cadastro - Portal do Colaborador</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/5.3/examples/sign-in/sign-in.css" rel="stylesheet">
+<style>
+
+.bd-placeholder-img
+{
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px)
+{
+    .bd-placeholder-img-lg
+    {
+        font-size: 3.5rem;
+    }
+}
+
+.b-example-divider
+{
+    width: 100%;
+    height: 3rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: solid rgba(0, 0, 0, .15);
+    border-width: 1px 0;
+    box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, 0.15);
+}
+
+.b-example-vr
+{
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 100vh;
+}
+
+.bi 
+{
+    vertical-align: -.125em;
+    fill: currentColor;
+}
+
+.nav-scroller
+{
+    position: relative;
+    z-index: 2;
+    height: 2.75rem;
+    overflow-y: hidden;
+}
+
+.nav-scroller .nav 
+{
+    display: flex;
+    flex-wrap: nowrap;
+    padding-bottom: 1rem;
+    margin-top: -1px;
+    overflow-x: auto;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.btn-bd-primary 
+{
+--bd-violet-bg: #712cf9;
+--bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+--bs-btn-font-weight: 600;
+--bs-btn-color: var(--bs-white);
+--bs-btn-bg: var(--bd-violet-bg);
+--bs-btn-border-color: var(--bd-violet-bg);
+--bs-btn-hover-color: var(--bs-white);
+--bs-btn-hover-bg: #ec0000;
+--bs-btn-hover-border-color: #ff0000;
+--bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+--bs-btn-active-color: var(--bs-btn-hover-color);
+--bs-btn-active-bg: #00ff55;
+--bs-btn-active-border-color: #00ff55;
+}
+
+.bd-mode-toggle
+{
+    z-index: 1500;
+}
+
+.bd-mode-toggle .dropdown-menu .active .bi
+{
+    display: block !important;
+}
+
+.btn-success 
+{
+    background: #008675;
+    border-color: #008675;
+}
+
+.btn-success:hover
+{
+    background: #046d5f;
+    border-color: #046d5f;
+}
+
+</style>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="py-2 text-center"> <img class="d-block mx-auto mb-1 mt-3" src="https://unifeso.edu.br/apps/assets/img/feso.png" alt="" width="230">
+                    <h2>Formulário de Cadastro</h2>
+                    <p class="lead">Preencha o cadastro abaixo.</p>
+                </div>
+                <div class="card p-5 rounded-4">
+                    <div class="col-md-15 order-md-1">
+ 
+                        <form action="php/cadastra/pessoa.php" method="post" autocomplete="off">
+ 
+                            <div class="row">
+
+                                <div class="col-md-7 mb-3">
+                                    <label for="nome">Nome</label>
+                                    <input type="text" class="form-control" id="nome" name="nome" maxlength="100" required>
+                                </div>
+
+                                <div class="col-md-5 mb-3">
+                                    <label for="matricula">Matrícula</label>
+                                    <input type="text" class="form-control" id="matricula" name="matricula" maxlength="50" required>
+                                </div>
+
+                                <div class="col-md-7 mb-3">
+                                    <label for="email">Email</label>
+                                    <input type="text" class="form-control" id="email" name="email" maxlength="255" required>
+                                </div>
+
+                                <div class="col-md-5 mb-3">
+                                    <label for="campus">Campus</label>
+                                    <select class="form-control" id="campus" name="campus" required>
+                                        <option value="1">AMBULATÓRIO</option>
+                                        <option value="2">CESO</option>
+                                        <option value="3">HCTCO</option>
+                                        <option value="4">PROARTE</option>
+                                        <option value="5" selected>SEDE</option>
+                                        <option value="6">Q.PARAISO</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="senha">Senha</label>
+                                    <input type="password" class="form-control" id="senha" name="senha" required>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="confirmasenha">Confirmar Senha</label>
+                                    <input type="password" class="form-control" id="confirmasenha" name="confirmasenha" required>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-success btn-lg form-control mt-3" type="submit">Cadastrar</button>
+ 
+                        </form>
+
+                    </div>
+                </div>
+                <footer class="my-0 pt-4 text-muted text-center text-small">
+                    <p>Já é cadastrado no sistema? <a href="index.html">Fazer Login</a></p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script src="https://getbootstrap.com/docs/5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js" ></script>
+    <script>
+
+        $(document).ready(function () {
+
+            $("form").submit(function(e){
+
+                // Evita o envio padrão do formulário
+                e.preventDefault();
+
+                var senha  = $("#senha").val();
+                var cSenha = $("#confirmasenha").val();
+
+                if (senha !== cSenha)
+                {
+                    bootbox.alert('<h4 class="text-center">As senhas não coincidem. Por favor, verifique.</h4>');
+
+                    return;
+                }
+
+                var type  = $(this).attr('method')
+                var url   = $(this).attr('action')
+                var dados = $(this).serialize()
+
+                $.ajax({
+                    type: type,
+                    url: url,
+                    data: dados
+                }).done(function(response) {
+
+                    if(response == "") 
+                    {
+                        window.location.href = "dashboard.php";	
+                    } 
+                    else 
+                    {
+                       bootbox.alert('<h4 class="text-center">'+response+'</h4>');
+                    }
+                });
+
+            });
+        });
+
+    </script>
+</body>
+</html>
+=======
+
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://www.unifeso.edu.br/images/favicon.png">
+
+    <title>CADASTRO - FESO</title>
+
+    <!-- Principal CSS do Bootstrap -->
+    <link href="https://getbootstrap.com.br/docs/4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilos customizados para esse template -->
+    <link href="form-validation.css" rel="stylesheet">
+  </head>
+
+  <body class="bg-light">
+
+    <div class="container">
+      <div class="py-2 text-center">
+        <img class="d-block mx-auto mb-1" src="https://unifeso.edu.br/apps/assets/img/feso.png" alt="" width="230">
+        <h2>Formulário de checkout</h2>
+        <p class="lead">Preencha o cadastro abaixo.</p>
+      </div>
+      
+        <form class="card p-3">
+         
+        <div class="col-md-15 order-md-1">
+          <h4 class="mb-3">Formulário de Cadastro</h4>
+          <form class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="primeiroNome">Nome</label>
+                <input type="text" class="form-control" id="primeiroNome" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  É obrigatório inserir um nome válido.
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="sobrenome">Sobrenome</label>
+                <input type="text" class="form-control" id="sobrenome" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  É obrigatório inserir um sobre nome válido.
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="nickname">Nickname</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">@</span>
+                </div>
+                <input type="text" class="form-control" id="nickname" placeholder="Nickname" required>
+                <div class="invalid-feedback" style="width: 100%;">
+                  Seu nickname é obrigatório.
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="email">Email*</label>
+              <input type="email" class="form-control" id="email" placeholder="fulano@exemplo.com">
+              <div class="invalid-feedback">
+                Por favor, insira um endereço de e-mail válido, para atualizações de entrega.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="endereco">Endereço</label>
+              <input type="text" class="form-control" id="endereco" placeholder="Endereço" required>
+              <div class="invalid-feedback">
+                Por favor, insira seu endereço de entrega.
+              </div>
+            </div>            
+            
+            <div class="row">
+              <div class="col-md-5 mb-3">
+                <label for="pais">País</label>
+                <select class="custom-select d-block w-100" id="pais" required>
+                  <option value="">Escolha...</option>
+                  <option>Brasil</option>
+                </select>
+                <div class="invalid-feedback">
+                  Por favor, escolha um país válido.
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="estado">Estado</label>
+                <select class="custom-select d-block w-100" id="estado" required>
+                  <option value="">Escolha...</option>
+                  <option>Acre</option>
+                </select>
+                <div class="invalid-feedback">
+                  Por favor, insira um estado válido.
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="cep">CEP</label>
+                <input type="text" class="form-control" id="cep" placeholder="" required>
+                <div class="invalid-feedback">
+                  É obrigatório inserir um CEP.
+                </div>
+              </div>
+            </div>
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit"style="background-color: #006b64; color: white;">Cadastro</button>                              
+          </form>
+        </div>
+      </div>
+
+      <footer class="my-0 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2024 FESO</p>
+        <ul class="list-inline">
+          <li class="list-inline-item"><a href="#">Privacidade</a></li>
+          <li class="list-inline-item"><a href="#">Termos</a></li>
+          <li class="list-inline-item"><a href="#">Suporte</a></li>
+        </ul>
+      </footer>
+    </div>
+
+    <!-- Principal JavaScript do Bootstrap
+    ================================================== -->
+    <!-- Foi colocado no final para a página carregar mais rápido -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <script>
+      // Exemplo de JavaScript para desativar o envio do formulário, se tiver algum campo inválido.
+      (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+          // Selecione todos os campos que nós queremos aplicar estilos Bootstrap de validação customizados.
+          var forms = document.getElementsByClassName('needs-validation');
+
+          // Faz um loop neles e previne envio
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+  </body>
+</html>
+>>>>>>> 6a5e35d574ae64fec7b748f7b0a487764f62d77b
