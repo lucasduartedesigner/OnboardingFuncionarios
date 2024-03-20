@@ -29,12 +29,14 @@
                 <div class="col-md-5 mb-3">
                     <label for="campus">Campus</label>
                     <select class="form-control" id="campus" name="campus" required>
-                        <option value="1">AMBULATÓRIO</option>
-                        <option value="2">CESO</option>
-                        <option value="3">HCTCO</option>
-                        <option value="4">PROARTE</option>
-                        <option value="5" selected>SEDE</option>
-                        <option value="6">Q.PARAISO</option>
+                    <?php 
+                        foreach($arrayCampus as $value)
+                        {
+                            $selected = ($_SESSION['id_campus'] == $value['id_campus']) ? 'selected' : '';
+
+                            echo "<option value=".$value['id_campus']." $selected>".$value['nome']."</option>";
+                        }
+                    ?>
                     </select>
                 </div>
 
