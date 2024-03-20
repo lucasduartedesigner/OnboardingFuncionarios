@@ -18,13 +18,17 @@
 
 |1|AMBULATÓRIO|NULL|NULL|NULL|NULL|1|2024-03-20 16:05:58|2024-03-20 16:05:58
 |2|CESO|NULL|NULL|NULL|NULL|1|2024-03-20 16:05:58|2024-03-20 16:05:58
-|3|HCTCO|NULL|NULL|NULL|NULL|1|2024-03-20 16:05:58|2024-03-20 16:05:58
+|3|HCTCO|NULL|&lt;p class=&quot;lead&quot;&gt;A partir de agora você faz parte do campus HCTCO.&lt;/p&gt;
+&lt;p class=&quot;lead&quot;&gt;Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional. &lt;/p&gt;    
+Nela você vai encontrar informações financeiras, benefícios, normas de trabalho e responsabilidades e os principais canais de comunicação. Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional.&lt;/p&gt;
+&lt;p class=&quot;lead&quot;&gt;Leia com atenção e conheça seus direitos e deveres.&lt;/p&gt;
+&lt;p class=&quot;lead&quot;&gt;Estará sempre disponível sempre que precisar.&lt;/p&gt;|NULL|https://unifeso.edu.br/9acda72fb88e5262b67849045ea604c3/?largura=500&amp;url=../images/noticias/5ddd03d359886c38624ce835c9ad58f5.jpg|1|2024-03-20 16:05:58|2024-03-20 19:05:24
 |4|PROARTE|NULL|NULL|NULL|NULL|1|2024-03-20 16:05:58|2024-03-20 16:05:58
 |5|SEDE|NULL|&lt;p class=&quot;lead&quot;&gt;A partir de agora você faz parte do campus SEDE.&lt;/p&gt;
 &lt;p class=&quot;lead&quot;&gt;Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional. &lt;/p&gt;    
 Nela você vai encontrar informações financeiras, benefícios, normas de trabalho e responsabilidades e os principais canais de comunicação. Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional.&lt;/p&gt;
 &lt;p class=&quot;lead&quot;&gt;Leia com atenção e conheça seus direitos e deveres.&lt;/p&gt;
-&lt;p class=&quot;lead&quot;&gt;Estará sempre disponível sempre que precisar.&lt;/p&gt;| |https://unifeso.edu.br/9acda72fb88e5262b67849045ea604c3/?largura=500&amp;url=../images/noticias/b9a421dec6fb6371b171795747b274f4.jpg|1|2024-03-20 16:05:58|2024-03-20 16:29:20
+&lt;p class=&quot;lead&quot;&gt;Estará sempre disponível sempre que precisar.&lt;/p&gt;| |https://unifeso.edu.br/9acda72fb88e5262b67849045ea604c3/?largura=500&amp;url=../images/noticias/b9a421dec6fb6371b171795747b274f4.jpg|1|2024-03-20 16:05:58|2024-03-20 19:03:14
 |6|Q.PARAISO|NULL|NULL|NULL|NULL|1|2024-03-20 16:05:58|2024-03-20 16:05:58
 == Estrutura para tabela menu
 
@@ -66,3 +70,4 @@ Nela você vai encontrar informações financeiras, benefícios, normas de traba
 
 |1|1234|Lucas|1|lucasduarte@unifeso.edu.br|3b42bf0d3d3aa83495d431704bf36ab49688dbd23f978e1e91008924418f1d52|$2y$10$CzlnkuUeeuxUI10RSOSOpOlcstrI60Y0aj484O5gpKZqOP6gq6MC2|2024-03-20 12:04:57|2024-03-20 12:04:57|5
 |2|2345|João da Silva|1|joaosilva@unifeso.edu.br|961e50d73bfdd3edbbd46188ecbde30a3936d83d9d4a35899fa16ac8b4ffbc35|$2y$10$r1Nt0YGZ.HsZuNnA57RO5uNgv2W.1ZN8LX2pMkFRkQfPWWJA0hA5G|2024-03-20 13:13:42|2024-03-20 13:13:42|6
+|3|06004672|Gabriel Guedes|1|gabrielguedes00@hotmail.com|c8b082d35ba2a8b2765828cccaa2496d8a6a095d7410f8b3544461ca606bcdc0|$2y$10$HU0..v1MrAzAxCEKnivJpOVtcvwGeM4fBnHPSVF9gnx1bP7rJP9ES|2024-03-20 19:04:07|2024-03-20 19:04:07|3

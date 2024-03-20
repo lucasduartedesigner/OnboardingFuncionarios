@@ -13,7 +13,7 @@
     $senha     = $_POST['senha'];
 
     //Monta consulta em uma string
-    $consulta = "SELECT p.token, p.nome, p.senha, p.id_campus, c.nome campus, c.titulo, c.texto, c.url, c.imagem 
+    $consulta = "SELECT p.token, p.matricula, p.nome, p.email, p.senha, p.id_campus, c.nome campus, c.titulo, c.texto, c.url, c.imagem 
                  FROM pessoa p
                  INNER JOIN campus c ON p.id_campus = c.id_campus
                  WHERE p.matricula = :matricula
@@ -38,7 +38,9 @@
         {
             //Inclui os dados retornado em sessão para conseguir manter usuario logado durante uso do navegador 
             $_SESSION['token']     = $resultado['token'];
+            $_SESSION['matricula'] = $resultado['matricula'];
             $_SESSION['nome']      = $resultado['nome'];
+            $_SESSION['email']     = $resultado['email'];
             $_SESSION['id_campus'] = $resultado['id_campus'];
             $_SESSION['campus']    = $resultado['campus'];
             $_SESSION['titulo']    = $resultado['titulo'];
