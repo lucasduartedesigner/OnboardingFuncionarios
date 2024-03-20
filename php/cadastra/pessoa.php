@@ -6,10 +6,12 @@
     //Incluir a conexao com BD
     include_once "../../conn/conexao.php";
 
+    include_once "../class/menu.php";
+
     //Receber os dados do formulario
     $matricula = $_POST['matricula'];
     $nome      = $_POST['nome'];
-    $campus    = $_POST['campus'];
+    $id_campus = $_POST['campus'];
     $email     = $_POST['email'];
     $senha     = password_hash($_POST['senha'], PASSWORD_DEFAULT);
 
@@ -23,9 +25,9 @@
 
     //Monta insert em uma string
     $consulta = "INSERT INTO pessoa 
-                 (matricula, nome, status, campus, email, token, senha) 
+                 (matricula, nome, status, id_campus, email, token, senha) 
                  VALUES
-                 (:matricula, :nome, 1, :campus, :email, :token, :senha)";
+                 (:matricula, :nome, 1, :id_campus, :email, :token, :senha)";
 
     //Prepara o insert para o banco
     $response = $conn->prepare($consulta);
@@ -33,7 +35,7 @@
     //Passa os parametros via bind para evitar SQL Inject
     $response->bindParam(':matricula', $matricula, PDO::PARAM_STR);
     $response->bindParam(':nome', $nome, PDO::PARAM_STR);
-    $response->bindParam(':campus', $campus, PDO::PARAM_STR);
+    $response->bindParam(':id_campus', $id_campus, PDO::PARAM_STR);
     $response->bindParam(':email', $email, PDO::PARAM_STR);
     $response->bindParam(':token', $token, PDO::PARAM_STR);
     $response->bindParam(':senha', $senha, PDO::PARAM_STR);
@@ -48,9 +50,13 @@
     if (!empty($id_usuario)) 
     {
         //Inclui os dados retornado em sessão para conseguir manter usuario logado durante uso do navegador 
-        $_SESSION['token']  = $token;
-        $_SESSION['nome']   = $nome;
-        $_SESSION['campus'] = $campus;
+        $_SESSION['token']     = $token;
+        $_SESSION['nome']      = $nome;
+        $_SESSION['id_campus'] = $id_campus;
+ 
+        $menuManager = new MenuManager($conn);
+
+        $_SESSION['menus'] = $menuManager->getMenus();
     }
     else
     {

@@ -1,55 +1,68 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1:3306
--- Tempo de geração: 20/03/2024 às 16:10
--- Versão do servidor: 8.2.0
--- Versão do PHP: 8.2.13
+===Banco de dados portalfuncionarios
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+== Estrutura para tabela campus
 
+|------
+|Coluna|Tipo|Nulo|Padrão
+|------
+|//**id_campus**//|int|Não|
+|nome|varchar(100)|Sim|NULL
+|titulo|varchar(255)|Sim|NULL
+|texto|text|Sim|NULL
+|url|varchar(255)|Sim|NULL
+|imagem|varchar(255)|Sim|NULL
+|status|int|Sim|NULL
+|dt_created|datetime|Sim|CURRENT_TIMESTAMP
+|dt_updated|datetime|Sim|NULL
+== Despejando dados para a tabela campus
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+|1|AMBULATÓRIO|NULL|NULL|NULL|NULL|1|2024-03-20 16:05:58|2024-03-20 16:05:58
+|2|CESO|NULL|NULL|NULL|NULL|1|2024-03-20 16:05:58|2024-03-20 16:05:58
+|3|HCTCO|NULL|NULL|NULL|NULL|1|2024-03-20 16:05:58|2024-03-20 16:05:58
+|4|PROARTE|NULL|NULL|NULL|NULL|1|2024-03-20 16:05:58|2024-03-20 16:05:58
+|5|SEDE|NULL|&lt;p class=&quot;lead&quot;&gt;A partir de agora você faz parte do campus SEDE.&lt;/p&gt;
+&lt;p class=&quot;lead&quot;&gt;Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional. &lt;/p&gt;    
+Nela você vai encontrar informações financeiras, benefícios, normas de trabalho e responsabilidades e os principais canais de comunicação. Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional.&lt;/p&gt;
+&lt;p class=&quot;lead&quot;&gt;Leia com atenção e conheça seus direitos e deveres.&lt;/p&gt;
+&lt;p class=&quot;lead&quot;&gt;Estará sempre disponível sempre que precisar.&lt;/p&gt;| |https://unifeso.edu.br/9acda72fb88e5262b67849045ea604c3/?largura=500&amp;url=../images/noticias/b9a421dec6fb6371b171795747b274f4.jpg|1|2024-03-20 16:05:58|2024-03-20 16:29:20
+|6|Q.PARAISO|NULL|NULL|NULL|NULL|1|2024-03-20 16:05:58|2024-03-20 16:05:58
+== Estrutura para tabela menu
 
---
--- Banco de dados: `portalfuncionarios`
---
+|------
+|Coluna|Tipo|Nulo|Padrão
+|------
+|//**id**//|int|Não|
+|titulo|varchar(255)|Não|
+|url|varchar(255)|Não|
+|status|int|Sim|NULL
+|dt_created|timestamp|Sim|CURRENT_TIMESTAMP
+|dt_updated|timestamp|Sim|CURRENT_TIMESTAMP
+|ordem|int|Não|
+== Despejando dados para a tabela menu
 
--- --------------------------------------------------------
+|1|Dashboard|dashboard.php|NULL|2024-03-20 15:22:22|2024-03-20 15:22:22|1
+|2|Tarefas|tarefas.php|NULL|2024-03-20 15:22:22|2024-03-20 15:22:22|2
+|3|Recursos|recursos.php|NULL|2024-03-20 15:22:22|2024-03-20 15:22:22|3
+|4|Documentação|documentacao.php|NULL|2024-03-20 15:22:22|2024-03-20 15:22:22|4
+|5|Agendamento|agendamento.php|NULL|2024-03-20 15:22:22|2024-03-20 15:22:22|5
+|6|Fórum|forum.php|NULL|2024-03-20 15:22:22|2024-03-20 15:22:22|6
+|7|Feedback|feedback.php|NULL|2024-03-20 15:22:22|2024-03-20 15:22:22|7
+== Estrutura para tabela pessoa
 
---
--- Estrutura para tabela `pessoa`
---
+|------
+|Coluna|Tipo|Nulo|Padrão
+|------
+|//**id**//|int|Não|
+|matricula|varchar(50)|Não|
+|nome|varchar(100)|Não|
+|status|int|Sim|NULL
+|email|varchar(255)|Não|
+|token|varchar(255)|Não|
+|senha|varchar(255)|Não|
+|dt_created|timestamp|Sim|CURRENT_TIMESTAMP
+|dt_updated|timestamp|Sim|CURRENT_TIMESTAMP
+|id_campus|int|Não|
+== Despejando dados para a tabela pessoa
 
-DROP TABLE IF EXISTS `pessoa`;
-CREATE TABLE IF NOT EXISTS `pessoa` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `matricula` varchar(50) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `status` int DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `senha` varchar(255) NOT NULL,
-  `dt_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `dt_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `campus` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Despejando dados para a tabela `pessoa`
---
-
-INSERT INTO `pessoa` (`id`, `matricula`, `nome`, `status`, `email`, `token`, `senha`, `dt_created`, `dt_updated`, `campus`) VALUES
-(1, '1234', 'Lucas', 1, 'lucasduarte@unifeso.edu.br', '3b42bf0d3d3aa83495d431704bf36ab49688dbd23f978e1e91008924418f1d52', '$2y$10$CzlnkuUeeuxUI10RSOSOpOlcstrI60Y0aj484O5gpKZqOP6gq6MC2', '2024-03-20 15:04:57', '2024-03-20 15:04:57', 5);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+|1|1234|Lucas|1|lucasduarte@unifeso.edu.br|3b42bf0d3d3aa83495d431704bf36ab49688dbd23f978e1e91008924418f1d52|$2y$10$CzlnkuUeeuxUI10RSOSOpOlcstrI60Y0aj484O5gpKZqOP6gq6MC2|2024-03-20 12:04:57|2024-03-20 12:04:57|5
+|2|2345|João da Silva|1|joaosilva@unifeso.edu.br|961e50d73bfdd3edbbd46188ecbde30a3936d83d9d4a35899fa16ac8b4ffbc35|$2y$10$r1Nt0YGZ.HsZuNnA57RO5uNgv2W.1ZN8LX2pMkFRkQfPWWJA0hA5G|2024-03-20 13:13:42|2024-03-20 13:13:42|6
