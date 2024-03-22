@@ -50,18 +50,14 @@
     if (!empty($id_usuario)) 
     {
         //Inclui os dados retornado em sessão para conseguir manter usuario logado durante uso do navegador 
-        $_SESSION['token']     = $token;
-        $_SESSION['nome']      = $nome;
-        $_SESSION['id_campus'] = $id_campus;
- 
-        $menuManager = new MenuManager($conn);
-
-        $_SESSION['menus'] = $menuManager->getMenus();
+        $_SESSION['matricula']  = $matricula;
+        $_SESSION['senha'] = $senha;
     }
     else
     {
-        //Mensagem caso não encontre o cadastro no banco
-        echo "Tivemos problemas ao realizar cadastro!";
+        $_SESSION['msg'] = "Tivemos problemas ao realizar cadastro!";
     }
+
+    json_encode($_SESSION);
 
 ?>
