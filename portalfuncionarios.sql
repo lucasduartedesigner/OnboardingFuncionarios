@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 02/04/2024 às 21:45
+-- Tempo de geração: 05/04/2024 às 00:17
 -- Versão do servidor: 8.2.0
 -- Versão do PHP: 8.2.13
 
@@ -71,6 +71,28 @@ CREATE TABLE IF NOT EXISTS `campus_tarefa` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `grupo_acesso`
+--
+
+DROP TABLE IF EXISTS `grupo_acesso`;
+CREATE TABLE IF NOT EXISTS `grupo_acesso` (
+  `id_grupo_acesso` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `status` int NOT NULL,
+  PRIMARY KEY (`id_grupo_acesso`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `grupo_acesso`
+--
+
+INSERT INTO `grupo_acesso` (`id_grupo_acesso`, `nome`, `status`) VALUES
+(1, 'admin', 1),
+(2, 'Funcionários', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `item_tarefa`
 --
 
@@ -93,21 +115,21 @@ CREATE TABLE IF NOT EXISTS `item_tarefa` (
 
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE IF NOT EXISTS `menu` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id_menu` int NOT NULL AUTO_INCREMENT,
   `titulo` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
   `status` int DEFAULT NULL,
   `dt_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `dt_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ordem` int NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id_menu`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Despejando dados para a tabela `menu`
 --
 
-INSERT INTO `menu` (`id`, `titulo`, `url`, `status`, `dt_created`, `dt_updated`, `ordem`) VALUES
+INSERT INTO `menu` (`id_menu`, `titulo`, `url`, `status`, `dt_created`, `dt_updated`, `ordem`) VALUES
 (1, 'Dashboard', 'dashboard.php', NULL, '2024-03-20 18:22:22', '2024-03-20 18:22:22', 1),
 (2, 'Tarefas', 'tarefas.php', NULL, '2024-03-20 18:22:22', '2024-03-20 18:22:22', 2),
 (3, 'Recursos', 'recursos.php', NULL, '2024-03-20 18:22:22', '2024-03-20 18:22:22', 3),
@@ -115,6 +137,30 @@ INSERT INTO `menu` (`id`, `titulo`, `url`, `status`, `dt_created`, `dt_updated`,
 (5, 'Agendamento', 'agendamento.php', NULL, '2024-03-20 18:22:22', '2024-03-20 18:22:22', 5),
 (6, 'Fórum', 'forum.php', NULL, '2024-03-20 18:22:22', '2024-03-20 18:22:22', 6),
 (7, 'Feedback', 'feedback.php', NULL, '2024-03-20 18:22:22', '2024-03-20 18:22:22', 7);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `permissao`
+--
+
+DROP TABLE IF EXISTS `permissao`;
+CREATE TABLE IF NOT EXISTS `permissao` (
+  `id_permissao` int NOT NULL AUTO_INCREMENT,
+  `id_grupo_acesso` int NOT NULL,
+  `id_menu` int NOT NULL,
+  `visualizar` char(1) NOT NULL DEFAULT 'N',
+  `editar` char(1) NOT NULL DEFAULT 'N',
+  `deletar` char(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`id_permissao`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `permissao`
+--
+
+INSERT INTO `permissao` (`id_permissao`, `id_grupo_acesso`, `id_menu`, `visualizar`, `editar`, `deletar`) VALUES
+(1, 1, 1, 'S', 'S', 'S');
 
 -- --------------------------------------------------------
 
@@ -136,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `pessoa` (
   `id_campus` int NOT NULL,
   PRIMARY KEY (`id_pessoa`),
   KEY `fk_pessoa_campus` (`id_campus`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Despejando dados para a tabela `pessoa`
@@ -145,7 +191,31 @@ CREATE TABLE IF NOT EXISTS `pessoa` (
 INSERT INTO `pessoa` (`id_pessoa`, `matricula`, `nome`, `status`, `email`, `token`, `senha`, `dt_created`, `dt_updated`, `id_campus`) VALUES
 (1, '073842', 'Lucas Duarte', 1, 'lucasduarte@unifeso.edu.br', '3b42bf0d3d3aa83495d431704bf36ab49688dbd23f978e1e91008924418f1d52', '$2y$10$CzlnkuUeeuxUI10RSOSOpOlcstrI60Y0aj484O5gpKZqOP6gq6MC2', '2024-03-20 15:04:57', '2024-03-27 22:52:55', 5),
 (2, '2345', 'João da Silva', 1, 'joaosilva@unifeso.edu.br', '961e50d73bfdd3edbbd46188ecbde30a3936d83d9d4a35899fa16ac8b4ffbc35', '$2y$10$r1Nt0YGZ.HsZuNnA57RO5uNgv2W.1ZN8LX2pMkFRkQfPWWJA0hA5G', '2024-03-20 16:13:42', '2024-03-20 16:13:42', 6),
-(3, '06004672', 'Gabriel Guedes', 1, 'gabrielguedes00@hotmail.com', 'c8b082d35ba2a8b2765828cccaa2496d8a6a095d7410f8b3544461ca606bcdc0', '$2y$10$HU0..v1MrAzAxCEKnivJpOVtcvwGeM4fBnHPSVF9gnx1bP7rJP9ES', '2024-03-20 22:04:07', '2024-03-20 22:04:07', 3);
+(3, '06004672', 'Gabriel Guedes', 1, 'gabrielguedes00@hotmail.com', 'c8b082d35ba2a8b2765828cccaa2496d8a6a095d7410f8b3544461ca606bcdc0', '$2y$10$HU0..v1MrAzAxCEKnivJpOVtcvwGeM4fBnHPSVF9gnx1bP7rJP9ES', '2024-03-20 22:04:07', '2024-03-20 22:04:07', 3),
+(4, '062168', 'Hugo', 1, 'hugo@gmail.com', '4c86cf5d0745caa4e1661559b7b8271043fb22021c8853b0c073e108ef586f57', '$2y$10$kcVjh1YHGU4FTxn4jlim7um6o4o0ACiZrZg5DmyoXqd7Djn5oXli2', '2024-04-04 22:34:56', '2024-04-05 00:14:41', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `pessoa_acesso`
+--
+
+DROP TABLE IF EXISTS `pessoa_acesso`;
+CREATE TABLE IF NOT EXISTS `pessoa_acesso` (
+  `id_pessoa_acesso` int NOT NULL AUTO_INCREMENT,
+  `id_pessoa` int NOT NULL,
+  `id_grupo_acesso` int NOT NULL,
+  `status` int NOT NULL,
+  PRIMARY KEY (`id_pessoa_acesso`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `pessoa_acesso`
+--
+
+INSERT INTO `pessoa_acesso` (`id_pessoa_acesso`, `id_pessoa`, `id_grupo_acesso`, `status`) VALUES
+(1, 4, 1, 1),
+(2, 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -188,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `tarefa` (
   `dt_begin` date NOT NULL,
   `dt_end` date NOT NULL,
   PRIMARY KEY (`id_tarefa`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Despejando dados para a tabela `tarefa`
@@ -196,7 +266,8 @@ CREATE TABLE IF NOT EXISTS `tarefa` (
 
 INSERT INTO `tarefa` (`id_tarefa`, `nome`, `dt_created`, `dt_updated`, `status`, `dt_begin`, `dt_end`) VALUES
 (1, 'Tarefa de teste', '2024-03-28', '0000-00-00', 1, '2024-03-28', '2024-04-30'),
-(2, 'Tarefa de teste', '2024-03-28', '0000-00-00', 1, '2024-03-28', '2024-04-30');
+(2, 'Tarefa de teste', '2024-03-28', '0000-00-00', 1, '2024-03-28', '2024-04-30'),
+(3, 'teste 3', '0000-00-00', '0000-00-00', 1, '2024-01-01', '2024-03-03');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
