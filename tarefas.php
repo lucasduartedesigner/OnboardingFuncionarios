@@ -42,20 +42,33 @@
                     $dt_begin = DateTime::createFromFormat('Y-m-d', $resultado['dt_begin'])->format('d/m/Y');
                     $dt_end   = DateTime::createFromFormat('Y-m-d', $resultado['dt_end'])->format('d/m/Y');
 
+
+                    if($resultado['status'] == 1)
+                    {
+                        $status = 'Finalizado';
+                        $status_color = 'text-bg-success';
+                    }
+                    else
+                    {
+                        $status = 'Pendente';
+                        $status_color = 'text-bg-warning';
+                    }
+
             ?>
             <div class="col-4 mb-5">
                 <div class="card">
                   <div class="card-body">
-                    <h5 class="card-title"><?= $resultado['nome'] ?></h5>
+                    <h5 class="card-title d-flex justify-content-between"><?= $resultado['nome'] ?><span class="badge <?= $status_color ?>"><?= $status ?></span></h5>
                   </div>
                   <ul class="list-group list-group-flush">
                     <?php
-                        $sql_item = "SELECT it.id_tarefa, it.nome, it.status, it.dt_begin, it.dt_end
+                        $sql_item = "SELECT it.id_item_tarefa, it.id_tarefa, it.nome, it.status, it.dt_begin, it.dt_end
                                      FROM item_tarefa it 
                                      LEFT JOIN pessoa_tarefa pt ON pt.id_tarefa = it.id_tarefa AND pt.id_pessoa = :id_pessoa
                                      WHERE it.status IS NOT NULL
                                      AND it.id_tarefa = :id_tarefa
-                                     GROUP BY it.id_tarefa, it.nome, it.status, it.dt_begin, it.dt_end ";
+                                     GROUP BY it.id_item_tarefa, it.id_tarefa, it.nome, it.status, it.dt_begin, it.dt_end
+                                     ORDER BY it.id_item_tarefa ";
 
                         //Prepara a consulta para o banco
                         $res_item = $conn->prepare($sql_item);
@@ -73,16 +86,25 @@
                             //Coloca os dados retornados em uma variavel
                             while ($result_item = $res_item->fetch(PDO::FETCH_ASSOC)) 
                             {
-                                echo "<li class='list-group-item'>".$result_item['id_tarefa']."</li>";
-                            }
+
+                                $checked = (!empty($result_item['status'])) ? 'checked' : '';
+
+                                echo "<li class='list-group-item'>";
+                                echo "<div class='mb-3 form-check'>
+                                        <input type='checkbox' class='form-check-input itemtarefa' id='".$result_item['id_item_tarefa']."' $checked>
+                                        <label class='form-check-label' for='".$result_item['id_item_tarefa']."'>".$result_item['nome']."</label>
+                                      </div>";
+                                echo "</li>";
+                           }
                         }
                     ?>
-                    <li class="list-group-item"></li>
                   </ul>
                   <div class="card-body d-grid d-flex justify-content-between">
                     <div>
                         <a href="tarefas.php?id=<?= $resultado['id_tarefa'] ?>" class="btn btn-success">Editar</a>
-                        <a href="tarefas.php?id=<?= $resultado['id_tarefa'] ?>" class="btn btn-success"><i class="fa-solid fa-plus"></i></a>
+                        <a onclick="itemTarefa(<?= $resultado['id_tarefa'] ?>)" class="btn btn-success">
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
                     </div>
                       <?= $dt_begin ?> até <?= $dt_end ?>
                   </div>
@@ -96,8 +118,44 @@
     </main>
 
     <?php include_once "modal/tarefas.php"; ?>
+    <?php include_once "modal/itemtarefa.php"; ?>
     <?php include_once "template/footer.php"; ?>
     <?php include_once "template/js.php"; ?>
+    <script>
 
+        function itemTarefa(id)
+        {
+            console.log(id)
+
+            $('#id_tarefa_item').val(id)
+
+            $('#modalItemTarefa').modal('toggle');
+        }
+
+        $('.itemtarefa').change(function(){
+
+            var id = $(this).attr('id')
+            var status
+
+            if ($(this).prop('checked')) 
+            {
+                status = 1
+            } 
+            else 
+            {
+               status = 0
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: 'php/check/itemtarefa.php',
+                data: { 
+                        id : id,
+                        status : status
+                      }
+            })
+        })
+
+    </script>
   </body>
 </html>
