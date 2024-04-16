@@ -49,14 +49,11 @@
     //Verifica se existe dados para retornar
     if (!empty($id_usuario)) 
     {
-        //Inclui os dados retornado em sessão para conseguir manter usuario logado durante uso do navegador 
-        $_SESSION['token']     = $token;
-        $_SESSION['nome']      = $nome;
-        $_SESSION['id_campus'] = $id_campus;
- 
-        $menuManager = new MenuManager($conn);
+        include_once "../class/login.php";
 
-        $_SESSION['menus'] = $menuManager->getMenus();
+        $loginHandler = new LoginHandler($conn);
+
+        $loginHandler->login($_POST['matricula'], $_POST['senha']);
     }
     else
     {
