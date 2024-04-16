@@ -9,8 +9,8 @@
     //Receber os dados do formulario
     $id_tarefa = $_POST['id_tarefa'];
     $nome      = $_POST['nome'];
-    $dt_begin  = (!empty($_POST['dt_begin'])) ? DateTime::createFromFormat('d/m/Y', $_POST['dt_begin'])->format('Y-m-d') : 'null';
-    $dt_end    = (!empty($_POST['dt_end'])) ? DateTime::createFromFormat('d/m/Y', $_POST['dt_end'])->format('Y-m-d') : 'null';
+    $dt_begin  = (!empty($_POST['dt_begin'])) ? DateTime::createFromFormat('d/m/Y', $_POST['dt_begin'])->format('Y-m-d') : null;
+    $dt_end    = (!empty($_POST['dt_end'])) ? DateTime::createFromFormat('d/m/Y', $_POST['dt_end'])->format('Y-m-d') : null;
     $status    = (!empty($_POST['status'])) ? $_POST['status'] : 0;
 
     //Monta insert em uma string

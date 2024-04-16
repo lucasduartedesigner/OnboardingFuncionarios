@@ -34,13 +34,13 @@
                     
             ?>
             <div class="col-4 mb-5">
-                <div class="card">
+                <div class="card h-100">
                   <div class="card-body">
                     <h5 class="card-title"><?= $resultado['titulo'] ?></h5>
-                    <p class="mt-4"><?= $resultado['descricao'] ?></p>
-                    <div class="mt-4">
-                        <a href="<?= $resultado['url'] ?>" class="btn btn-success">Acessar</a>
-                    </div>                      
+                    <p class="mt-4 mb-0"><?= $resultado['descricao'] ?></p>
+                  </div>
+                  <div class="card-footer border-top-0 bg-body pb-3">
+                    <a href="<?= $resultado['url'] ?>" class="btn btn-success">Acessar</a>
                   </div>
                 </div>
             </div>

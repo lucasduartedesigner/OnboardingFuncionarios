@@ -38,10 +38,8 @@
                 //Coloca os dados retornados em uma variavel
                 while ($resultado = $response->fetch(PDO::FETCH_ASSOC)) 
                 {
-                    
-                    $dt_begin = DateTime::createFromFormat('Y-m-d', $resultado['dt_begin'])->format('d/m/Y');
-                    $dt_end   = DateTime::createFromFormat('Y-m-d', $resultado['dt_end'])->format('d/m/Y');
-
+                    $dt_begin = dataToBR($resultado['dt_begin']);
+                    $dt_end   = dataToBR($resultado['dt_end']);
 
                     if($resultado['status'] == 1)
                     {
@@ -56,7 +54,7 @@
 
             ?>
             <div class="col-4 mb-5">
-                <div class="card">
+                <div class="card h-100">
                   <div class="card-body">
                     <h5 class="card-title d-flex justify-content-between"><?= $resultado['nome'] ?><span class="badge <?= $status_color ?>"><?= $status ?></span></h5>
                   </div>
@@ -90,7 +88,7 @@
                                 $checked = (!empty($result_item['status'])) ? 'checked' : '';
 
                                 echo "<li class='list-group-item'>";
-                                echo "<div class='mb-3 form-check'>
+                                echo "<div class='my-2 form-check'>
                                         <input type='checkbox' class='form-check-input itemtarefa' id='".$result_item['id_item_tarefa']."' $checked>
                                         <label class='form-check-label' for='".$result_item['id_item_tarefa']."'>".$result_item['nome']."</label>
                                       </div>";
@@ -101,12 +99,17 @@
                   </ul>
                   <div class="card-body d-grid d-flex justify-content-between">
                     <div>
-                        <a onclick="tarefa(<?= $resultado['id_tarefa'] ?>)" class="btn btn-success">Editar</a>
-                        <a onclick="itemTarefa(<?= $resultado['id_tarefa'] ?>)" class="btn btn-success">
+                        <a onclick="tarefa(<?= $resultado['id_tarefa'] ?>)" class="btn btn-sm me-1 rounded-circle btn-success">
+                            <i class="fa-solid fa-edit"></i>
+                        </a>
+                        <a onclick="itemTarefa(<?= $resultado['id_tarefa'] ?>)" class="btn btn-sm me-1 rounded-circle btn-success">
                             <i class="fa-solid fa-plus"></i>
                         </a>
+                        <a class="btn btn-sm btn-danger rounded-circle deletar" data-nome="<?= $resultado['nome'] ?>" data-id="<?= $resultado['id_tarefa'] ?>" data-table="tarefa">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
                     </div>
-                      <?= $dt_begin ?> até <?= $dt_end ?>
+                      <?php if(!empty($dt_begin) && !empty($dt_end)) { echo $dt_begin .' até '. $dt_end; } ?>
                   </div>
                 </div>
             </div>
@@ -121,20 +124,21 @@
     <?php include_once "modal/itemtarefa.php"; ?>
     <?php include_once "template/footer.php"; ?>
     <?php include_once "template/js.php"; ?>
+
     <script>
 
         function itemTarefa(id)
         {
             $('#id_tarefa_item').val(id)
 
-            $('#formTarefa').attr('action', 'php/edita/tarefa.php')
- 
             $('#modalItemTarefa').modal('toggle')
        }
 
         function tarefa(id)
         {
             $('#id_tarefa').val(id)
+
+            $('#formTarefa').attr('action', 'php/edit/tarefa.php')
 
             $('#modalTarefa').modal('toggle');
         }

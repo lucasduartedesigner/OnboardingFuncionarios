@@ -7,6 +7,8 @@
 
     include_once "php/class/campus.php";
 
+    include_once "php/function/data.php";
+
     if(empty($_SESSION['token']))
     {
         header("Location: index.html");

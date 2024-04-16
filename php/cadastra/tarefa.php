@@ -6,10 +6,12 @@
     //Incluir a conexao com BD
     include_once "../../conn/conexao.php";
 
+    include_once "../function/data.php";
+
     //Receber os dados do formulario
     $nome     = $_POST['nome'];
-    $dt_begin = DateTime::createFromFormat('d/m/Y', $_POST['dt_begin'])->format('Y-m-d');
-    $dt_end   = DateTime::createFromFormat('d/m/Y', $_POST['dt_end'])->format('Y-m-d');
+    $dt_begin = dataToUS($dt_begin);
+    $dt_end   = dataToUS($dt_end);
     $status   = (!empty($_POST['status'])) ? $_POST['status'] : 0;
 
     //Monta insert em uma string
