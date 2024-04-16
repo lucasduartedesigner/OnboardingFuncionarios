@@ -1,20 +1,18 @@
-<form method="post" action="php/cadastra/tarefa.php" id="formTarefa">
-
-    <input type="hidden" class="form-control" id="id_tarefa" name="id_tarefa">
-
-    <div class="modal fade" id="modalTarefa" tabindex="-1" aria-labelledby="modalTarefaLabel" aria-hidden="true">
+<form method="post" action="php/cadastra/itemtarefa.php">
+    <div class="modal fade" id="modalItemTarefa" tabindex="-1" aria-labelledby="modalTarefaLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modalTarefaLabel">Formulário de Tarefa</h5>
+            <h5 class="modal-title" id="modalTarefaLabel">Formulário de Item Tarefa</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
               <div class="row">
                   <div class="col-sm-12">
                     <div class="mb-3">
-                      <label for="nome" class="form-label">Nome da Tarefa</label>
+                      <label for="nome" class="form-label">Item da Tarefa</label>
                       <input type="text" class="form-control" id="nome" name="nome">
+                      <input type="hidden" class="form-control" id="id_tarefa_item" name="id_tarefa">
                     </div>
                   </div>
                   <div class="col-sm-6">
@@ -32,8 +30,8 @@
                   <div class="col-sm-6">
                     <div class="mb-3">
                       <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="status" name="status" value="1" checked>
-                        <label class="form-check-label" for="status">Tarefa Ativa</label>
+                        <input class="form-check-input" type="checkbox" id="status" name="status" value="1">
+                        <label class="form-check-label" for="status">Finalizado</label>
                       </div>
                     </div>
                   </div>

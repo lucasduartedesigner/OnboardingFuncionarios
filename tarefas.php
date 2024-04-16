@@ -101,7 +101,7 @@
                   </ul>
                   <div class="card-body d-grid d-flex justify-content-between">
                     <div>
-                        <a href="tarefas.php?id=<?= $resultado['id_tarefa'] ?>" class="btn btn-success">Editar</a>
+                        <a onclick="tarefa(<?= $resultado['id_tarefa'] ?>)" class="btn btn-success">Editar</a>
                         <a onclick="itemTarefa(<?= $resultado['id_tarefa'] ?>)" class="btn btn-success">
                             <i class="fa-solid fa-plus"></i>
                         </a>
@@ -125,11 +125,18 @@
 
         function itemTarefa(id)
         {
-            console.log(id)
-
             $('#id_tarefa_item').val(id)
 
-            $('#modalItemTarefa').modal('toggle');
+            $('#formTarefa').attr('action', 'php/edita/tarefa.php')
+ 
+            $('#modalItemTarefa').modal('toggle')
+       }
+
+        function tarefa(id)
+        {
+            $('#id_tarefa').val(id)
+
+            $('#modalTarefa').modal('toggle');
         }
 
         $('.itemtarefa').change(function(){

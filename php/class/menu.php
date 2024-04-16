@@ -11,7 +11,7 @@
 
         public function getMenus() 
         {
-            $sql = "SELECT titulo, url, ordem FROM menu ORDER BY ordem";
+            $sql = "SELECT titulo, url, ordem FROM menu WHERE status = 1 ORDER BY ordem";
 
             $stmt = $this->conn->prepare($sql);
 
