@@ -27,7 +27,6 @@
                 } 
                 else 
                 {
-                   //bootbox.alert('<h4 class="text-center">'+response+'</h4>');
                     Swal.fire({
                       title: response,
                       showDenyButton: false,
@@ -45,5 +44,40 @@
 
         });
     });
+
+    $(document).on('click', '.deletar', function(event){
+
+        var nome  = $(this).attr('data-nome');
+        var id    = $(this).attr('data-id');
+        var table = $(this).attr('data-table');
+
+        Swal.fire({
+          title: 'Deseja deletar ' +  nome + '?',
+          showDenyButton: false,
+          showCancelButton: true,
+          confirmButtonText: "Confirmar",
+          cancelButtonText: "Cancelar",
+        }).then((result) => {
+
+          if (result.isConfirmed) 
+          {
+            deletar(table, id);
+          }
+
+        });
+
+        return false;
+    });
+
+    function deletar(table, id)
+    {
+        $.ajax({
+            type: 'POST',
+            url: 'php/delete/delete.php',
+            data: { table : table, id : id }
+        }).done(function(response) {
+            location.reload();
+        });
+    }
 
 </script>

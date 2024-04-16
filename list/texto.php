@@ -37,7 +37,7 @@
                         </td>
                         <td>{$resultado['nome']}</td>
                         <td>
-                          <a class='btn btn-sm btn-danger me-2 rounded-circle deletar' data-nome='{$resultado['nome']}<' data-id='{$resultado['id_campus']}' data-table='campus'>
+                          <a class='btn btn-sm btn-danger me-2 rounded-circle deletar' data-nome='{$resultado['nome']}' data-id='{$resultado['id_campus']}' data-table='campus'>
                             <i class='fa-solid fa-trash'></i>
                           </a>
                         </td>

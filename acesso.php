@@ -22,7 +22,6 @@
             //Prepara a consulta para o banco
             $response = $conn->prepare($consulta);
 
-            
             //Executa a consulta 
             $response->execute();
 
@@ -32,8 +31,7 @@
                 //Coloca os dados retornados em uma variavel
                 while ($resultado = $response->fetch(PDO::FETCH_ASSOC)) 
                 {
-                    
-                    
+
             ?>
             <div class="col-4 mb-5">
                 <div class="card">

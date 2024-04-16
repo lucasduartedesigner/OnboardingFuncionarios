@@ -11,7 +11,14 @@
                   <div class="col-sm-12">
                     <div class="mb-3">
                       <label for="nome" class="form-label">Nome do Campus</label>
-                      <input type="text" class="form-control" id="nome" name="nome">
+                      <input type="text" class="form-control" id="nome" name="nome" maxlength="100">
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12">
+                    <div class="mb-3">
+                      <label for="nome" class="form-label">Link Imagem</label>
+                      <input type="text" class="form-control" id="imagem" name="imagem" maxlength="255">
                     </div>
                   </div>
 
