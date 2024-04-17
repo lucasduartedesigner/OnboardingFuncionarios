@@ -139,8 +139,21 @@
             $('#id_tarefa').val(id)
 
             $('#formTarefa').attr('action', 'php/edit/tarefa.php')
+            
+            $.ajax({
+                type: 'POST',
+                url: 'php/search/tarefa.php',
+                data: { id : id },
+                dataType: 'json',
+            }).done(function(response) {
+                
+                $('#nome').val(response['nome'])
+                $('#dt_begin').val(response['dt_begin'])
+                $('#dt_end').val(response['dt_end'])
+                $('#status').val(response['status'])
 
-            $('#modalTarefa').modal('toggle');
+                $('#modalTarefa').modal('toggle');
+            });
         }
 
         $('.itemtarefa').change(function(){
@@ -166,6 +179,17 @@
                       }
             })
         })
+        
+		$('#modalTarefa').on('hidden.bs.modal', function () {
+
+            $('#id_tarefa').val('')
+            $('#nome').val('')
+            $('#dt_begin').val('')
+            $('#dt_end').val('')
+            $('#status').val('')
+
+            $('#formTarefa').attr('action', 'php/cadastra/tarefa.php')
+		});
 
     </script>
   </body>

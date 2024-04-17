@@ -19,7 +19,7 @@
                     <div class="mb-3">
                       <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" id="status" name="status" value="1" checked>
-                        <label class="form-check-label" for="status">Tarefa Ativa</label>
+                        <label class="form-check-label" for="status">Grupo Ativo</label>
                       </div>
                     </div>
                   </div>

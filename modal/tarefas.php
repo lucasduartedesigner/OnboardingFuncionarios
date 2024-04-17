@@ -20,13 +20,13 @@
                   <div class="col-sm-6">
                     <div class="mb-3">
                       <label for="nome" class="form-label">Início:</label>
-                      <input type="text" class="form-control" id="dt_begin" name="dt_begin">
+                      <input type="text" class="form-control" id="dt_begin" name="dt_begin" maxlength="10">
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="mb-3">
                       <label for="nome" class="form-label">Término:</label>
-                      <input type="text" class="form-control" id="dt_end" name="dt_end">
+                      <input type="text" class="form-control" id="dt_end" name="dt_end" maxlength="10">
                     </div>
                   </div>
                   <div class="col-sm-6">

@@ -17,7 +17,7 @@
         <div class="row">
             <?php 
 
-            $consulta = "SELECT id_grupo_acesso, nome FROM grupo_acesso";
+            $consulta = "SELECT id_grupo_acesso, nome FROM grupo_acesso WHERE status IS NOT NULL";
 
             //Prepara a consulta para o banco
             $response = $conn->prepare($consulta);
@@ -65,12 +65,13 @@
                             }
                         }
                     ?>
-                    <li class="list-group-item"></li>
                   </ul>
                   <div class="card-body d-grid d-flex justify-content-between">
                     <div>
-                        <a data-bs-toggle="modal" data-bs-target="#modalpermissao" class="btn btn-success">Editar</a>
-                        <a href="configuracao.php?id=<?= $resultado['id_grupo_acesso'] ?>" class="btn btn-success"><i class="fa-solid fa-plus"></i></a>
+                        <a onclick="acesso(<?= $resultado['id_grupo_acesso'] ?>)" class="btn btn-success">Editar</a>
+                        <a href="configuracao.php?id=<?= $resultado['id_grupo_acesso'] ?>" class="btn btn-success">
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
                     </div>                      
                   </div>
                 </div>
@@ -86,6 +87,27 @@
     <?php include_once "modal/permissao.php"; ?>
     <?php include_once "template/footer.php"; ?>
     <?php include_once "template/js.php"; ?>
+      
+    <script>
 
+        function acesso(id)
+        {
+            $('#id_grupo_acesso').val(id)
+
+            $.ajax({
+                type: 'POST',
+                url: 'php/search/grupo_acesso.php',
+                data: { id : id },
+                dataType: 'json'
+            }).done(function(response) {
+                
+                $('.nome').val(response['nome'])
+                $('.status').val(response['status'])
+
+                $('#modalpermissao').modal('toggle');
+            });
+        }
+
+    </script>
   </body>
 </html>

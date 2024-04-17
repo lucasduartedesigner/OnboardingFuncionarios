@@ -10,8 +10,8 @@
 
     //Receber os dados do formulario
     $nome     = $_POST['nome'];
-    $dt_begin = dataToUS($dt_begin);
-    $dt_end   = dataToUS($dt_end);
+    $dt_begin = dataToUS($_POST['dt_begin']);
+    $dt_end   = dataToUS($_POST['dt_end']);
     $status   = (!empty($_POST['status'])) ? $_POST['status'] : 0;
 
     //Monta insert em uma string

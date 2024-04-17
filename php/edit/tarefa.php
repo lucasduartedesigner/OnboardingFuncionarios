@@ -6,11 +6,13 @@
     //Incluir a conexao com BD
     include_once "../../conn/conexao.php";
 
+    include_once "../function/data.php";
+
     //Receber os dados do formulario
     $id_tarefa = $_POST['id_tarefa'];
     $nome      = $_POST['nome'];
-    $dt_begin  = $_POST['dt_begin'];
-    $dt_end    = $_POST['dt_end'];
+    $dt_begin  = dataToUS($_POST['dt_begin']);
+    $dt_end    = dataToUS($_POST['dt_end']);
     $status    = (!empty($_POST['status'])) ? $_POST['status'] : 0;
 
     //Monta update em uma string
