@@ -241,17 +241,52 @@
             <!-- Inner main body -->
 
             <!-- Forum List -->
+            <?php 
+
+            function datetimeDiferencaEmMinutos($dataHora) {
+                // Obter a data e hora atuais
+                $dataAtual = date_create();
+            
+                // Definir a data e hora de comparação
+                $dataComparacao = date_create($dataHora);
+            
+                // Calcular a diferença
+                $diferenca = date_diff($dataAtual, $dataComparacao);
+            
+                // Converter a diferença para minutos
+                $minutosDiferenca = $diferenca->days * 24 * 60 + $diferenca->h * 60 + $diferenca->i;
+            
+                return $minutosDiferenca;
+            }
+
+                $consulta = "SELECT titulo, p.nome, descricao, f.data FROM forum f inner join pessoa p on f.id_pessoa = p.id_pessoa";
+
+                //Prepara a consulta para o banco
+                $response = $conn->prepare($consulta);
+
+                //Executa a consulta 
+                $response->execute();
+
+                //Verifica se existe dados para retornar
+                if ($response->rowCount() > 0) 
+                {
+                    //Coloca os dados retornados em uma variavel
+                    while ($resultado = $response->fetch(PDO::FETCH_ASSOC)) 
+                    {
+                        
+                        
+            ?>
             <div class="inner-main-body p-2 p-sm-3 collapse forum-content show">
                 <div class="card mb-2">
                     <div class="card-body p-2 p-sm-3">
                         <div class="media forum-item">
                             <a href="#" data-toggle="collapse" data-target=".forum-content"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="mr-3 rounded-circle" width="50" alt="User" /></a>
                             <div class="media-body">
-                                <h6><a href="#" data-toggle="collapse" data-target=".forum-content" class="text-body">Titulo do Tópico</a></h6>
+                                <h6><a href="#" data-toggle="collapse" data-target=".forum-content" class="text-body"><?= $resultado['titulo'] ?></a></h6>
                                 <p class="text-secondary">
-                                    lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                                    <?= $resultado['descricao'] ?>
                                 </p>
-                                <p class="text-muted"><a href="javascript:void(0)">nome da pessoa</a> respondeu <span class="text-secondary font-weight-bold">13 minutos atrás</span></p>
+                                <p class="text-muted"><a href="javascript:void(0)"> <?= $resultado['nome'] ?></a> respondeu <span class="text-secondary font-weight-bold"><?= datetimeDiferencaEmMinutos($resultado['data'])  ?> minutos atrás</span></p>
                             </div>
                             <div class="text-muted small text-center align-self-center">
                                 <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> 19</span>
@@ -260,6 +295,10 @@
                         </div>
                     </div>
                 </div>
+                <?php
+                    }
+                } 
+                ?>
                 <div class="card mb-2">
                     <div class="card-body p-2 p-sm-3">
                         <div class="media forum-item">
