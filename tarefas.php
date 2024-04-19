@@ -105,6 +105,9 @@
                         <a onclick="itemTarefa(<?= $resultado['id_tarefa'] ?>)" class="btn btn-sm me-1 rounded-circle btn-success">
                             <i class="fa-solid fa-plus"></i>
                         </a>
+                        <a onclick="pessoaTarefa(<?= $resultado['id_tarefa'] ?>)" class="btn btn-sm me-1 rounded-circle btn-success">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
                         <a class="btn btn-sm btn-danger rounded-circle deletar" data-nome="<?= $resultado['nome'] ?>" data-id="<?= $resultado['id_tarefa'] ?>" data-table="tarefa">
                             <i class="fa-solid fa-trash"></i>
                         </a>
@@ -122,6 +125,7 @@
 
     <?php include_once "modal/tarefas.php"; ?>
     <?php include_once "modal/itemtarefa.php"; ?>
+    <?php include_once "modal/pessoatarefa.php"; ?>
     <?php include_once "template/footer.php"; ?>
     <?php include_once "template/js.php"; ?>
 
@@ -133,6 +137,13 @@
 
             $('#modalItemTarefa').modal('toggle')
        }
+
+        function pessoaTarefa(id)
+        {
+            $('#id_tarefa_pessoa').val(id)
+
+            $('#modalPessoaTarefa').modal('toggle')
+        }
 
         function tarefa(id)
         {
