@@ -145,7 +145,9 @@
 
     <?php include_once "template/header.php"; ?>
 
-    <main role="main" class="container">
+    <?php include_once "template/config.php"; ?>
+
+   <main role="main" class="container">
       <div class="row mt-0">
         <div class="col-md-12">
           <h2 class="featurette-heading fw-normal lh-1 mb-3 mt-3">Fórum de Perguntas e Respostas</h2>
@@ -164,8 +166,6 @@
   </nav>
 </div>
 
-
-
 <main class="container">
 
 <div class="container">
@@ -176,7 +176,7 @@
         <div class="inner-sidebar">
             <!-- Inner sidebar header -->
             <div class="inner-sidebar-header justify-content-center">            
-                <button class="btn btn-success" type="button" data-toggle="modal" data-target="#threadModal">
+                <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#mensagem-modal">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus mr-2">
                         <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -261,7 +261,8 @@
                 return $minutosDiferenca;
             }
 
-                $consulta = "SELECT titulo, p.nome, descricao, f.data FROM forum f inner join pessoa p on f.id_pessoa = p.id_pessoa";
+                $consulta = "SELECT f.titulo_pergunta, f.id_pessoa, f.id_departamento, f.descricao_pergunta FROM forum_perguntas f 
+                inner join pessoa p on f.id_pessoa = p.id_pessoa";
 
                 //Prepara a consulta para o banco
                 $response = $conn->prepare($consulta);
@@ -274,30 +275,29 @@
                 {
                     //Coloca os dados retornados em uma variavel
                     while ($resultado = $response->fetch(PDO::FETCH_ASSOC)) 
-                    {
-                        
-                        
-            ?>
-              <div class="inner-main-body p-2 p-sm-3 collapse forum-content show">
-                  <div class="card mb-2">
-                      <div class="card-body p-2 p-sm-3">
-                          <div class="media forum-item">
-                              <a href="#" data-toggle="collapse" data-target=".forum-content"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="mr-3 rounded-circle" width="50" alt="User" /></a>
-                              <div class="media-body">
-                                  <h6><a href="#" data-toggle="collapse" data-target=".forum-content" class="text-body"><?= $resultado['titulo'] ?></a></h6>
-                                  <p class="text-secondary">
-                                      <?= $resultado['descricao'] ?>
-                                  </p>
-                                  <p class="text-muted"><a href="javascript:void(0)"> <?= $resultado['nome'] ?></a> respondeu <span class="text-secondary font-weight-bold"><?= datetimeDiferencaEmMinutos($resultado['data'])  ?> minutos atrás</span></p>
-                              </div>
-                              <div class="text-muted small text-center align-self-center">
-                                  <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> 19</span>
-                                  <span><i class="far fa-comment ml-2"></i> 3</span>
-                              </div>
+                    {                      
+                      ?>
+                        <div class="inner-main-body p-2 p-sm-3 collapse forum-content show">
+                          <div class="card mb-2">
+                              <div class="card-body p-2 p-sm-3">
+                                  <div class="media forum-item">
+                                      <a href="#" data-toggle="collapse" data-target=".forum-content"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="mr-3 rounded-circle" width="50" alt="User" /></a>
+                                      <div class="media-body">
+                                          <h6><a href="#" data-toggle="collapse" data-target=".forum-content" class="text-body"><?= $resultado['titulo_pergunta'] ?></a></h6>
+                                          <p class="text-secondary">
+                                              <?= $resultado['descricao'] ?>
+                                          </p>
+                                          <p class="text-muted"><a href="javascript:void(0)"> <?= $resultado['nome'] ?></a> respondeu <span class="text-secondary font-weight-bold">
+                                            <?= datetimeDiferencaEmMinutos($resultado['data'])  ?> minutos atrás</span></p>
+                                        </div>
+                                      <div class="text-muted small text-center align-self-center">
+                                          <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> 19</span>
+                                          <span><i class="far fa-comment ml-2"></i> 3</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-              <?php
+                      <?php
                     }
                 } 
               ?>              
@@ -339,19 +339,8 @@
 </div>
 </div>
 </main>
-
-
-    <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-      <script src="offcanvas.js"></script>
-  </body>
-</html>
-
-          <?php include_once "template/config.php"; ?>
-        </div>
-      </div>
-    </main>
-
+              
+    <?php include_once "modal/mensagem.php"; ?>
     <?php include_once "template/footer.php"; ?>
 
     <?php include_once "template/js.php"; ?>
