@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 23/04/2024 às 22:03
+-- Tempo de geração: 26/04/2024 às 00:06
 -- Versão do servidor: 8.2.0
 -- Versão do PHP: 8.2.13
 
@@ -75,7 +75,20 @@ CREATE TABLE IF NOT EXISTS `campus` (
   `visao` varchar(1000) DEFAULT NULL,
   `valores` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`id_campus`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `campus`
+--
+
+INSERT INTO `campus` (`id_campus`, `nome`, `titulo`, `texto`, `url`, `imagem`, `status`, `dt_created`, `dt_updated`, `missao`, `visao`, `valores`) VALUES
+(1, 'AMBULATÓRIO', NULL, NULL, NULL, NULL, 1, '2024-03-20 16:05:58', '2024-03-20 16:05:58', NULL, NULL, NULL),
+(2, 'CESO', NULL, NULL, NULL, NULL, 1, '2024-03-20 16:05:58', '2024-03-20 16:05:58', NULL, NULL, NULL),
+(3, 'HCTCO', NULL, '<p class=\"lead\">A partir de agora você faz parte do campus HCTCO.</p>\r\n<p class=\"lead\">Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional. </p>    \r\nNela você vai encontrar informações financeiras, benefícios, normas de trabalho e responsabilidades e os principais canais de comunicação. Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional.</p>\r\n<p class=\"lead\">Leia com atenção e conheça seus direitos e deveres.</p>\r\n<p class=\"lead\">Estará sempre disponível sempre que precisar.</p>', NULL, 'https://unifeso.edu.br/9acda72fb88e5262b67849045ea604c3/?largura=500&url=../images/noticias/5ddd03d359886c38624ce835c9ad58f5.jpg', 1, '2024-03-20 16:05:58', '2024-03-20 19:05:24', NULL, NULL, NULL),
+(4, 'PROARTE', NULL, NULL, NULL, NULL, 1, '2024-03-20 16:05:58', '2024-03-20 16:05:58', NULL, NULL, NULL),
+(5, 'SEDE', NULL, '<p class=\"lead\">A partir de agora você faz parte do campus SEDE.</p>\n<p class=\"lead\">Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional. </p>    \nNela você vai encontrar informações financeiras, benefícios, normas de trabalho e responsabilidades e os principais canais de comunicação. Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional.</p>\n<p class=\"lead\">Leia com atenção e conheça seus direitos e deveres.</p>\n<p class=\"lead\">Estará sempre disponível sempre que precisar.</p>', '', 'https://unifeso.edu.br/9acda72fb88e5262b67849045ea604c3/?largura=500&url=../images/noticias/b9a421dec6fb6371b171795747b274f4.jpg', 1, '2024-03-20 16:05:58', '2024-03-20 19:03:14', NULL, NULL, NULL),
+(6, 'Q.PARAISO', NULL, NULL, NULL, NULL, 1, '2024-03-20 16:05:58', '2024-03-20 16:05:58', NULL, NULL, NULL),
+(7, 'CAMPUS TESTE', NULL, 'teste 1', NULL, NULL, 1, '2024-04-15 21:04:38', NULL, 'teste 2', 'teste 3', 'teste 4');
 
 -- --------------------------------------------------------
 
@@ -238,7 +251,15 @@ CREATE TABLE IF NOT EXISTS `grupo_acesso` (
   `nome` varchar(50) NOT NULL,
   `status` int DEFAULT NULL,
   PRIMARY KEY (`id_grupo_acesso`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `grupo_acesso`
+--
+
+INSERT INTO `grupo_acesso` (`id_grupo_acesso`, `nome`, `status`) VALUES
+(1, 'admin', 1),
+(2, 'Funcionários', 1);
 
 -- --------------------------------------------------------
 
@@ -256,7 +277,17 @@ CREATE TABLE IF NOT EXISTS `item_tarefa` (
   `dt_end` date DEFAULT NULL,
   PRIMARY KEY (`id_item_tarefa`),
   KEY `id_tarefa` (`id_tarefa`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `item_tarefa`
+--
+
+INSERT INTO `item_tarefa` (`id_item_tarefa`, `id_tarefa`, `nome`, `status`, `dt_begin`, `dt_end`) VALUES
+(19, 7, 'item tarefa 1', 1, NULL, NULL),
+(20, 7, 'item tarefa 2', 0, NULL, NULL),
+(21, 7, 'item tarefa 3', 0, NULL, NULL),
+(22, 7, 'item 4', 1, NULL, NULL);
 
 --
 -- Acionadores `item_tarefa`
@@ -293,7 +324,23 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `ordem` int NOT NULL,
   `descricao` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_menu`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `menu`
+--
+
+INSERT INTO `menu` (`id_menu`, `titulo`, `url`, `status`, `dt_created`, `dt_updated`, `ordem`, `descricao`) VALUES
+(1, 'Dashboard', 'dashboard.php', 1, '2024-03-20 21:22:22', '2024-04-16 02:10:51', 1, NULL),
+(2, 'Tarefas', 'tarefas.php', 1, '2024-03-20 21:22:22', '2024-04-16 02:10:51', 2, NULL),
+(3, 'Recursos', 'recursos.php', 1, '2024-03-20 21:22:22', '2024-04-16 02:10:52', 3, NULL),
+(4, 'Documentação', 'documentacao.php', 1, '2024-03-20 21:22:22', '2024-04-16 02:10:53', 4, NULL),
+(5, 'Agendamento', 'agendamento.php', 1, '2024-03-20 21:22:22', '2024-04-16 02:10:54', 5, NULL),
+(6, 'Fórum', 'forum.php', 1, '2024-03-20 21:22:22', '2024-04-16 02:10:55', 6, NULL),
+(7, 'Feedback', 'feedback.php', 1, '2024-03-20 21:22:22', '2024-04-16 02:10:56', 7, NULL),
+(8, 'Nível Acesso', 'acesso.php', 2, '2024-04-16 02:12:27', '2024-04-16 02:19:01', 1, 'Libera acesso aos usuários e concede permissão para visualizar, editar e deletar no sistema. '),
+(9, 'Textos Padrões', 'texto.php', 2, '2024-04-16 02:22:11', '2024-04-16 02:22:49', 2, 'Inclui os textos da pagina inicial e as imagens padrões do sistema.'),
+(10, 'Departamento', 'departamento.php', 2, '2024-04-16 21:54:52', '2024-04-16 21:56:05', 3, 'Inclui os departamentos da empresa para uma organização mais detalhada das funcionalidades e filtros do sistema.');
 
 -- --------------------------------------------------------
 
@@ -352,10 +399,22 @@ CREATE TABLE IF NOT EXISTS `pessoa` (
   `dt_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `id_campus` int NOT NULL,
   `id_departamento` int NOT NULL,
+  `telefone` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`id_pessoa`),
   KEY `fk_pessoa_campus` (`id_campus`),
   KEY `FK_pessoa_departamento` (`id_departamento`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `pessoa`
+--
+
+INSERT INTO `pessoa` (`id_pessoa`, `matricula`, `nome`, `status`, `email`, `token`, `senha`, `dt_created`, `dt_updated`, `id_campus`, `id_departamento`, `telefone`) VALUES
+(2, '2345', 'João da Silva', 1, 'joaosilva@unifeso.edu.br', '961e50d73bfdd3edbbd46188ecbde30a3936d83d9d4a35899fa16ac8b4ffbc35', '$2y$10$r1Nt0YGZ.HsZuNnA57RO5uNgv2W.1ZN8LX2pMkFRkQfPWWJA0hA5G', '2024-03-20 19:13:42', '2024-03-20 19:13:42', 6, 0, NULL),
+(4, '062168', 'Hugo', 0, 'hugo@gmail.com', '4c86cf5d0745caa4e1661559b7b8271043fb22021c8853b0c073e108ef586f57', '$2y$10$kcVjh1YHGU4FTxn4jlim7um6o4o0ACiZrZg5DmyoXqd7Djn5oXli2', '2024-04-05 01:34:56', '2024-04-16 21:44:02', 3, 0, NULL),
+(3, '06004672', 'Gabriel Guedes', 1, 'gabrielguedes00@hotmail.com', 'c8b082d35ba2a8b2765828cccaa2496d8a6a095d7410f8b3544461ca606bcdc0', '$2y$10$HU0..v1MrAzAxCEKnivJpOVtcvwGeM4fBnHPSVF9gnx1bP7rJP9ES', '2024-03-21 01:04:07', '2024-03-21 01:04:07', 3, 0, NULL),
+(1, '073842', 'Lucas', 1, 'lucasduarte@feso.edu.br', '3b42bf0d3d3aa83495d431704bf36ab49688dbd23f978e1e91008924418f1d52', '$2y$10$CzlnkuUeeuxUI10RSOSOpOlcstrI60Y0aj484O5gpKZqOP6gq6MC2', '2024-03-20 18:04:57', '2024-04-17 01:07:19', 5, 0, NULL),
+(5, '111222', 'Ronald', 1, 'ronaldmc@gmail.com', 'd8094448cd1aa6b88815a7c2a064c4b772b2d2da04d21295a13916dfd32feb4c', '$2y$10$9b6EF6YTat3Bc4k0l/hoSOx5NNXecpyc84vq/ka.zsSz7pWryOZMy', '2024-04-16 20:52:46', '2024-04-16 20:52:46', 6, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -372,7 +431,15 @@ CREATE TABLE IF NOT EXISTS `pessoa_acesso` (
   PRIMARY KEY (`id_pessoa_acesso`),
   KEY `FK_pessoa_acesso_pessoa` (`id_pessoa`),
   KEY `FK_pessoa_acesso_grupo_acesso` (`id_grupo_acesso`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `pessoa_acesso`
+--
+
+INSERT INTO `pessoa_acesso` (`id_pessoa_acesso`, `id_pessoa`, `id_grupo_acesso`, `status`) VALUES
+(1, 4, 1, 1),
+(2, 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -391,7 +458,15 @@ CREATE TABLE IF NOT EXISTS `pessoa_tarefa` (
   PRIMARY KEY (`id_pessoa_tarefa`),
   KEY `FK_pessoa_tarefa_pessoa` (`id_pessoa`),
   KEY `id_tarefa` (`id_tarefa`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `pessoa_tarefa`
+--
+
+INSERT INTO `pessoa_tarefa` (`id_pessoa_tarefa`, `id_pessoa`, `id_tarefa`, `status`, `dt_created`, `dt_updated`) VALUES
+(1, 1, 1, 1, '2024-03-28', '0000-00-00'),
+(2, 1, 1, 1, '2024-03-28', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -409,7 +484,17 @@ CREATE TABLE IF NOT EXISTS `tarefa` (
   `dt_begin` date DEFAULT NULL,
   `dt_end` date DEFAULT NULL,
   PRIMARY KEY (`id_tarefa`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `tarefa`
+--
+
+INSERT INTO `tarefa` (`id_tarefa`, `nome`, `dt_created`, `dt_updated`, `status`, `dt_begin`, `dt_end`) VALUES
+(6, 'teste 2', '0000-00-00', '0000-00-00', NULL, '2024-04-16', '2024-04-25'),
+(7, 'teste 2', '0000-00-00', '0000-00-00', 0, NULL, NULL),
+(8, 'tarefa 2', '0000-00-00', '0000-00-00', NULL, NULL, NULL),
+(9, 'tarefa 4 ', '0000-00-00', '0000-00-00', 1, '0000-00-00', '0000-00-00');
 
 -- --------------------------------------------------------
 
