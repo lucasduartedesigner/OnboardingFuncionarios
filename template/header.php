@@ -21,7 +21,7 @@
             ?>
         </ul>
         <div class="d-flex" role="search">
-           <button type="button" class="btn btn-outline-light me-2 rounded-pill" data-bs-toggle="modal" data-bs-target="#perfil-modal">
+            <button type="button" class="btn btn-outline-light me-2 rounded-pill" data-bs-toggle="modal" data-bs-target="#perfil-modal">
              <i class="far fa-user-circle"></i> 
              <?php echo strtoupper($_SESSION['nome']) . " - " . $_SESSION['campus']; ?>
           </button>

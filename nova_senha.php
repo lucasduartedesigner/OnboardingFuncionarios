@@ -115,35 +115,30 @@
 
 	<main class="form-signin w-100 m-auto">
 
-	  <form action="php/valida_login.php" method="post" autocomplete="off" class="text-center">
+	  <form action="php/cadastra/nova_senha.php" method="post" autocomplete="off" class="text-center">
 
 		<img class="mb-3" src="https://unifeso.edu.br/apps/assets/img/feso.png" alt="" width="280">
 
 		<h1 class="h3 mb-4 fw-normal text-center text-secondary">
-            Portal do Colaborador
+            Cadastre nova senha
 		</h1>
 
 		<div class="form-floating">
-		  <input type="text" class="form-control" id="matricula" name="matricula" autocomplete="off" required>
-		  <label for="matricula">Digite a matrícula</label>	
+		  <input type="text" class="form-control" id="senha" name="senha" autocomplete="off" required>
+          <input type="hidden" class="form-control" id="id_pessoa" name="id_pessoa" autocomplete="off" value="<?= $_GET['id'] ?>">
+		  <label for="senha">Digite a nova senha</label>	
 		</div>
 
 		<div class="form-floating">
-		  <input type="password" class="form-control" id="senha" name="senha" autocomplete="off" required>
-		  <label for="senha">Digite a senha</label>
+		  <input type="text" class="form-control" id="senha_confirma" name="senha_confirma" autocomplete="off" required>
+		  <label for="senha">Confirme a senha</label>
 		</div>
 
-		<div class="form-check text-start my-3">
-		  <input class="form-check-input" type="checkbox" value="1" id="lembrar">
-		  <label class="form-check-label" for="lembrar">
-			Manter conectado
-		  </label>
-		</div>
+		
 
 		<button class="btn btn-success w-100 py-2" type="submit">Entrar</button>
 
 		<p class="mt-5 mb-3 text-body-secondary text-center">Ainda não criou sua conta? <a href="cadastro.html">Cadastre-se</a></p>
-		<p class="mt-3 mb-3 text-body-secondary text-center">Esqueceu sua senha? <a href="esqueci.php">Clique aqui</a></p>
 
 	  </form>
 
@@ -163,23 +158,30 @@
                 var type  = $(this).attr('method')
                 var url   = $(this).attr('action')
                 var dados = $(this).serialize()
+                var senha_confirma = $('#senha_confirma').val()
+                var senha = $('#senha').val()
 
-                $.ajax({
-                    type: type,
-                    url: url,
-                    data: dados
-                }).done(function(response) {
+                if(senha_confirma == senha){
+                    $.ajax({
+                        type: type,
+                        url: url,
+                        data: dados
+                    }).done(function(response) {
 
-                    if(response == "") 
-                    {
-                        window.location.href = "dashboard.php";	
-                    } 
-                    else 
-                    {
-                       bootbox.alert('<h4 class="text-center">'+response+'</h4>');
-                    }
-                });
-
+                        if(response == "") 
+                        {
+                            bootbox.alert('<h4 class="text-center">'+'Cadastro não encontrado.'+'</h4>');
+                        } 
+                        else 
+                        {
+                            window.location.href = "dashboard.php";                       
+                        }
+                    });
+                }
+                else 
+                {
+                    bootbox.alert('<h4 class="text-center">'+'As senhas precisam ser iguais.'+'</h4>');                     
+                }
             });
         });
 

@@ -45,6 +45,7 @@
           </div>
 
           <div class="modal-footer">
+            <a class="btn btn-success" href="nova_senha.php?id=<?= $_SESSION['id_pessoa'] ?>">Alterar senha</a>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <button type="submit" class="btn btn-success">Alterar</button>
           </div>

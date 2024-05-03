@@ -115,12 +115,12 @@
 
 	<main class="form-signin w-100 m-auto">
 
-	  <form action="php/valida_login.php" method="post" autocomplete="off" class="text-center">
+	  <form action="php/esqueci.php" method="post" autocomplete="off" class="text-center">
 
 		<img class="mb-3" src="https://unifeso.edu.br/apps/assets/img/feso.png" alt="" width="280">
 
 		<h1 class="h3 mb-4 fw-normal text-center text-secondary">
-            Portal do Colaborador
+            Recuperação de senha
 		</h1>
 
 		<div class="form-floating">
@@ -129,21 +129,13 @@
 		</div>
 
 		<div class="form-floating">
-		  <input type="password" class="form-control" id="senha" name="senha" autocomplete="off" required>
-		  <label for="senha">Digite a senha</label>
-		</div>
-
-		<div class="form-check text-start my-3">
-		  <input class="form-check-input" type="checkbox" value="1" id="lembrar">
-		  <label class="form-check-label" for="lembrar">
-			Manter conectado
-		  </label>
+		  <input type="email" class="form-control" id="email" name="email" autocomplete="off" required>
+		  <label for="senha">Digite a email</label>
 		</div>
 
 		<button class="btn btn-success w-100 py-2" type="submit">Entrar</button>
 
 		<p class="mt-5 mb-3 text-body-secondary text-center">Ainda não criou sua conta? <a href="cadastro.html">Cadastre-se</a></p>
-		<p class="mt-3 mb-3 text-body-secondary text-center">Esqueceu sua senha? <a href="esqueci.php">Clique aqui</a></p>
 
 	  </form>
 
@@ -167,16 +159,17 @@
                 $.ajax({
                     type: type,
                     url: url,
-                    data: dados
+                    data: dados,
+					dataType: 'json'
                 }).done(function(response) {
 
                     if(response == "") 
                     {
-                        window.location.href = "dashboard.php";	
+                        bootbox.alert('<h4 class="text-center">'+'Cadastro não encontrado'+'</h4>');
                     } 
                     else 
                     {
-                       bootbox.alert('<h4 class="text-center">'+response+'</h4>');
+                        window.location.href = "nova_senha.?id="+response['id_pessoa'];                       
                     }
                 });
 

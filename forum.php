@@ -157,19 +157,10 @@
     </div>
   </nav>
 
-<div class="nav-scroller bg-body shadow-sm">
-  <nav class="nav nav-underline" aria-label="Secondary navigation">
-    <a class="nav-link active" aria-current="page" href="#">Página principal</a>
-    <a class="nav-link" href="#"> Amigos <span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span> </a>
-    <a class="nav-link" href="#">Explorar</a>
-    <a class="nav-link" href="#">Sugestões</a>    
-  </nav>
-</div>
-
 <main class="container">
 
 <div class="container">
-<div class="row mt-3">
+<div class="row">
 <div class="main-body p-0">
     <div class="inner-wrapper">
         <!-- Inner sidebar -->
@@ -197,12 +188,7 @@
                                     <div class="simplebar-content-wrapper" style="height: 100%">
                                         <div class="simplebar-content" style="padding: 16px;">
                                             <nav class="nav nav-pills nav-gap-y-1 flex-column">
-                                                <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon active">Todos os tópicos</a>
-                                                <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Populares da semana</a>
-                                                <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Mais Populares</a>
-                                                <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Resolvidos</a>
-                                                <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Não resolvidos</a>
-                                                <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Sem respostas</a>
+                                                <?php include 'list/topicos.php'; ?>
                                             </nav>
                                         </div>
                                     </div>
@@ -261,7 +247,7 @@
                 return $minutosDiferenca;
             }
 
-                $consulta = "SELECT f.titulo_pergunta, f.id_pessoa, f.id_departamento, f.descricao_pergunta FROM forum_perguntas f 
+                $consulta = "SELECT f.titulo_pergunta, f.id_pessoa, f.id_departamento, f.descricao_pergunta, p.nome, f.data_pergunta FROM forum_perguntas f 
                 inner join pessoa p on f.id_pessoa = p.id_pessoa";
 
                 //Prepara a consulta para o banco
@@ -285,10 +271,10 @@
                                       <div class="media-body">
                                           <h6><a href="#" data-toggle="collapse" data-target=".forum-content" class="text-body"><?= $resultado['titulo_pergunta'] ?></a></h6>
                                           <p class="text-secondary">
-                                              <?= $resultado['descricao'] ?>
+                                              <?= $resultado['descricao_pergunta'] ?>
                                           </p>
                                           <p class="text-muted"><a href="javascript:void(0)"> <?= $resultado['nome'] ?></a> respondeu <span class="text-secondary font-weight-bold">
-                                            <?= datetimeDiferencaEmMinutos($resultado['data'])  ?> minutos atrás</span></p>
+                                            <?= datetimeDiferencaEmMinutos($resultado['data_pergunta'])  ?> minutos atrás</span></p>
                                         </div>
                                       <div class="text-muted small text-center align-self-center">
                                           <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> 19</span>
