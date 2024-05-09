@@ -120,11 +120,11 @@
 
 <main>
 
-  <section class="py-5 text-center container">
+  <section class="py-1 text-center container">
     <div class="row py-lg-2">
       <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">Recursos e Documentação</h1>
-        <p class="lead text-body-secondary">Seja bem-vindo aos documentos e recursos! Neste espaço, você terá acesso a todos o conteúdo inicial, para chegar com o pé direito em nossa empresa!</p>
+        <h1 class="fw-light"><b>Recursos e Documentação</b></h1>
+        <p class="lead text-body-secondary">Seja bem-vindo aos documentos e recursos! Neste espaço, você terá acesso a todo o conteúdo inicial! Seja bem-vindo!</p>
         <p>
         <button type="button" class="btn btn-success">Documentos</button>
                   <button type="button" class="btn btn-success">Vídeos</button>
@@ -135,52 +135,50 @@
 
   <div class="album py-5 bg-body-tertiary">
     <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 <!--manual do colaborador-->
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+<?php 
+
+$consulta = "SELECT nome, titulo, caminho_arquivo, tipo_arquivo, imagem FROM documentos WHERE status = 1 ORDER BY data";
+
+//Prepara a consulta para o banco
+$response = $conn->prepare($consulta);
+
+//Executa a consulta 
+$response->execute();
+
+//Verifica se existe dados para retornar
+if ($response->rowCount() > 0) 
+{
+    //Coloca os dados retornados em uma variavel
+    while ($resultado = $response->fetch(PDO::FETCH_ASSOC)) 
+    {
+        
+        
+?>
+
         <div class="col">
           <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="0" xmlns="http://www.w3.org/2000/svg"role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><text x="50%" y="50%" fill="#eceeef" dy=".3em"><img src="https://www.unifeso.edu.br/cursos/images/cursos/head/632739744f3d488a5a7b4910caf4f306.png" class="rounded-top" alt="Cinque Terre"></text></svg>
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="0" xmlns="http://www.w3.org/2000/svg"role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><text x="50%" y="50%" fill="#eceeef" dy=".3em">
+              <img src="<?= $resultado['imagem'] ?>" class="rounded-top" alt="Cinque Terre"></text></svg>
             <div class="card-body">
-              <p class="card-text">Acesse aqui, o seu manual do colaborador!</p>
+              <p class="card-text"><?= $resultado['nome'] ?></p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-success">Manual do Colaborador</button>
+                  <a href="<?= $resultado['caminho_arquivo'] ?>" class="btn btn-success" target="_blank"><?= $resultado['titulo'] ?></a>
                 </div>
                 <small class="text-body-secondary">9 mins</small>
               </div>
             </div>
           </div>
         </div>
-<!--ponto eletrônico-->   
-        <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="0" xmlns="http://www.w3.org/2000/svg"role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><text x="50%" y="50%" fill="#eceeef" dy=".3em"><img src="https://www.totvs.com/wp-content/uploads/2022/10/ponto-eletronico-digital.jpg" class="rounded-top" alt="Cinque Terre"></text></svg>
-            <div class="card-body">
-              <p class="card-text">Ja registrou sua batidade de ponto hoje?</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-success">Vídeo ponto eletrônico</button>
-                </div>
-                <small class="text-body-secondary">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-<!--ponto eletrônico-->   
-        <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="0" xmlns="http://www.w3.org/2000/svg"role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><text x="50%" y="50%" fill="#eceeef" dy=".3em"><img src="https://www.unifeso.edu.br/cursos/images/cursos/head/632739744f3d488a5a7b4910caf4f306.png" class="rounded" alt="Cinque Terre"></text></svg>
-            <div class="card-body">
-              <p class="card-text">Acesse aqui, o seu manual do colaborador!</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-success">Manual do Colaborador</button>
-                </div>
-                <small class="text-body-secondary">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
+<?php
+    }
+} 
+?>
+</div>
+
+<!--vídeo ambientação
                 <div class="col">
           <div class="card shadow-sm">
             <svg class="bd-placeholder-img card-img-top" width="100%" height="0" xmlns="http://www.w3.org/2000/svg"role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><text x="50%" y="50%" fill="#eceeef" dy=".3em"><img src="https://www.unifeso.edu.br/cursos/images/cursos/head/632739744f3d488a5a7b4910caf4f306.png" class="rounded" alt="Cinque Terre"></text></svg>
@@ -227,17 +225,15 @@
       </div>
     </div>
   </div>
-
+-->
 </main>
 
 <footer class="text-body-secondary py-5">
   <div class="container">
     <p class="float-end mb-1">
-      <a href="#">Back to top</a>
+      <a href="#">Voltar para o início</a>
     </p>
-    <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-    <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="/docs/5.3/getting-started/introduction/">getting started guide</a>.</p>
-  </div>
+
 </footer>
 <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 

@@ -1,718 +1,489 @@
--- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost    Database: portalfuncionarios
--- ------------------------------------------------------
--- Server version	8.0.35
+-- Host: 127.0.0.1:3306
+-- Tempo de geração: 09/05/2024 às 01:36
+-- Versão do servidor: 8.3.0
+-- Versão do PHP: 8.2.18
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Table structure for table `campus`
+-- Banco de dados: `portalfuncionarios`
+--
+
+DELIMITER $$
+--
+-- Procedimentos
+--
+DROP PROCEDURE IF EXISTS `update_tarefa_status`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_tarefa_status` (IN `tarefa_id` INT)   BEGIN
+    DECLARE total_status INT;
+    DECLARE total_concluidos INT;
+
+    -- Conta quantos itens de tarefa estão marcados como concluídos (status = 1)
+    SELECT COUNT(*) INTO total_status
+    FROM item_tarefa
+    WHERE id_tarefa = tarefa_id AND status = 1;
+
+    -- Conta quantos itens de tarefa existem para a tarefa
+    SELECT COUNT(*) INTO total_concluidos
+    FROM item_tarefa
+    WHERE id_tarefa = tarefa_id;
+
+    -- Se todos os itens de tarefa para essa tarefa estiverem marcados como concluídos, atualize o status da tarefa para 1
+    IF total_status = total_concluidos THEN
+        UPDATE tarefa SET status = 1 WHERE id_tarefa = tarefa_id;
+    -- Se houver itens de tarefa marcados como concluídos, mas não todos, atualize o status da tarefa para 0
+    ELSEIF total_status > 0 THEN
+        UPDATE tarefa SET status = 0 WHERE id_tarefa = tarefa_id;
+    -- Se não houver nenhum item de tarefa marcado como concluído, atualize o status da tarefa para 0
+    ELSE
+        UPDATE tarefa SET status = 0 WHERE id_tarefa = tarefa_id;
+    END IF;
+END$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `campus`
 --
 
 DROP TABLE IF EXISTS `campus`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `campus` (
+CREATE TABLE IF NOT EXISTS `campus` (
   `id_campus` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) DEFAULT NULL,
-  `titulo` varchar(255) DEFAULT NULL,
-  `texto` text,
-  `url` varchar(255) DEFAULT NULL,
-  `imagem` varchar(255) DEFAULT NULL,
+  `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `titulo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `texto` text COLLATE utf8mb4_unicode_ci,
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `imagem` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` int DEFAULT NULL,
   `dt_created` datetime DEFAULT CURRENT_TIMESTAMP,
   `dt_updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `missao` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `visao` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `valores` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_campus`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `campus`
+-- Despejando dados para a tabela `campus`
 --
 
-LOCK TABLES `campus` WRITE;
-/*!40000 ALTER TABLE `campus` DISABLE KEYS */;
-INSERT INTO `campus` VALUES (1,'AMBULATÓRIO',NULL,NULL,NULL,NULL,1,'2024-03-20 16:05:58','2024-03-20 16:05:58'),(2,'CESO',NULL,NULL,NULL,NULL,1,'2024-03-20 16:05:58','2024-03-20 16:05:58'),(3,'HCTCO',NULL,'<p class=\"lead\">A partir de agora você faz parte do campus HCTCO.</p>\r\n<p class=\"lead\">Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional. </p>    \r\nNela você vai encontrar informações financeiras, benefícios, normas de trabalho e responsabilidades e os principais canais de comunicação. Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional.</p>\r\n<p class=\"lead\">Leia com atenção e conheça seus direitos e deveres.</p>\r\n<p class=\"lead\">Estará sempre disponível sempre que precisar.</p>',NULL,'https://unifeso.edu.br/9acda72fb88e5262b67849045ea604c3/?largura=500&url=../images/noticias/5ddd03d359886c38624ce835c9ad58f5.jpg',1,'2024-03-20 16:05:58','2024-03-20 19:05:24'),(4,'PROARTE',NULL,NULL,NULL,NULL,1,'2024-03-20 16:05:58','2024-03-20 16:05:58'),(5,'SEDE',NULL,'<p class=\"lead\">A partir de agora você faz parte do campus SEDE.</p>\n<p class=\"lead\">Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional. </p>    \nNela você vai encontrar informações financeiras, benefícios, normas de trabalho e responsabilidades e os principais canais de comunicação. Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional.</p>\n<p class=\"lead\">Leia com atenção e conheça seus direitos e deveres.</p>\n<p class=\"lead\">Estará sempre disponível sempre que precisar.</p>','','https://unifeso.edu.br/9acda72fb88e5262b67849045ea604c3/?largura=500&url=../images/noticias/b9a421dec6fb6371b171795747b274f4.jpg',1,'2024-03-20 16:05:58','2024-03-20 19:03:14'),(6,'Q.PARAISO',NULL,NULL,NULL,NULL,1,'2024-03-20 16:05:58','2024-03-20 16:05:58');
-/*!40000 ALTER TABLE `campus` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `campus` (`id_campus`, `nome`, `titulo`, `texto`, `url`, `imagem`, `status`, `dt_created`, `dt_updated`, `missao`, `visao`, `valores`) VALUES
+(1, 'AMBULATÓRIO', NULL, NULL, NULL, NULL, 1, '2024-03-20 16:05:58', '2024-03-20 16:05:58', NULL, NULL, NULL),
+(2, 'CESO', NULL, NULL, NULL, NULL, 1, '2024-03-20 16:05:58', '2024-03-20 16:05:58', NULL, NULL, NULL),
+(3, 'HCTCO', NULL, '<p class=\"lead\">A partir de agora você faz parte do campus HCTCO.</p>\r\n<p class=\"lead\">Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional. </p>    \r\nNela você vai encontrar informações financeiras, benefícios, normas de trabalho e responsabilidades e os principais canais de comunicação. Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional.</p>\r\n<p class=\"lead\">Leia com atenção e conheça seus direitos e deveres.</p>\r\n<p class=\"lead\">Estará sempre disponível sempre que precisar.</p>', NULL, 'https://unifeso.edu.br/9acda72fb88e5262b67849045ea604c3/?largura=500&url=../images/noticias/5ddd03d359886c38624ce835c9ad58f5.jpg', 1, '2024-03-20 16:05:58', '2024-03-20 19:05:24', NULL, NULL, NULL),
+(4, 'PROARTE', NULL, NULL, NULL, NULL, 1, '2024-03-20 16:05:58', '2024-03-20 16:05:58', NULL, NULL, NULL),
+(5, 'SEDE', NULL, '<p class=\"lead\">A partir de agora você faz parte do campus SEDE.</p>\n<p class=\"lead\">Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional. </p>    \nNela você vai encontrar informações financeiras, benefícios, normas de trabalho e responsabilidades e os principais canais de comunicação. Esta plataforma tem por objetivo facilitar a sua adaptação às nossas políticas e cultura institucional.</p>\n<p class=\"lead\">Leia com atenção e conheça seus direitos e deveres.</p>\n<p class=\"lead\">Estará sempre disponível sempre que precisar.</p>', '', 'https://unifeso.edu.br/9acda72fb88e5262b67849045ea604c3/?largura=500&url=../images/noticias/b9a421dec6fb6371b171795747b274f4.jpg', 1, '2024-03-20 16:05:58', '2024-03-20 19:03:14', NULL, NULL, NULL),
+(6, 'QUINTA DO PARAÍSO', NULL, '', NULL, '', 1, '2024-03-20 16:05:58', '2024-05-08 21:00:52', '', '', ''),
+(7, 'CAMPUS TESTE', NULL, 'teste 1', NULL, NULL, 1, '2024-04-15 21:04:38', NULL, 'teste 2', 'teste 3', 'teste 4');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `campus_tarefa`
+-- Estrutura para tabela `campus_tarefa`
 --
 
 DROP TABLE IF EXISTS `campus_tarefa`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `campus_tarefa` (
+CREATE TABLE IF NOT EXISTS `campus_tarefa` (
   `id_campus_tarefa` int NOT NULL AUTO_INCREMENT,
   `id_campus` int NOT NULL,
   `id_tarefa` int NOT NULL,
-  `status` int NOT NULL,
+  `status` int DEFAULT NULL,
   PRIMARY KEY (`id_campus_tarefa`),
-  KEY `id_campus` (`id_campus`),
-  KEY `id_tarefa` (`id_tarefa`),
-  CONSTRAINT `campus_tarefa_ibfk_1` FOREIGN KEY (`id_campus`) REFERENCES `campus` (`id_campus`),
-  CONSTRAINT `campus_tarefa_ibfk_2` FOREIGN KEY (`id_tarefa`) REFERENCES `tarefa` (`id_tarefa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `FK_campus_tarefa_campus` (`id_campus`),
+  KEY `FK_campus_tarefa_tarefa` (`id_tarefa`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `campus_tarefa`
---
-
-LOCK TABLES `campus_tarefa` WRITE;
-/*!40000 ALTER TABLE `campus_tarefa` DISABLE KEYS */;
-/*!40000 ALTER TABLE `campus_tarefa` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `categoria`
---
-
-DROP TABLE IF EXISTS `categoria`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `categoria` (
-  `id_categoria` int NOT NULL,
-  `nome_categoria` varchar(100) NOT NULL,
-  `descricao_categoria` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `categoria`
---
-
-LOCK TABLES `categoria` WRITE;
-/*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
-/*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `departamento`
+-- Estrutura para tabela `departamento`
 --
 
 DROP TABLE IF EXISTS `departamento`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `departamento` (
-  `id_departamento` int NOT NULL,
-  `nome` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+CREATE TABLE IF NOT EXISTS `departamento` (
+  `id_departamento` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` int DEFAULT NULL,
+  `dt_created` datetime DEFAULT NULL,
+  `dt_updated` datetime DEFAULT NULL,
   PRIMARY KEY (`id_departamento`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `departamento`
+-- Estrutura para tabela `documentos`
 --
 
-LOCK TABLES `departamento` WRITE;
-/*!40000 ALTER TABLE `departamento` DISABLE KEYS */;
-/*!40000 ALTER TABLE `departamento` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `documentos`;
+CREATE TABLE IF NOT EXISTS `documentos` (
+  `id_documento` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `caminho_arquivo` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` int NOT NULL,
+  `data` date NOT NULL,
+  `tipo_arquivo` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `imagem` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id_documento`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `evento`
+-- Estrutura para tabela `evento`
 --
 
 DROP TABLE IF EXISTS `evento`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `evento` (
-  `id_evento` int NOT NULL,
+CREATE TABLE IF NOT EXISTS `evento` (
+  `id_evento` int NOT NULL AUTO_INCREMENT,
   `id_tipo_evento` int NOT NULL,
   `id_responsavel` int NOT NULL,
-  `titulo` varchar(255) NOT NULL,
-  `descricao` varchar(500) NOT NULL,
-  `inicio` datetime NOT NULL,
-  `fim` datetime NOT NULL,
+  `titulo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descricao` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dt_inicio` datetime NOT NULL,
+  `dt_fim` datetime NOT NULL,
   `status` int NOT NULL,
-  `link` varchar(255) NOT NULL,
+  `link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dt_created` datetime NOT NULL,
   `dt_updated` datetime NOT NULL,
   PRIMARY KEY (`id_evento`),
-  KEY `id_tipo_evento` (`id_tipo_evento`),
-  KEY `id_responsavel` (`id_responsavel`),
-  CONSTRAINT `evento_ibfk_1` FOREIGN KEY (`id_tipo_evento`) REFERENCES `tipo_evento` (`id_tipo_evento`),
-  CONSTRAINT `evento_ibfk_2` FOREIGN KEY (`id_responsavel`) REFERENCES `pessoa` (`id_pessoa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `FK_evento_tipo_evento` (`id_tipo_evento`),
+  KEY `id_responsavel` (`id_responsavel`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `evento`
---
-
-LOCK TABLES `evento` WRITE;
-/*!40000 ALTER TABLE `evento` DISABLE KEYS */;
-/*!40000 ALTER TABLE `evento` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `feedback`
+-- Estrutura para tabela `feedback`
 --
 
 DROP TABLE IF EXISTS `feedback`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `feedback` (
-  `id_feedback` int NOT NULL,
+CREATE TABLE IF NOT EXISTS `feedback` (
+  `id_feedback` int NOT NULL AUTO_INCREMENT,
   `id_pessoa` int NOT NULL,
   `id_departamento` int NOT NULL,
-  `titulo_feedback` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `descricao_feedback` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `avaliacao` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `titulo_feedback` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descricao_feedback` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `avaliacao` int NOT NULL,
   `visualizacao` int DEFAULT NULL,
   PRIMARY KEY (`id_feedback`),
-  KEY `id_departamento` (`id_departamento`),
-  KEY `id_pessoa` (`id_pessoa`),
-  CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`id_departamento`),
-  CONSTRAINT `feedback_ibfk_2` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `FK_feedback_departamento` (`id_departamento`),
+  KEY `FK_feedback_pessoa` (`id_pessoa`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `feedback`
---
-
-LOCK TABLES `feedback` WRITE;
-/*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
-/*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `forum_perguntas`
+-- Estrutura para tabela `forum_perguntas`
 --
 
 DROP TABLE IF EXISTS `forum_perguntas`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `forum_perguntas` (
-  `id_forum_perguntas` smallint NOT NULL,
+CREATE TABLE IF NOT EXISTS `forum_perguntas` (
+  `id_forum_perguntas` int NOT NULL AUTO_INCREMENT,
   `id_pessoa` int NOT NULL,
   `id_departamento` int NOT NULL,
-  `titulo_pergunta` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `descricao_pergunta` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `titulo_pergunta` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descricao_pergunta` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `visualizacao` int DEFAULT NULL,
   `qtd_resposta` int NOT NULL,
   `data_pergunta` datetime NOT NULL,
+  `id_topico` int DEFAULT NULL,
   PRIMARY KEY (`id_forum_perguntas`),
-  KEY `id_pessoa` (`id_pessoa`),
-  KEY `id_departamento` (`id_departamento`),
-  CONSTRAINT `forum_perguntas_ibfk_1` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`),
-  CONSTRAINT `forum_perguntas_ibfk_2` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`id_departamento`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `FK_forum_perguntas_departamento` (`id_departamento`),
+  KEY `FK_forum_perguntas_pessoa` (`id_pessoa`),
+  KEY `FK_forum_perguntas_forum_topicos` (`id_topico`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `forum_perguntas`
+-- Despejando dados para a tabela `forum_perguntas`
 --
 
-LOCK TABLES `forum_perguntas` WRITE;
-/*!40000 ALTER TABLE `forum_perguntas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `forum_perguntas` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `forum_perguntas` (`id_forum_perguntas`, `id_pessoa`, `id_departamento`, `titulo_pergunta`, `descricao_pergunta`, `visualizacao`, `qtd_resposta`, `data_pergunta`, `id_topico`) VALUES
+(6, 8, 1, 'pergunta 1', 'texto 1', NULL, 0, '0000-00-00 00:00:00', NULL);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `forum_respostas`
+-- Estrutura para tabela `forum_respostas`
 --
 
 DROP TABLE IF EXISTS `forum_respostas`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `forum_respostas` (
-  `id_forum_perguntas` smallint NOT NULL,
-  `id_forum_respostas` int NOT NULL,
+CREATE TABLE IF NOT EXISTS `forum_respostas` (
+  `id_forum_respostas` int NOT NULL AUTO_INCREMENT,
+  `id_forum_perguntas` int NOT NULL,
   `id_pessoa` int NOT NULL,
-  `resposta` text NOT NULL,
+  `resposta` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `data_respostas` datetime NOT NULL,
   PRIMARY KEY (`id_forum_respostas`),
-  KEY `id_forum_perguntas` (`id_forum_perguntas`),
-  KEY `id_pessoa` (`id_pessoa`),
-  CONSTRAINT `forum_respostas_ibfk_1` FOREIGN KEY (`id_forum_perguntas`) REFERENCES `forum_perguntas` (`id_forum_perguntas`),
-  CONSTRAINT `forum_respostas_ibfk_2` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `FK_forum_respostas_forum_perguntas` (`id_forum_perguntas`),
+  KEY `FK_forum_respostas_pessoa` (`id_pessoa`)
+) ENGINE=MyISAM AUTO_INCREMENT=237 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `forum_respostas`
---
-
-LOCK TABLES `forum_respostas` WRITE;
-/*!40000 ALTER TABLE `forum_respostas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `forum_respostas` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `forum_topicos`
+-- Estrutura para tabela `forum_topicos`
 --
 
 DROP TABLE IF EXISTS `forum_topicos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `forum_topicos` (
-  `id_topicos` smallint NOT NULL,
-  `id_pessoa` int NOT NULL,
-  `id_departamento` int NOT NULL,
-  PRIMARY KEY (`id_topicos`),
-  KEY `id_departamento` (`id_departamento`),
-  KEY `id_pessoa` (`id_pessoa`),
-  CONSTRAINT `forum_topicos_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`id_departamento`),
-  CONSTRAINT `forum_topicos_ibfk_2` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE IF NOT EXISTS `forum_topicos` (
+  `id_topicos` int NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id_topicos`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `forum_topicos`
+-- Despejando dados para a tabela `forum_topicos`
 --
 
-LOCK TABLES `forum_topicos` WRITE;
-/*!40000 ALTER TABLE `forum_topicos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `forum_topicos` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `forum_topicos` (`id_topicos`, `descricao`) VALUES
+(1, 'Populares da semana'),
+(2, 'Mais Populares'),
+(3, 'Resolvidos'),
+(4, 'Não Resolvidos'),
+(5, 'Sem resposta');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `grupo_acesso`
+-- Estrutura para tabela `grupo_acesso`
 --
 
 DROP TABLE IF EXISTS `grupo_acesso`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `grupo_acesso` (
+CREATE TABLE IF NOT EXISTS `grupo_acesso` (
   `id_grupo_acesso` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(50) NOT NULL,
-  `status` int NOT NULL,
+  `nome` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` int DEFAULT NULL,
   PRIMARY KEY (`id_grupo_acesso`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `grupo_acesso`
---
-
-LOCK TABLES `grupo_acesso` WRITE;
-/*!40000 ALTER TABLE `grupo_acesso` DISABLE KEYS */;
-INSERT INTO `grupo_acesso` VALUES (1,'admin',1),(2,'Funcionários',1);
-/*!40000 ALTER TABLE `grupo_acesso` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `item_tarefa`
+-- Estrutura para tabela `item_tarefa`
 --
 
 DROP TABLE IF EXISTS `item_tarefa`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `item_tarefa` (
+CREATE TABLE IF NOT EXISTS `item_tarefa` (
   `id_item_tarefa` int NOT NULL AUTO_INCREMENT,
   `id_tarefa` int NOT NULL,
-  `nome` varchar(255) NOT NULL,
-  `status` int NOT NULL,
-  `dt_begin` date NOT NULL,
-  `dt_end` date NOT NULL,
+  `nome` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` int DEFAULT NULL,
+  `dt_begin` date DEFAULT NULL,
+  `dt_end` date DEFAULT NULL,
   PRIMARY KEY (`id_item_tarefa`),
-  KEY `id_tarefa` (`id_tarefa`),
-  CONSTRAINT `item_tarefa_ibfk_1` FOREIGN KEY (`id_tarefa`) REFERENCES `tarefa` (`id_tarefa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `id_tarefa` (`id_tarefa`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `item_tarefa`
+-- Acionadores `item_tarefa`
 --
+DROP TRIGGER IF EXISTS `after_item_tarefa_insert`;
+DELIMITER $$
+CREATE TRIGGER `after_item_tarefa_insert` AFTER INSERT ON `item_tarefa` FOR EACH ROW BEGIN
+    CALL update_tarefa_status(NEW.id_tarefa);
+END
+$$
+DELIMITER ;
+DROP TRIGGER IF EXISTS `after_item_tarefa_update`;
+DELIMITER $$
+CREATE TRIGGER `after_item_tarefa_update` AFTER UPDATE ON `item_tarefa` FOR EACH ROW BEGIN
+    CALL update_tarefa_status(NEW.id_tarefa);
+END
+$$
+DELIMITER ;
 
-LOCK TABLES `item_tarefa` WRITE;
-/*!40000 ALTER TABLE `item_tarefa` DISABLE KEYS */;
-/*!40000 ALTER TABLE `item_tarefa` ENABLE KEYS */;
-UNLOCK TABLES;
+-- --------------------------------------------------------
 
 --
--- Table structure for table `menu`
+-- Estrutura para tabela `menu`
 --
 
 DROP TABLE IF EXISTS `menu`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `menu` (
+CREATE TABLE IF NOT EXISTS `menu` (
   `id_menu` int NOT NULL AUTO_INCREMENT,
-  `titulo` varchar(255) NOT NULL,
-  `url` varchar(255) NOT NULL,
+  `titulo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` int DEFAULT NULL,
   `dt_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `dt_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ordem` int NOT NULL,
+  `descricao` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_menu`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `menu`
+-- Despejando dados para a tabela `menu`
 --
 
-LOCK TABLES `menu` WRITE;
-/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,'Dashboard','dashboard.php',NULL,'2024-03-20 18:22:22','2024-03-20 18:22:22',1),(2,'Tarefas','tarefas.php',NULL,'2024-03-20 18:22:22','2024-03-20 18:22:22',2),(3,'Recursos','recursos.php',NULL,'2024-03-20 18:22:22','2024-03-20 18:22:22',3),(4,'Documentação','documentacao.php',NULL,'2024-03-20 18:22:22','2024-03-20 18:22:22',4),(5,'Agendamento','agendamento.php',NULL,'2024-03-20 18:22:22','2024-03-20 18:22:22',5),(6,'Fórum','forum.php',NULL,'2024-03-20 18:22:22','2024-03-20 18:22:22',6),(7,'Feedback','feedback.php',NULL,'2024-03-20 18:22:22','2024-03-20 18:22:22',7);
-/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `menu` (`id_menu`, `titulo`, `url`, `status`, `dt_created`, `dt_updated`, `ordem`, `descricao`) VALUES
+(1, 'Dashboard', 'dashboard.php', 1, '2024-03-21 00:22:22', '2024-04-16 05:10:51', 1, NULL),
+(2, 'Tarefas', 'tarefas.php', 1, '2024-03-21 00:22:22', '2024-04-16 05:10:51', 2, NULL),
+(4, 'Recursos e Documentação', 'documentacao.php', 1, '2024-03-21 00:22:22', '2024-05-03 03:18:55', 4, NULL),
+(5, 'Agendamento', 'agendamento.php', 1, '2024-03-21 00:22:22', '2024-04-16 05:10:54', 5, NULL),
+(6, 'Fórum', 'forum.php', 1, '2024-03-21 00:22:22', '2024-04-16 05:10:55', 6, NULL),
+(7, 'Feedback', 'feedback.php', 1, '2024-03-21 00:22:22', '2024-04-16 05:10:56', 7, NULL),
+(8, 'Nível Acesso', 'acesso.php', 2, '2024-04-16 05:12:27', '2024-04-16 05:19:01', 1, 'Libera acesso aos usuários e concede permissão para visualizar, editar e deletar no sistema. '),
+(9, 'Textos Padrões', 'texto.php', 2, '2024-04-16 05:22:11', '2024-04-16 05:22:49', 2, 'Inclui os textos da pagina inicial e as imagens padrões do sistema.'),
+(10, 'Departamento', 'departamento.php', 2, '2024-04-17 00:54:52', '2024-04-17 00:56:05', 3, 'Inclui os departamentos da empresa para uma organização mais detalhada das funcionalidades e filtros do sistema.');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `palavra_chave`
---
-
-DROP TABLE IF EXISTS `palavra_chave`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `palavra_chave` (
-  `id_palavra_chave` int NOT NULL,
-  `palavra_chave` varchar(50) NOT NULL,
-  PRIMARY KEY (`id_palavra_chave`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `palavra_chave`
---
-
-LOCK TABLES `palavra_chave` WRITE;
-/*!40000 ALTER TABLE `palavra_chave` DISABLE KEYS */;
-/*!40000 ALTER TABLE `palavra_chave` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `participante`
+-- Estrutura para tabela `participante`
 --
 
 DROP TABLE IF EXISTS `participante`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `participante` (
+CREATE TABLE IF NOT EXISTS `participante` (
+  `id_participante` int NOT NULL AUTO_INCREMENT,
   `id_pessoa` int NOT NULL,
   `id_evento` int NOT NULL,
   `status` int NOT NULL,
   `dt_created` datetime NOT NULL,
   `dt_updated` datetime NOT NULL,
-  KEY `id_pessoa` (`id_pessoa`),
-  KEY `id_evento` (`id_evento`),
-  CONSTRAINT `participante_ibfk_1` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`),
-  CONSTRAINT `participante_ibfk_2` FOREIGN KEY (`id_evento`) REFERENCES `evento` (`id_evento`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  PRIMARY KEY (`id_participante`),
+  KEY `FK_participante_evento` (`id_evento`),
+  KEY `FK_participante_pessoa` (`id_pessoa`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `participante`
---
-
-LOCK TABLES `participante` WRITE;
-/*!40000 ALTER TABLE `participante` DISABLE KEYS */;
-/*!40000 ALTER TABLE `participante` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `permissao`
+-- Estrutura para tabela `permissao`
 --
 
 DROP TABLE IF EXISTS `permissao`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `permissao` (
+CREATE TABLE IF NOT EXISTS `permissao` (
   `id_permissao` int NOT NULL AUTO_INCREMENT,
   `id_grupo_acesso` int NOT NULL,
   `id_menu` int NOT NULL,
-  `visualizar` char(1) NOT NULL DEFAULT 'N',
-  `editar` char(1) NOT NULL DEFAULT 'N',
-  `deletar` char(1) NOT NULL DEFAULT 'N',
+  `visualizar` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `editar` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `deletar` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   PRIMARY KEY (`id_permissao`),
-  KEY `id_grupo_acesso` (`id_grupo_acesso`),
-  KEY `id_menu` (`id_menu`),
-  CONSTRAINT `permissao_ibfk_1` FOREIGN KEY (`id_grupo_acesso`) REFERENCES `grupo_acesso` (`id_grupo_acesso`),
-  CONSTRAINT `permissao_ibfk_2` FOREIGN KEY (`id_menu`) REFERENCES `menu` (`id_menu`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `FK_permissao_grupo_acesso` (`id_grupo_acesso`),
+  KEY `FK_permissao_menu` (`id_menu`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `permissao`
---
-
-LOCK TABLES `permissao` WRITE;
-/*!40000 ALTER TABLE `permissao` DISABLE KEYS */;
-INSERT INTO `permissao` VALUES (1,1,1,'S','S','S');
-/*!40000 ALTER TABLE `permissao` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `pessoa`
+-- Estrutura para tabela `pessoa`
 --
 
 DROP TABLE IF EXISTS `pessoa`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pessoa` (
+CREATE TABLE IF NOT EXISTS `pessoa` (
   `id_pessoa` int NOT NULL AUTO_INCREMENT,
-  `id_departamento` int DEFAULT NULL,
-  `id_campus` int NOT NULL,
-  `matricula` varchar(50) NOT NULL,
-  `nome` varchar(100) NOT NULL,
+  `matricula` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nome` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` int DEFAULT NULL,
-  `telefone` char(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `senha` varchar(255) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `senha` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dt_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `dt_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `id_campus` int NOT NULL,
+  `id_departamento` int NOT NULL,
+  `telefone` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_pessoa`),
   KEY `fk_pessoa_campus` (`id_campus`),
-  KEY `id_departamento` (`id_departamento`),
-  CONSTRAINT `pessoa_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`id_departamento`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `FK_pessoa_departamento` (`id_departamento`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `pessoa`
+-- Despejando dados para a tabela `pessoa`
 --
 
-LOCK TABLES `pessoa` WRITE;
-/*!40000 ALTER TABLE `pessoa` DISABLE KEYS */;
-INSERT INTO `pessoa` VALUES (1,NULL,5,'073842','Lucas Duarte',1,NULL,'lucasduarte@unifeso.edu.br','3b42bf0d3d3aa83495d431704bf36ab49688dbd23f978e1e91008924418f1d52','$2y$10$CzlnkuUeeuxUI10RSOSOpOlcstrI60Y0aj484O5gpKZqOP6gq6MC2','2024-03-20 15:04:57','2024-03-27 22:52:55'),(2,NULL,6,'2345','João da Silva',1,NULL,'joaosilva@unifeso.edu.br','961e50d73bfdd3edbbd46188ecbde30a3936d83d9d4a35899fa16ac8b4ffbc35','$2y$10$r1Nt0YGZ.HsZuNnA57RO5uNgv2W.1ZN8LX2pMkFRkQfPWWJA0hA5G','2024-03-20 16:13:42','2024-03-20 16:13:42'),(3,NULL,3,'06004672','Gabriel Guedes',1,NULL,'gabrielguedes00@hotmail.com','c8b082d35ba2a8b2765828cccaa2496d8a6a095d7410f8b3544461ca606bcdc0','$2y$10$HU0..v1MrAzAxCEKnivJpOVtcvwGeM4fBnHPSVF9gnx1bP7rJP9ES','2024-03-20 22:04:07','2024-03-20 22:04:07'),(4,NULL,3,'062168','Hugo',1,NULL,'hugo@gmail.com','4c86cf5d0745caa4e1661559b7b8271043fb22021c8853b0c073e108ef586f57','$2y$10$kcVjh1YHGU4FTxn4jlim7um6o4o0ACiZrZg5DmyoXqd7Djn5oXli2','2024-04-04 22:34:56','2024-04-05 00:14:41');
-/*!40000 ALTER TABLE `pessoa` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `pessoa` (`id_pessoa`, `matricula`, `nome`, `status`, `email`, `token`, `senha`, `dt_created`, `dt_updated`, `id_campus`, `id_departamento`, `telefone`) VALUES
+(2, '2345', 'João da Silva', 1, 'joaosilva@unifeso.edu.br', '961e50d73bfdd3edbbd46188ecbde30a3936d83d9d4a35899fa16ac8b4ffbc35', '$2y$10$r1Nt0YGZ.HsZuNnA57RO5uNgv2W.1ZN8LX2pMkFRkQfPWWJA0hA5G', '2024-03-20 19:13:42', '2024-03-20 19:13:42', 6, 0, NULL),
+(7, '12345687', 'teste ', 1, 'teste@unifeso.edu.br', 'e2b4f2dd9dc34052cc01787335dc9357ceea8e655a8a963b379c19e7f4afd5c2', '$2y$10$6jb5oBZ94dH5HXi8Z2jdmez/4Ta0mAdiTRFAdNPGFDD866DLM/bH.', '2024-04-25 23:56:13', '2024-04-25 23:56:13', 5, 0, NULL),
+(1, '073842', 'Lucas Duarte', 1, 'lucasduarte@unifeso.edu.br', '3b42bf0d3d3aa83495d431704bf36ab49688dbd23f978e1e91008924418f1d52', '$2y$10$CzlnkuUeeuxUI10RSOSOpOlcstrI60Y0aj484O5gpKZqOP6gq6MC2', '2024-03-20 18:04:57', '2024-03-28 01:52:55', 5, 0, NULL),
+(3, '06004672', 'Gabriel Guedes', 1, 'gabrielguedes00@hotmail.com', 'c8b082d35ba2a8b2765828cccaa2496d8a6a095d7410f8b3544461ca606bcdc0', '$2y$10$HU0..v1MrAzAxCEKnivJpOVtcvwGeM4fBnHPSVF9gnx1bP7rJP9ES', '2024-03-21 01:04:07', '2024-03-21 01:04:07', 3, 0, NULL),
+(8, '062168', 'Hugo', 1, 'hugo@gmail.com', 'dd19b1460fd11ec3e5851c199b538a58f50f143e8a243e94043cd43c10a21003', '$2y$10$o.HBKufVVAuUJXFiWYRYROCDS.BiiWJ.F7PM3VwKdxG3cVA2Rnveu', '2024-05-08 23:50:33', '2024-05-08 23:50:33', 5, 0, NULL);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `pessoa_acesso`
+-- Estrutura para tabela `pessoa_acesso`
 --
 
 DROP TABLE IF EXISTS `pessoa_acesso`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pessoa_acesso` (
+CREATE TABLE IF NOT EXISTS `pessoa_acesso` (
   `id_pessoa_acesso` int NOT NULL AUTO_INCREMENT,
   `id_pessoa` int NOT NULL,
   `id_grupo_acesso` int NOT NULL,
-  `status` int NOT NULL,
+  `status` int DEFAULT NULL,
   PRIMARY KEY (`id_pessoa_acesso`),
-  KEY `id_grupo_acesso` (`id_grupo_acesso`),
-  KEY `id_pessoa` (`id_pessoa`),
-  CONSTRAINT `pessoa_acesso_ibfk_1` FOREIGN KEY (`id_grupo_acesso`) REFERENCES `grupo_acesso` (`id_grupo_acesso`),
-  CONSTRAINT `pessoa_acesso_ibfk_2` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `FK_pessoa_acesso_pessoa` (`id_pessoa`),
+  KEY `FK_pessoa_acesso_grupo_acesso` (`id_grupo_acesso`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `pessoa_acesso`
---
-
-LOCK TABLES `pessoa_acesso` WRITE;
-/*!40000 ALTER TABLE `pessoa_acesso` DISABLE KEYS */;
-INSERT INTO `pessoa_acesso` VALUES (1,4,1,1),(2,1,2,1);
-/*!40000 ALTER TABLE `pessoa_acesso` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `pessoa_tarefa`
+-- Estrutura para tabela `pessoa_tarefa`
 --
 
 DROP TABLE IF EXISTS `pessoa_tarefa`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pessoa_tarefa` (
+CREATE TABLE IF NOT EXISTS `pessoa_tarefa` (
   `id_pessoa_tarefa` int NOT NULL AUTO_INCREMENT,
   `id_pessoa` int NOT NULL,
   `id_tarefa` int NOT NULL,
-  `status` int NOT NULL,
+  `status` int DEFAULT NULL,
   `dt_created` date NOT NULL,
   `dt_updated` date NOT NULL,
   PRIMARY KEY (`id_pessoa_tarefa`),
-  KEY `id_pessoa` (`id_pessoa`),
+  KEY `FK_pessoa_tarefa_pessoa` (`id_pessoa`),
   KEY `id_tarefa` (`id_tarefa`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `pessoa_tarefa`
---
-
-LOCK TABLES `pessoa_tarefa` WRITE;
-/*!40000 ALTER TABLE `pessoa_tarefa` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pessoa_tarefa` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `recurso_categoria`
---
-
-DROP TABLE IF EXISTS `recurso_categoria`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `recurso_categoria` (
-  `id_recursos` int NOT NULL,
-  `id_categoria` int NOT NULL,
-  PRIMARY KEY (`id_recursos`,`id_categoria`),
-  KEY `id_categoria` (`id_categoria`),
-  CONSTRAINT `recurso_categoria_ibfk_1` FOREIGN KEY (`id_recursos`) REFERENCES `recursos` (`id_recursos`),
-  CONSTRAINT `recurso_categoria_ibfk_2` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `recurso_categoria`
---
-
-LOCK TABLES `recurso_categoria` WRITE;
-/*!40000 ALTER TABLE `recurso_categoria` DISABLE KEYS */;
-/*!40000 ALTER TABLE `recurso_categoria` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `recurso_palavra_chave`
---
-
-DROP TABLE IF EXISTS `recurso_palavra_chave`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `recurso_palavra_chave` (
-  `id_recursos` int NOT NULL,
-  `id_palavra_chave` int DEFAULT NULL,
-  KEY `id_recursos` (`id_recursos`),
-  KEY `id_palavra_chave` (`id_palavra_chave`),
-  CONSTRAINT `recurso_palavra_chave_ibfk_1` FOREIGN KEY (`id_recursos`) REFERENCES `recursos` (`id_recursos`),
-  CONSTRAINT `recurso_palavra_chave_ibfk_2` FOREIGN KEY (`id_palavra_chave`) REFERENCES `palavra_chave` (`id_palavra_chave`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `recurso_palavra_chave`
---
-
-LOCK TABLES `recurso_palavra_chave` WRITE;
-/*!40000 ALTER TABLE `recurso_palavra_chave` DISABLE KEYS */;
-/*!40000 ALTER TABLE `recurso_palavra_chave` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `recursos`
---
-
-DROP TABLE IF EXISTS `recursos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `recursos` (
-  `id_recursos` int NOT NULL,
-  `nome_recurso` varchar(150) NOT NULL,
-  `descricao_recurso` varchar(255) NOT NULL,
-  `arquivo_recurso` blob NOT NULL,
-  `data_criacao` datetime NOT NULL,
-  `data_atualizacao` datetime NOT NULL,
-  `id_tipo_recurso` int NOT NULL,
-  PRIMARY KEY (`id_recursos`),
-  KEY `id_tipo_recurso` (`id_tipo_recurso`),
-  CONSTRAINT `recursos_ibfk_1` FOREIGN KEY (`id_tipo_recurso`) REFERENCES `tipo_recurso` (`id_tipo_recurso`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `recursos`
---
-
-LOCK TABLES `recursos` WRITE;
-/*!40000 ALTER TABLE `recursos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `recursos` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tarefa`
+-- Estrutura para tabela `tarefa`
 --
 
 DROP TABLE IF EXISTS `tarefa`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tarefa` (
-  `id_tarefa` int NOT NULL,
-  `nome` varchar(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS `tarefa` (
+  `id_tarefa` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dt_created` date NOT NULL,
+  `dt_updated` date NOT NULL,
   `status` int DEFAULT NULL,
-  `dt_created` datetime DEFAULT NULL,
-  `dt_updated` datetime DEFAULT NULL,
-  `dt_begin` datetime DEFAULT NULL,
-  `dt_end` datetime DEFAULT NULL,
+  `dt_begin` date DEFAULT NULL,
+  `dt_end` date DEFAULT NULL,
   PRIMARY KEY (`id_tarefa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `tarefa`
---
-
-LOCK TABLES `tarefa` WRITE;
-/*!40000 ALTER TABLE `tarefa` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tarefa` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tipo_evento`
+-- Estrutura para tabela `tipo_evento`
 --
 
 DROP TABLE IF EXISTS `tipo_evento`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tipo_evento` (
-  `id_tipo_evento` int NOT NULL,
-  `nome` varchar(100) DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `tipo_evento` (
+  `id_tipo_evento` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` int DEFAULT NULL,
   PRIMARY KEY (`id_tipo_evento`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+COMMIT;
 
---
--- Dumping data for table `tipo_evento`
---
-
-LOCK TABLES `tipo_evento` WRITE;
-/*!40000 ALTER TABLE `tipo_evento` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tipo_evento` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tipo_recurso`
---
-
-DROP TABLE IF EXISTS `tipo_recurso`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tipo_recurso` (
-  `id_tipo_recurso` int NOT NULL,
-  `nome` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id_tipo_recurso`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tipo_recurso`
---
-
-LOCK TABLES `tipo_recurso` WRITE;
-/*!40000 ALTER TABLE `tipo_recurso` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tipo_recurso` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping routines for database 'portalfuncionarios'
---
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2024-04-29 15:59:11
