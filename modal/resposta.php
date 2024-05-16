@@ -1,4 +1,4 @@
-<form action="php/cadastra/forum.php" method="post" autocomplete="off">
+<form action="php/cadastra/resposta.php" method="post" autocomplete="off">
     <div class="modal" id="resposta-modal">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -12,10 +12,11 @@
             <div class="row">
 
                 <div class="col-md-12 mb-3">                    
-                    <input type="hidden" class="form-control" id="id_pessoa" name="id_pessoa" maxlength="100" value="<?php echo $_SESSION['id_pessoa'] ?>" required>
-                    <input type="hidden" class="form-control" id="id_departamento" name="id_departamento" maxlength="100" value="1" required>
-                </div>
+                  <input type="hidden" class="form-control" id="id_pessoa" name="id_pessoa" maxlength="100" value="<?php echo $_SESSION['id_pessoa'] ?>" required>
+                  <input type="hidden" class="form-control" id="id_forum_perguntas" name="id_forum_perguntas" maxlength="100" value="<?php echo $_GET['id'] ?>" required>
 
+                </div>
+                
                 <div class="col-md-12 mb-3">                    
                     <textarea class="form-control" id="resposta" name="resposta" maxlength="2000" value="" required rows="10"></textarea>
                 </div>              

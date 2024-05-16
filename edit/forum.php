@@ -1,6 +1,20 @@
 <?php 
 
-    $consulta = "SELECT f.id_forum_perguntas, f.titulo_pergunta, f.id_pessoa, f.id_departamento, f.descricao_pergunta, p.nome, f.data_pergunta FROM forum_perguntas f 
+
+$consulta = "UPDATE forum_perguntas SET visualizacao = visualizacao+1
+WHERE id_forum_perguntas = :id";
+
+//Prepara a consulta para o banco
+$response = $conn->prepare($consulta);
+
+$response->bindParam(':id', $_GET['id'], PDO::PARAM_STR);
+
+//Executa a consulta 
+$response->execute();
+
+
+    $consulta = "SELECT f.id_forum_perguntas, f.titulo_pergunta, f.id_pessoa, f.id_departamento, f.descricao_pergunta, p.nome, f.data_pergunta 
+                FROM forum_perguntas f 
                 inner join pessoa p on f.id_pessoa = p.id_pessoa
                 WHERE f.id_forum_perguntas = :id";
 
@@ -22,26 +36,28 @@
                             <div class="media forum-item">
                                 <div class="card text-center">
                                     <div class="card-header" style="background: #389C81">
-                                        <!-- titulo -->
+                                        <!-- titulo -->                                        
                                         <h6> 
+                                            <input type='checkbox' class='form-check-input itemtarefa'>
                                             <a href="forum.php?id=<?= $resultado['id_forum_perguntas'] ?>" class="text-body"> 
-                                            <?= $resultado['titulo_pergunta'] ?> 
-                                            </a>
+                                            <?= $resultado['titulo_pergunta'] ?>                                              
+                                            </a>                                            
                                         </h6>
-                                        
+                                                                              
                                     </div>
                                     <div class="media-body">
                                         <p class="text-secondary"> <?= $resultado['descricao_pergunta'] ?> </p>    
-                                            <div class="text-muted small ">
-                                                <!-- icone visualizações -->
-                                                <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> 19 </span>
-                                                <!-- icone resposta mesagem -->                                                                    
-
-                                            <span><i class="far fa-comment ml-1" data-bs-toggle="modal" data-bs-target="#resposta-modal"> </i></span>                                                                   
-                                            </div>                                                                                                                           
+                                            <div class="text-muted small "> 
+                                                <span><i class="far fa-comment ml-1" data-bs-toggle="modal" data-bs-target="#resposta-modal"></i> Responder</span>                                                                   
+                                                <a class="btn btn-sm btn-danger rounded-circle deletar"><i class="fa-solid fa-trash"></i> </a>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left" viewBox="0 0 16 16">
+                                                    <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                                </svg>                                         
+                                            </div>                                            
                                     </div>
-                                    <div class="card-footer ">
-                                        <p class="text-muted mb-0"> Criado por <a href="javascript:void(0)"> <?= $resultado['nome'] ?></a> há <span class="text-secondary font-weight-bold">
+                                    <div class="card-footer ">  
+                                        <p class="text-muted mb-0"> Criado por <a href="javascript:void(0)"> 
+                                        <?= $resultado['nome'] ?></a> há <span class="text-secondary font-weight-bold">
                                         <?= datetimeDiferencaEmMinutos($resultado['data_pergunta']) ?> minutos atrás.</span></p>  
                                     </div>
                                 </div>                                    
@@ -72,7 +88,7 @@
         //Coloca os dados retornados em uma variavel
         while ($resultado = $response->fetch(PDO::FETCH_ASSOC)) {                      
         ?> 
-            <div class="inner-main-body1 p-2 collapse forum-content show " >
+            <div class="inner-main-body1 p-2 collapse forum-content show">
                 <div class="card-body ">
                     <div class="media forum-item">
                         <div class="card text-center">
@@ -94,3 +110,4 @@
         }
     }
 ?>
+

@@ -158,7 +158,7 @@
     .card-body {
         flex: 1 1 auto;
         min-height: 1px;
-        padding: 1rem;
+        padding: 1rem;          
     }    
     
     .card-header, .card-footer {
@@ -171,7 +171,8 @@
         background-clip: border-box;
         border: 10 solid rgba(0,0,0,.125);
         border-radius: .25rem;
+        
     } 
     
-</style>
+    </style>
 </head>
