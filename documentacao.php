@@ -126,8 +126,9 @@
         <h1 class="fw-light"><b>Recursos e Documentação</b></h1>
         <p class="lead text-body-secondary">Seja bem-vindo aos documentos e recursos! Neste espaço, você terá acesso a todo o conteúdo inicial! Seja bem-vindo!</p>
         <p>
-        <button type="button" class="btn btn-success">Documentos</button>
-                  <button type="button" class="btn btn-success">Vídeos</button>
+        <a href="documentacao.php" class="btn btn-success">Todos</a>
+        <a href="documentacao.php?tipo_arquivo=pdf" class="btn btn-success">Documentos</a>
+        <a href="documentacao.php?tipo_arquivo=mp4" class="btn btn-success">Vídeos</a>
         </p>
       </div>
     </div>
@@ -138,12 +139,32 @@
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 <!--manual do colaborador-->
 <?php 
+        if(!empty($_GET['tipo_arquivo']))
+        {
+            $tipo_arquivo = $_GET['tipo_arquivo'];
+            $cond_arquivo = "AND tipo_arquivo = :tipo_arquivo";
+        }
+        else
+        {
+            $tipo_arquivo = null;
+            $cond_arquivo = "";
+        }
+        
 
-$consulta = "SELECT nome, titulo, caminho_arquivo, tipo_arquivo, imagem FROM documentos WHERE status = 1 ORDER BY data";
+$consulta = "SELECT nome, titulo, caminho_arquivo, tipo_arquivo, imagem 
+FROM documentos 
+WHERE status = 1 
+$cond_arquivo
+ORDER BY data";
 
 //Prepara a consulta para o banco
 $response = $conn->prepare($consulta);
-
+        
+if(!empty($_GET['tipo_arquivo']))
+{
+    $response->bindParam(':tipo_arquivo', $tipo_arquivo, PDO::PARAM_STR);
+}
+        
 //Executa a consulta 
 $response->execute();
 
