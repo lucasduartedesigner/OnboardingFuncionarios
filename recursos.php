@@ -9,16 +9,22 @@
     <?php include_once "template/header.php"; ?>
 
     <main role="main" class="container">
-      <div class="row mt-1">
-        <div class="col-md-12">
-          <h2 class="featurette-heading fw-normal lh-1 mb-4 mt-5">Recursos</h2>
-          <p class="mb-4 mt-2">Os novos colaboradores têm acesso a uma biblioteca online de recursos úteis, como manuais de funcionários, políticas da empresa, guias de procedimentos, vídeos de treinamento e apresentações.</p>
-        </div>
-      </div>
+        <?php 
+
+            if(!empty($_GET['id']))
+            {
+                include_once('edit/recursos.php');
+            }
+            else
+            {
+                include_once('list/recursos.php');
+            }
+
+        ?>
     </main>
 
+    <?php include_once "modal/campus.php"; ?>
     <?php include_once "template/footer.php"; ?>
-
     <?php include_once "template/js.php"; ?>
 
   </body>
