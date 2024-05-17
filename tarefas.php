@@ -86,11 +86,18 @@
                             {
 
                                 $checked = (!empty($result_item['status'])) ? 'checked' : '';
+                                $data = (!empty($result_item['dt_begin']) && !empty($result_item['dt_begin'])) ? dataToBR($result_item['dt_begin'])." até ". dataToBR($result_item['dt_end']) : '';
 
                                 echo "<li class='list-group-item'>";
                                 echo "<div class='my-2 form-check'>
                                         <input type='checkbox' class='form-check-input itemtarefa' id='".$result_item['id_item_tarefa']."' $checked>
                                         <label class='form-check-label' for='".$result_item['id_item_tarefa']."'>".$result_item['nome']."</label>
+                                      </div>";
+                                echo "<div class='text-muted d-grid d-flex justify-content-between' style='font-size: .85em;'>
+                                        <small>".$data."</small>
+                                        <a onclick='itemTarefa(".$result_item['id_item_tarefa'].")' class='btn btn-sm me-1'>
+                                          <i class='fa-solid fa-ellipsis-vertical'></i>
+                                        </a>
                                       </div>";
                                 echo "</li>";
                            }

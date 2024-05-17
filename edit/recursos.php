@@ -1,6 +1,6 @@
 <?php
 
-  $sql = "SELECT * FROM documentos WHERE id_documento = :id ORDER BY id_documento";
+  $sql = "SELECT * FROM documentos WHERE id_documentos = :id ORDER BY id_documentos";
 
   $stmt = $conn->prepare($sql);
 
@@ -20,7 +20,7 @@
 
     <h1>Formulário Documento</h1>
 
-    <input type="hidden" name="id_documento" id="id_documento" value="<?= $id_documento; ?>">
+    <input type="hidden" name="id_documentos" id="id_documentos" value="<?= $id_documentos; ?>">
 
       <div class="row">
           <div class="col-lg-12">

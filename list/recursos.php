@@ -16,7 +16,7 @@
       <tbody>
         <?php
 
-        $consulta = "SELECT id_documento, titulo, nome FROM documentos WHERE status IS NOT NULL ";
+        $consulta = "SELECT id_documentos, titulo, nome FROM documentos WHERE status IS NOT NULL ";
 
         //Prepara a consulta para o banco
         $response = $conn->prepare($consulta);
@@ -32,14 +32,14 @@
             {
                 echo "<tr>
                         <td>
-                          <a class='btn btn-sm btn-success me-2 rounded-circle' href='recursos.php?id={$resultado['id_documento']}'>
+                          <a class='btn btn-sm btn-success me-2 rounded-circle' href='recursos.php?id={$resultado['id_documentos']}'>
                             <i class='fa-solid fa-edit'></i>
                           </a>
                         </td>
                         <td>{$resultado['titulo']}</td>
                         <td>{$resultado['nome']}</td>
                         <td>
-                          <a class='btn btn-sm btn-danger me-2 rounded-circle deletar' data-nome='{$resultado['nome']}' data-id='{$resultado['id_documento']}' data-table='campus'>
+                          <a class='btn btn-sm btn-danger me-2 rounded-circle deletar' data-nome='{$resultado['nome']}' data-id='{$resultado['id_documentos']}' data-table='documentos'>
                             <i class='fa-solid fa-trash'></i>
                           </a>
                         </td>

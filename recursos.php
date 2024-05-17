@@ -23,7 +23,7 @@
         ?>
     </main>
 
-    <?php include_once "modal/campus.php"; ?>
+    <?php include_once "modal/recursos.php"; ?>
     <?php include_once "template/footer.php"; ?>
     <?php include_once "template/js.php"; ?>
 

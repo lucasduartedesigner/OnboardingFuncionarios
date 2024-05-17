@@ -7,7 +7,7 @@
     include_once "../../conn/conexao.php";
 
     //Receber os dados do formulario
-    $id_documento    = $_POST['id_documento'];
+    $id_documentos    = $_POST['id_documentos'];
     $nome            = $_POST['nome'];
     $imagem          = $_POST['imagem'];
     $caminho_arquivo = $_POST['caminho_arquivo'];
@@ -23,13 +23,13 @@
                      tipo_arquivo = :tipo_arquivo, 
                      titulo = :titulo, 
                      status = :status 
-                 WHERE id_documento = :id_documento ";
+                 WHERE id_documentos = :id_documentos ";
 
     //Prepara o insert para o banco
     $response = $conn->prepare($consulta);
 
     //Passa os parametros via bind para evitar SQL Inject
-    $response->bindParam(':id_documento', $id_documento, PDO::PARAM_STR);
+    $response->bindParam(':id_documentos', $id_documentos, PDO::PARAM_STR);
     $response->bindParam(':nome', $nome, PDO::PARAM_STR);
     $response->bindParam(':imagem', $imagem, PDO::PARAM_STR);
     $response->bindParam(':caminho_arquivo', $caminho_arquivo, PDO::PARAM_STR);
