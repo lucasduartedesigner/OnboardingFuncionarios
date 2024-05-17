@@ -124,47 +124,29 @@
     <div class="row py-lg-2">
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light"><b>Recursos e Documentação</b></h1>
-        <p class="lead text-body-secondary">Seja bem-vindo aos documentos e recursos! Neste espaço, você terá acesso a todo o conteúdo inicial! Seja bem-vindo!</p>
+        <p class="lead text-body-secondary">Seja bem-vindo aos recursos e documentos! Neste espaço, você terá acesso a todo o conteúdo inicial! Vamos conhecer?</p>
         <p>
-        <a href="documentacao.php" class="btn btn-success">Todos</a>
-        <a href="documentacao.php?tipo_arquivo=pdf" class="btn btn-success">Documentos</a>
-        <a href="documentacao.php?tipo_arquivo=mp4" class="btn btn-success">Vídeos</a>
+        <button style="border-radius: 15px;" class="btn btn-default filter-button" data-filter="all">Todos</button>
+        <button type="button" class="btn btn-success filter-button" data-filter="all">Documentos</button>
+                  <button type="button" class="btn btn-success">Vídeos</button>
         </p>
       </div>
     </div>
   </section>
 
   <div class="album py-5 bg-body-tertiary">
+  
     <div class="container">
+    <h2 class="featurette-heading fw-normal lh-1 mb-3 mt-10">Documentos</h2>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 <!--manual do colaborador-->
 <?php 
-        if(!empty($_GET['tipo_arquivo']))
-        {
-            $tipo_arquivo = $_GET['tipo_arquivo'];
-            $cond_arquivo = "AND tipo_arquivo = :tipo_arquivo";
-        }
-        else
-        {
-            $tipo_arquivo = null;
-            $cond_arquivo = "";
-        }
-        
 
-$consulta = "SELECT nome, titulo, caminho_arquivo, tipo_arquivo, imagem 
-FROM documentos 
-WHERE status = 1 
-$cond_arquivo
-ORDER BY data";
+$consulta = "SELECT nome, titulo, minuto, caminho_arquivo, tipo_arquivo, imagem FROM documentos WHERE status = 1 ORDER BY data";
 
 //Prepara a consulta para o banco
 $response = $conn->prepare($consulta);
-        
-if(!empty($_GET['tipo_arquivo']))
-{
-    $response->bindParam(':tipo_arquivo', $tipo_arquivo, PDO::PARAM_STR);
-}
-        
+
 //Executa a consulta 
 $response->execute();
 
@@ -175,9 +157,11 @@ if ($response->rowCount() > 0)
     while ($resultado = $response->fetch(PDO::FETCH_ASSOC)) 
     {
         
-        
+
+   
 ?>
 
+          
         <div class="col">
           <div class="card shadow-sm">
             <svg class="bd-placeholder-img card-img-top" width="100%" height="0" xmlns="http://www.w3.org/2000/svg"role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><text x="50%" y="50%" fill="#eceeef" dy=".3em">
@@ -188,7 +172,7 @@ if ($response->rowCount() > 0)
                 <div class="btn-group">
                   <a href="<?= $resultado['caminho_arquivo'] ?>" class="btn btn-success" target="_blank"><?= $resultado['titulo'] ?></a>
                 </div>
-                <small class="text-body-secondary">9 mins</small>
+                <small class="text-body-secondary"><?= $resultado['minuto'] ?> mins</small>
               </div>
             </div>
           </div>
@@ -198,55 +182,11 @@ if ($response->rowCount() > 0)
 } 
 ?>
 </div>
+<p>
+<h2 class="featurette-heading fw-normal lh-1 mb-3 mt-10">Documentos</h2>
 
-<!--vídeo ambientação
-                <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="0" xmlns="http://www.w3.org/2000/svg"role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><text x="50%" y="50%" fill="#eceeef" dy=".3em"><img src="https://www.unifeso.edu.br/cursos/images/cursos/head/632739744f3d488a5a7b4910caf4f306.png" class="rounded" alt="Cinque Terre"></text></svg>
-            <div class="card-body">
-              <p class="card-text">Acesse aqui, o seu manual do colaborador!</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-success">Manual do Colaborador</button>
-                </div>
-                <small class="text-body-secondary">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="0" xmlns="http://www.w3.org/2000/svg"role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><text x="50%" y="50%" fill="#eceeef" dy=".3em"><img src="https://www.unifeso.edu.br/cursos/images/cursos/head/632739744f3d488a5a7b4910caf4f306.png" class="rounded" alt="Cinque Terre"></text></svg>
-            <div class="card-body">
-              <p class="card-text">Acesse aqui, o seu manual do colaborador!</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-success">Manual do Colaborador</button>
-                </div>
-                <small class="text-body-secondary">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="0" xmlns="http://www.w3.org/2000/svg"role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><text x="50%" y="50%" fill="#eceeef" dy=".3em"><img src="https://www.unifeso.edu.br/cursos/images/cursos/head/632739744f3d488a5a7b4910caf4f306.png" class="rounded" alt="Cinque Terre"></text></svg>
-            <div class="card-body">
-              <p class="card-text">Acesse aqui, o seu manual do colaborador!</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-success">Manual do Colaborador</button>
-                </div>
-                <small class="text-body-secondary">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-      </div>
-    </div>
-  </div>
--->
+</p>
+
 </main>
 
 <footer class="text-body-secondary py-5">
@@ -256,7 +196,6 @@ if ($response->rowCount() > 0)
     </p>
 
 </footer>
-<script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     </body>
 </html>
