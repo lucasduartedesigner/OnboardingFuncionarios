@@ -1,18 +1,18 @@
 TABELA CAMPUS
 
-CONSULTAR:
+CONSULTAR
 
 SELECT id_campus, nome, titulo, texto, url, imagem, status, dt_created, dt_updated
-FROM portalfuncionarios.campus;
+FROM campus;
 
-INSERIR:
+INSERIR
 
 INSERT INTO campus
 (id_campus, nome, titulo, texto, url, imagem, status, dt_created, dt_updated)
-VALUES(0, '', '', '', '', '', 0, CURRENT_TIMESTAMP, '');
+VALUES(0, 'TESTE1', 'TESTE2', 'TESTE3', 'TESTE4', 'TESTE5', 0, CURRENT_TIMESTAMP, '');
  
 
-ALTERAR:
+ALTERAR
 
 UPDATE TABLE campus
 SET nome='', titulo='', texto='', url='', imagem='', status=0, dt_created=CURRENT_TIMESTAMP, dt_updated=''
@@ -21,19 +21,197 @@ WHERE id_campus=0;
 
 TABELA CAMPUS_TAREFA
 
-CONSULTAR:
+CONSULTAR
 
 SELECT id_campus_tarefa, id_campus, id_tarefa, status
-FROM portalfuncionarios.campus_tarefa;
+FROM campus_tarefa;
 
-INSERIR:
+INSERIR
 
-INSERT INTO portalfuncionarios.campus_tarefa
+INSERT INTO campus_tarefa
 (id_campus_tarefa, id_campus, id_tarefa, status)
-VALUES(0, 0, 0, 0);
+VALUES(1, 1, 1, 1);
 
-ALTERAR:
+ALTERAR
 
-UPDATE portalfuncionarios.campus_tarefa
-SET id_campus=0, id_tarefa=0, status=0
-WHERE id_campus_tarefa=0;
+UPDATE campus_tarefa
+SET id_campus=1, id_tarefa=1, status=1
+WHERE id_campus_tarefa=1;
+
+TABELA CATEGORIA
+
+CONSULTAR
+
+SELECT id_categoria, nome_categoria, descricao_categoria
+FROM categoria;
+
+INSERIR
+
+INSERT INTO categoria
+(id_categoria, nome_categoria, descricao_categoria)
+VALUES(0, 'TESTE', 'TESTE1');
+
+
+ALTERAR
+
+UPDATE categoria
+SET nome_categoria='TESTE1', descricao_categoria='TESTE1'
+WHERE id_categoria=1;
+
+
+TABELA DEPARTAMENTO
+
+CONSULTAR
+
+SELECT id_departamento, nome, status
+FROM departamento;
+
+INSERIR
+
+INSERT INTO departamento
+(id_departamento, nome, status)
+VALUES(1, 'TESTE1', '1');
+
+ALTERAR
+
+UPDATE departamento
+SET nome='TESTE', status='0'
+WHERE id_departamento=1;
+
+
+TABELA EVENTO
+
+CONSULTAR
+
+SELECT id_evento, id_tipo_evento, id_responsavel, titulo, descricao, inicio, fim, status, link, dt_created, dt_updated
+FROM evento;
+
+INSERIR
+
+INSERT INTO evento
+(id_evento, id_tipo_evento, id_responsavel, titulo, descricao, inicio, fim, status, link, dt_created, dt_updated)
+VALUES(1, 1, 1, 'TESTE', 'TESTE', '2024/05/16', '2024/05/17', 0, 'WWW.COM', '2024/05/16', '2024/05/16');
+
+ALTERAR
+
+UPDATE evento
+SET id_tipo_evento=1, id_responsavel=1, titulo='TESTE1', descricao='TESTE1', inicio='2024/05/15', fim='2024/05/17', status=1, link='WWW.WWW.COM.BR', dt_created='2024/04/17', dt_updated='2024/05/14'
+WHERE id_evento=0;
+
+TABELA FEEDBACK
+
+CONSULTAR
+
+SELECT id_feedback, id_pessoa, id_departamento, titulo_feedback, descricao_feedback, avaliacao, visualizacao
+FROM feedback;
+
+INSERIR
+
+INSERT INTO feedback
+(id_feedback, id_pessoa, id_departamento, titulo_feedback, descricao_feedback, avaliacao, visualizacao)
+VALUES(0, 0, 0, 'TESTE', 'TESTE', '1', 0);
+
+ALTERAR
+
+UPDATE feedback
+SET id_pessoa=1, id_departamento=1, titulo_feedback='TESTE1', descricao_feedback='TESTE1', avaliacao='2', visualizacao=1
+WHERE id_feedback=0;
+
+
+TABELA FORUM_PERGUNTAS
+
+CONSULTAR
+
+SELECT id_forum_perguntas, id_pessoa, id_departamento, titulo_pergunta, descricao_pergunta, visualizacao, qtd_resposta, data_pergunta
+FROM forum_perguntas;
+
+INSERIR
+
+INSERT INTO forum_perguntas
+(id_forum_perguntas, id_pessoa, id_departamento, titulo_pergunta, descricao_pergunta, visualizacao, qtd_resposta, data_pergunta)
+VALUES(0, 0, 0, 'TESTE', 'TESTE', 0, 0, '2024/05/16');
+
+ALTERAR
+
+UPDATE forum_perguntas
+SET id_pessoa=1, id_departamento=1, titulo_pergunta='TESTE1', descricao_pergunta='TESTE1', visualizacao=1, qtd_resposta=1, data_pergunta='2024/05/17'
+WHERE id_forum_perguntas=0;
+
+TABELA FORUM_RESPOSTAS
+
+CONSULTAR
+
+SELECT id_forum_perguntas, id_forum_respostas, id_pessoa, resposta, data_respostas
+FROM forum_respostas;
+
+INSERIR
+
+INSERT INTO forum_respostas
+(id_forum_perguntas, id_forum_respostas, id_pessoa, resposta, data_respostas)
+VALUES(0, 0, 0, 'TESTE', '2024/05/16');
+
+ALTERAR
+
+UPDATE forum_respostas
+SET id_forum_perguntas=1, id_pessoa=1, resposta='ETSTE1', data_respostas='2024/05/16'
+WHERE id_forum_respostas=0;
+
+
+TABELA FORUM_TOPICOS
+
+CONSULTAR
+
+SELECT id_topicos, id_pessoa, id_departamento
+FROM forum_topicos;
+
+INSERIR
+
+INSERT INTO forum_topicos
+(id_topicos, id_pessoa, id_departamento)
+VALUES(0, 0, 0);
+
+ALTERAR
+
+UPDATE forum_topicos
+SET id_pessoa=1, id_departamento=1
+WHERE id_topicos=1;
+
+
+TABELA GRUPO_ACESSO
+
+CONSULTAR
+
+SELECT id_grupo_acesso, nome, status
+FROM grupo_acesso;
+
+INSERIR
+
+INSERT INTO grupo_acesso
+(id_grupo_acesso, nome, status)
+VALUES(0, 'TESTE', 0);
+
+ALTERAR
+
+UPDATE grupo_acesso
+SET nome='TESTE1', status=1
+WHERE id_grupo_acesso=0;
+
+
+TABELA ITEM_TAREFA
+
+CONSULTAR
+
+SELECT id_item_tarefa, id_tarefa, nome, status, dt_begin, dt_end
+FROM item_tarefa;
+
+INSERIR
+
+INSERT INTO item_tarefa
+(id_item_tarefa, id_tarefa, nome, status, dt_begin, dt_end)
+VALUES(0, 0, 'TESTE', 0, '2024/05/16', '2024/05/16');
+
+ALTERAR
+
+UPDATE item_tarefa
+SET id_tarefa=1, nome='TESTE1', status=1, dt_begin='2024/05/17', dt_end='2024/05/17'
+WHERE id_item_tarefa=0;
