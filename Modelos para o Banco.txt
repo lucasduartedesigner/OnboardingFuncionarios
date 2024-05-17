@@ -1,0 +1,39 @@
+TABELA CAMPUS
+
+CONSULTAR:
+
+SELECT id_campus, nome, titulo, texto, url, imagem, status, dt_created, dt_updated
+FROM portalfuncionarios.campus;
+
+INSERIR:
+
+INSERT INTO campus
+(id_campus, nome, titulo, texto, url, imagem, status, dt_created, dt_updated)
+VALUES(0, '', '', '', '', '', 0, CURRENT_TIMESTAMP, '');
+ 
+
+ALTERAR:
+
+UPDATE TABLE campus
+SET nome='', titulo='', texto='', url='', imagem='', status=0, dt_created=CURRENT_TIMESTAMP, dt_updated=''
+WHERE id_campus=0;
+
+
+TABELA CAMPUS_TAREFA
+
+CONSULTAR:
+
+SELECT id_campus_tarefa, id_campus, id_tarefa, status
+FROM portalfuncionarios.campus_tarefa;
+
+INSERIR:
+
+INSERT INTO portalfuncionarios.campus_tarefa
+(id_campus_tarefa, id_campus, id_tarefa, status)
+VALUES(0, 0, 0, 0);
+
+ALTERAR:
+
+UPDATE portalfuncionarios.campus_tarefa
+SET id_campus=0, id_tarefa=0, status=0
+WHERE id_campus_tarefa=0;
