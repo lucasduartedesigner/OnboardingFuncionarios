@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 23/05/2024 às 22:05
+-- Tempo de geração: 23/05/2024 às 22:34
 -- Versão do servidor: 8.2.0
 -- Versão do PHP: 8.2.13
 
@@ -286,8 +286,8 @@ CREATE TABLE IF NOT EXISTS `forum_perguntas` (
 --
 
 INSERT INTO `forum_perguntas` (`id_forum_perguntas`, `id_pessoa`, `id_departamento`, `titulo_pergunta`, `descricao_pergunta`, `visualizacao`, `qtd_resposta`, `data_pergunta`, `id_topicos`) VALUES
-(1, 1, 1, 'teste 1', 'descrição do teste 1', NULL, 0, '2024-04-25 21:48:55', 2),
-(2, 1, 1, 'teste 2', 'descrição de teste 2', NULL, 0, '2024-04-25 21:49:19', NULL);
+(1, 1, 1, 'teste 1', 'descrição do teste 1', 26, 1, '2024-04-25 21:48:55', 2),
+(2, 1, 1, 'teste 2', 'descrição de teste 2', 9, 1, '2024-04-25 21:49:19', NULL);
 
 -- --------------------------------------------------------
 
@@ -305,7 +305,28 @@ CREATE TABLE IF NOT EXISTS `forum_respostas` (
   PRIMARY KEY (`id_forum_respostas`),
   KEY `FK_forum_respostas_forum_perguntas` (`id_forum_perguntas`),
   KEY `FK_forum_respostas_pessoa` (`id_pessoa`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `forum_respostas`
+--
+
+INSERT INTO `forum_respostas` (`id_forum_respostas`, `id_forum_perguntas`, `id_pessoa`, `resposta`, `data_respostas`) VALUES
+(4, 2, 4, 'retwertwertw', '2024-05-23 22:33:46'),
+(3, 1, 4, '43235345', '2024-05-23 22:33:38');
+
+--
+-- Acionadores `forum_respostas`
+--
+DROP TRIGGER IF EXISTS `atualiza_qtd_respostas`;
+DELIMITER $$
+CREATE TRIGGER `atualiza_qtd_respostas` AFTER INSERT ON `forum_respostas` FOR EACH ROW BEGIN
+    UPDATE forum_perguntas
+    SET qtd_resposta = qtd_resposta + 1
+    WHERE id_forum_perguntas = NEW.id_forum_perguntas;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
