@@ -70,7 +70,7 @@
                             while ($resultado = $response->fetch(PDO::FETCH_ASSOC)) 
                             {   
                                 
-                                if($resultado['descricao'] == $tipo_arquivo)
+                                if($resultado['formato'] == $tipo_arquivo)
                                 { 
                                     $selected = "selected";
                                 }
@@ -80,7 +80,7 @@
                                 }
 
                         ?>
-                            <option value="<?= $resultado['descricao'] ?>" <?= $selected ?>><?= $resultado['descricao'] ?></option>
+                            <option value="<?= $resultado['formato'] ?>" <?= $selected ?>><?= $resultado['descricao'] ?></option>
                         <?php }} ?>
                 </select>
             </div>

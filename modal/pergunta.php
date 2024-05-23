@@ -3,7 +3,11 @@
       <div class="modal-dialog-md">
         <div class="modal-content">
 
-          
+          <div class="modal-header">
+            <h4 class="modal-title"> exemplo </h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
           <div class="modal-body">
             <div class="row">
                 <?php 

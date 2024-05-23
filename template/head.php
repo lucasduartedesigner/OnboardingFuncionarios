@@ -12,7 +12,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.min.css" rel="stylesheet">
 
-<style>    
+    <style>  
+        body
+        {
+            margin-top: 0px !important;
+        }
+
         .btn-success
         {
             background: #008675;
@@ -158,7 +163,7 @@
     .card-body {
         flex: 1 1 auto;
         min-height: 1px;
-        padding: 1rem;          
+        padding: 1rem;
     }    
     
     .card-header, .card-footer {
@@ -171,8 +176,7 @@
         background-clip: border-box;
         border: 10 solid rgba(0,0,0,.125);
         border-radius: .25rem;
-        
     } 
     
-    </style>
+</style>
 </head>

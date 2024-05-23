@@ -58,28 +58,14 @@
               <!-- Inner main body -->
 
               <!-- Forum List -->
-              <?php   
-              
-              $condicao = "";
-              
-              if(!empty($_GET['id_topicos'])) {
-              $condicao = "WHERE t.id_topicos = :id_topicos";
-              }
+              <?php                                                        
 
-                    $consulta = "SELECT f.id_forum_perguntas, f.titulo_pergunta, f.id_pessoa, f.id_departamento, 
-                    f.descricao_pergunta, p.nome, f.data_pergunta , f.visualizacao, f.qtd_resposta
-                    FROM forum_perguntas f 
-                    inner join pessoa p on f.id_pessoa = p.id_pessoa
-                    left join forum_topicos t on f.id_topicos = t.id_topicos
-                    $condicao";
+                    $consulta = "SELECT f.id_forum_perguntas, f.titulo_pergunta, f.id_pessoa, f.id_departamento, f.descricao_pergunta, p.nome, f.data_pergunta FROM forum_perguntas f 
+                    inner join pessoa p on f.id_pessoa = p.id_pessoa";
 
                     //Prepara a consulta para o banco
                     $response = $conn->prepare($consulta);
 
-                    if(!empty($_GET['id_topicos'])) {
-                        $response->bindParam(':id_topicos', $_GET['id_topicos'], PDO::PARAM_STR);
-                    }
-                    
                     //Executa a consulta 
                     $response->execute();
 
@@ -96,7 +82,7 @@
                                                                 <!-- titulo -->
                                                                 <h6> 
                                                                     <a href="forum.php?id=<?= $resultado['id_forum_perguntas'] ?>" class="text-body"> 
-                                                                    <?= $resultado['titulo_pergunta'] ?>                                                                                                                                        
+                                                                    <?= $resultado['titulo_pergunta'] ?> 
                                                                     </a>
                                                                 </h6>
                                                             
@@ -105,16 +91,29 @@
                                                                     <p class="text-secondary"> <?= $resultado['descricao_pergunta'] ?> </p>    
                                                                             <div class="text-muted small ">
                                                                                 <!-- icone visualizações -->
-                                                                                <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> <?= $resultado['visualizacao'] ?> visualizações </span>
+                                                                                <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> 19 visualizações </span>
                                                                                 <!-- icone resposta mesagem -->                                                                    
-                                                                                <span><i class="far fa-comment ml-1"> </i> <?= $resultado['qtd_resposta'] ?> Respostas </span>                                                                   
-                                                                            </div>                                                                                                       
-                                                            
-                                                                        </div>
+                                                                                <span><i class="far fa-comment ml-1" data-bs-toggle="modal" data-bs-target="#resposta-modal"> </i>  
+                                                                                    <?php
+                                                                                        // Consulta de contagem ajustada para o id_forum_perguntas individualmente
+                                                                                        $sql = "SELECT COUNT(id_forum_respostas) AS total_respostas FROM forum_respostas WHERE id_forum_perguntas =?";
+                                                                                        $stmt = $conn->prepare($sql);
+                                                                                        $stmt->bindParam(1, $resultado['id_forum_perguntas']);
+                                                                                        $stmt->execute();
 
+                                                                                        if ($stmt->rowCount() > 0) {
+                                                                                            // Obter o resultado
+                                                                                            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                                                                                                echo $row["total_respostas"];
+                                                                                        } else {
+                                                                                            echo "0 respostas";
+                                                                                        }
+                                                                                    ?>                                                                            
+                                                                                Respostas </span>                                                                   
+                                                                            </div>                                                                                                                           
+                                                                </div>
                                                             <div class="card-footer ">
-                                                                <p class="text-muted"> Criado por <a href="javascript:void(0)"> 
-                                                                <?= $resultado['nome'] ?></a> há <span class="text-secondary font-weight-bold">
+                                                                <p class="text-muted"> Criado por <a href="javascript:void(0)"> <?= $resultado['nome'] ?></a> há <span class="text-secondary font-weight-bold">
                                                                 <?= datetimeDiferencaEmMinutos($resultado['data_pergunta']) ?> minutos atrás.</span></p>  
                                                             </div>
                                                 </div>                                    

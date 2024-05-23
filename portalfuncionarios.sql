@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 17/05/2024 às 22:12
+-- Tempo de geração: 23/05/2024 às 00:22
 -- Versão do servidor: 8.2.0
 -- Versão do PHP: 8.2.13
 
@@ -50,6 +50,36 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `update_tarefa_status` (IN `tarefa_i
     ELSE
         UPDATE tarefa SET status = 0 WHERE id_tarefa = tarefa_id;
     END IF;
+END$$
+
+DROP PROCEDURE IF EXISTS `update_timestamps`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_timestamps` ()   BEGIN
+    DECLARE done INT DEFAULT 0;
+    DECLARE table_name VARCHAR(255);
+    DECLARE cur CURSOR FOR 
+        SELECT TABLE_NAME 
+        FROM INFORMATION_SCHEMA.TABLES 
+        WHERE TABLE_SCHEMA = 'your_database_name';
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+    OPEN cur;
+
+    read_loop: LOOP
+        FETCH cur INTO table_name;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        
+        SET @alter_sql = CONCAT('ALTER TABLE ', table_name, 
+                                ' ADD COLUMN IF NOT EXISTS dt_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,',
+                                ' ADD COLUMN IF NOT EXISTS dt_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;');
+        PREPARE stmt FROM @alter_sql;
+        EXECUTE stmt;
+        DEALLOCATE PREPARE stmt;
+    END LOOP;
+
+    CLOSE cur;
 END$$
 
 DELIMITER ;
@@ -118,8 +148,8 @@ CREATE TABLE IF NOT EXISTS `departamento` (
   `id_departamento` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL,
   `status` int DEFAULT NULL,
-  `dt_created` datetime DEFAULT NULL,
-  `dt_updated` datetime DEFAULT NULL,
+  `dt_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dt_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_departamento`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -140,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `documentos` (
   `imagem` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `titulo` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id_documentos`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `documentos`
@@ -151,7 +181,8 @@ INSERT INTO `documentos` (`id_documentos`, `nome`, `caminho_arquivo`, `status`, 
 (2, 'Ja registrou sua batidade de ponto hoje?', 'https://drive.google.com/file/d/1F_yulL4QwmZZ9kwrWDaLWNzH4urf-kiz/view', 1, '2024-05-09', 'mp4', 'https://www.totvs.com/wp-content/uploads/2022/10/ponto-eletronico-digital.jpg', 'Vídeo ponto eletrônico'),
 (3, 'Conheça um pouco mais sobre nós!', 'https://www.youtube.com/watch?v=iWYpGV6cJp0', 1, '2024-05-09', 'mp4', 'https://unifeso.edu.br/9acda72fb88e5262b67849045ea604c3/?largura=500&url=../images/noticias/824191be56e48c740500188bd68cf2e7.jpg', 'Vídeo Ambientação'),
 (4, 'Floresta e Arbustos', 'https://www.caceres.mt.gov.br/fotos_institucional_downloads/2.pdf', NULL, '0000-00-00', 'pdf', 'https://conceito.de/wp-content/uploads/2022/05/trees-3822149_1280.jpg', 'Arvores'),
-(5, 'teste 2', 'https://www.caceres.mt.gov.br/fotos_institucional_downloads/2.pdf', NULL, '0000-00-00', 'pdf', 'https://conceito.de/wp-content/uploads/2022/05/trees-3822149_1280.jpg', 'teste');
+(5, 'teste 2', 'https://www.caceres.mt.gov.br/fotos_institucional_downloads/2.pdf', NULL, '0000-00-00', 'pdf', 'https://conceito.de/wp-content/uploads/2022/05/trees-3822149_1280.jpg', 'teste'),
+(6, 'teste 2', 'https://www.caceres.mt.gov.br/fotos_institucional_downloads/2.pdf', 1, '0000-00-00', 'pdf', 'https://conceito.de/wp-content/uploads/2022/05/trees-3822149_1280.jpg', 'teste');
 
 -- --------------------------------------------------------
 
@@ -170,8 +201,8 @@ CREATE TABLE IF NOT EXISTS `evento` (
   `dt_fim` datetime NOT NULL,
   `status` int NOT NULL,
   `link` varchar(255) NOT NULL,
-  `dt_created` datetime NOT NULL,
-  `dt_updated` datetime NOT NULL,
+  `dt_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dt_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_evento`),
   KEY `FK_evento_tipo_evento` (`id_tipo_evento`),
   KEY `id_responsavel` (`id_responsavel`)
@@ -316,25 +347,16 @@ CREATE TABLE IF NOT EXISTS `item_tarefa` (
   `dt_end` date DEFAULT NULL,
   PRIMARY KEY (`id_item_tarefa`),
   KEY `id_tarefa` (`id_tarefa`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Despejando dados para a tabela `item_tarefa`
 --
 
 INSERT INTO `item_tarefa` (`id_item_tarefa`, `id_tarefa`, `nome`, `status`, `dt_begin`, `dt_end`) VALUES
-(19, 7, 'item tarefa 1', 1, NULL, NULL),
-(20, 7, 'item tarefa 2', 1, NULL, NULL),
-(21, 7, 'item tarefa 3', 1, NULL, NULL),
-(22, 7, 'item 4', 1, NULL, NULL),
-(23, 9, 'item', 1, '2024-04-25', '2024-04-25'),
-(24, 9, 'item 2', 1, NULL, NULL),
-(25, 9, 'item 3', 1, NULL, NULL),
-(26, 9, 'item 4', 1, NULL, NULL),
-(27, 10, 'Tarefa Editada 2', 1, NULL, NULL),
-(28, 10, 'teste 2', 1, '2024-04-16', '2024-04-25'),
-(29, 10, 'item 4', 0, NULL, NULL),
-(30, 10, 'item 5', 1, '2024-05-16', '2024-05-16');
+(35, 15, 'Pagina de Boas vindas', 0, '2024-02-01', '2024-02-29'),
+(34, 15, 'Tela de Login', 0, '2024-02-01', '2024-02-29'),
+(33, 15, 'Cadastro de Usuário', 0, '2024-01-01', '2024-01-31');
 
 --
 -- Acionadores `item_tarefa`
@@ -401,8 +423,8 @@ CREATE TABLE IF NOT EXISTS `participante` (
   `id_pessoa` int NOT NULL,
   `id_evento` int NOT NULL,
   `status` int NOT NULL,
-  `dt_created` datetime NOT NULL,
-  `dt_updated` datetime NOT NULL,
+  `dt_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dt_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_participante`),
   KEY `FK_participante_evento` (`id_evento`),
   KEY `FK_participante_pessoa` (`id_pessoa`)
@@ -501,20 +523,19 @@ CREATE TABLE IF NOT EXISTS `pessoa_tarefa` (
   `id_pessoa` int NOT NULL,
   `id_tarefa` int NOT NULL,
   `status` int DEFAULT NULL,
-  `dt_created` date NOT NULL,
-  `dt_updated` date NOT NULL,
+  `dt_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dt_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_pessoa_tarefa`),
   KEY `FK_pessoa_tarefa_pessoa` (`id_pessoa`),
   KEY `id_tarefa` (`id_tarefa`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Despejando dados para a tabela `pessoa_tarefa`
 --
 
 INSERT INTO `pessoa_tarefa` (`id_pessoa_tarefa`, `id_pessoa`, `id_tarefa`, `status`, `dt_created`, `dt_updated`) VALUES
-(1, 1, 1, 1, '2024-03-28', '0000-00-00'),
-(2, 1, 1, 1, '2024-03-28', '0000-00-00');
+(6, 1, 15, 1, '2024-05-23 00:19:39', '2024-05-23 00:19:39');
 
 -- --------------------------------------------------------
 
@@ -526,24 +547,20 @@ DROP TABLE IF EXISTS `tarefa`;
 CREATE TABLE IF NOT EXISTS `tarefa` (
   `id_tarefa` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(150) NOT NULL,
-  `dt_created` date NOT NULL,
-  `dt_updated` date NOT NULL,
+  `dt_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dt_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT NULL,
   `dt_begin` date DEFAULT NULL,
   `dt_end` date DEFAULT NULL,
   PRIMARY KEY (`id_tarefa`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Despejando dados para a tabela `tarefa`
 --
 
 INSERT INTO `tarefa` (`id_tarefa`, `nome`, `dt_created`, `dt_updated`, `status`, `dt_begin`, `dt_end`) VALUES
-(6, 'teste 2', '0000-00-00', '0000-00-00', NULL, '2024-04-16', '2024-04-25'),
-(7, 'teste 2', '0000-00-00', '0000-00-00', 1, '2024-04-16', '2024-04-25'),
-(8, 'tarefa 2', '0000-00-00', '0000-00-00', NULL, NULL, NULL),
-(9, 'tarefa 4 ', '0000-00-00', '0000-00-00', NULL, '0000-00-00', '0000-00-00'),
-(10, 'Tarefa Editada 2', '0000-00-00', '0000-00-00', 0, '2024-04-25', '2024-04-25');
+(15, 'Criar Sistema para Funcionários', '2024-05-23 00:19:39', '2024-05-23 00:20:10', 0, '2024-01-01', '2024-12-31');
 
 -- --------------------------------------------------------
 

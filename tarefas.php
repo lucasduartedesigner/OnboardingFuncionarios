@@ -19,7 +19,7 @@
 
             $consulta = "SELECT t.id_tarefa, t.nome, t.status, t.dt_begin, t.dt_end
                          FROM tarefa t 
-                         LEFT JOIN pessoa_tarefa pt ON pt.id_tarefa = t.id_tarefa AND pt.id_pessoa = :id_pessoa
+                         INNER JOIN pessoa_tarefa pt ON pt.id_tarefa = t.id_tarefa AND pt.id_pessoa = :id_pessoa
                          WHERE t.status IS NOT NULL
                          GROUP BY t.id_tarefa, t.nome, t.status, t.dt_begin, t.dt_end ";
 
@@ -54,7 +54,7 @@
 
             ?>
             <div class="col-4 mb-5">
-                <div class="card h-100">
+                <div class="card">
                   <div class="card-body">
                     <h5 class="card-title d-flex justify-content-between"><?= $resultado['nome'] ?><span class="badge <?= $status_color ?>"><?= $status ?></span></h5>
                   </div>
@@ -95,7 +95,7 @@
                                       </div>";
                                 echo "<div class='text-muted d-grid d-flex justify-content-between' style='font-size: .85em;'>
                                         <small>".$data."</small>
-                                        <a onclick='itemTarefa(".$result_item['id_item_tarefa'].")' class='btn btn-sm me-1'>
+                                        <a onclick='itemTarefa(". $resultado['id_tarefa'] . ", " . $result_item['id_item_tarefa'].")' class='btn btn-sm me-1'>
                                           <i class='fa-solid fa-ellipsis-vertical'></i>
                                         </a>
                                       </div>";
@@ -134,12 +134,40 @@
 
     <script>
 
-        function itemTarefa(id)
+        function itemTarefa(id, item)
         {
-            $('#id_tarefa_item').val(id)
+            if(item)
+            {
+                $('#id_item_tarefa').val(item)
 
-            $('#modalItemTarefa').modal('toggle')
-       }
+                $('#form-item-tarefa').attr('action', 'php/edit/itemtarefa.php')
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'php/search/item_tarefa.php',
+                    data: { id : item },
+                    dataType: 'json',
+                }).done(function(response) {
+
+                    $('#nome1').val(response['nome'])
+                    $('#dt_begin1').val(response['dt_begin'])
+                    $('#dt_end1').val(response['dt_end'])
+
+                    if(response['status'] == 1)
+                    {
+                        $('#status1').prop('checked', true);
+                    }
+
+                    $('#modalItemTarefa').modal('toggle')
+                });
+            }
+            else
+            {
+                $('#id_tarefa1').val(id)
+                
+                $('#modalItemTarefa').modal('toggle')
+            }
+        }
 
         function tarefa(id)
         {
@@ -157,7 +185,11 @@
                 $('#nome').val(response['nome'])
                 $('#dt_begin').val(response['dt_begin'])
                 $('#dt_end').val(response['dt_end'])
-                $('#status').val(response['status'])
+
+                if(response['status'] == 1)
+                {
+                    $('#status').prop('checked', true);
+                }
 
                 $('#modalTarefa').modal('toggle');
             });
@@ -193,9 +225,19 @@
             $('#nome').val('')
             $('#dt_begin').val('')
             $('#dt_end').val('')
-            $('#status').val('')
-
+ 
             $('#formTarefa').attr('action', 'php/cadastra/tarefa.php')
+		});
+        
+		$('#modalItemTarefa').on('hidden.bs.modal', function () {
+
+            $('#id_item_tarefa').val('')
+            $('#nome1').val('')
+            $('#dt_begin1').val('')
+            $('#dt_end1').val('')
+            $('#status1').prop('checked', false);
+
+            $('#form-item-tarefa').attr('action', 'php/cadastra/itemtarefa.php')
 		});
 
     </script>

@@ -38,6 +38,24 @@
     //Verifica se existe dados para retornar
     if (!empty($id_tarefa)) 
     {
+        $consulta = "INSERT INTO pessoa_tarefa 
+                     (id_pessoa, id_tarefa, status) 
+                     VALUES
+                     (:id_pessoa, :id_tarefa, 1)";
+
+        //Prepara o insert para o banco
+        $response = $conn->prepare($consulta);
+
+        //Passa os parametros via bind para evitar SQL Inject
+        $response->bindParam(':id_pessoa', $_SESSION['id_pessoa'], PDO::PARAM_STR);
+        $response->bindParam(':id_tarefa', $id_tarefa, PDO::PARAM_STR);
+
+        //Executa a insert 
+        $response->execute();
+
+        //Verifica se cadastro foi feito
+        $id_pessoa_tarefa = $conn->lastInsertId();
+
         echo "Cadastro realizado com sucesso!";
     }
     else

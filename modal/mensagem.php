@@ -4,7 +4,7 @@
         <div class="modal-content">
 
           <div class="modal-header">
-            <h4 class="modal-title">Nova Mensagem</h4>
+            <h4 class="modal-title">Editar Dados</h4>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
 
