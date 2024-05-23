@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 23/05/2024 às 00:22
+-- Tempo de geração: 23/05/2024 às 22:05
 -- Versão do servidor: 8.2.0
 -- Versão do PHP: 8.2.13
 
@@ -93,19 +93,19 @@ DELIMITER ;
 DROP TABLE IF EXISTS `campus`;
 CREATE TABLE IF NOT EXISTS `campus` (
   `id_campus` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `titulo` varchar(255) DEFAULT NULL,
-  `texto` text,
-  `url` varchar(255) DEFAULT NULL,
-  `imagem` varchar(255) DEFAULT NULL,
+  `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `titulo` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `texto` text COLLATE utf8mb4_general_ci,
+  `url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `imagem` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` int DEFAULT NULL,
   `dt_created` datetime DEFAULT CURRENT_TIMESTAMP,
   `dt_updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `missao` varchar(1000) DEFAULT NULL,
-  `visao` varchar(1000) DEFAULT NULL,
-  `valores` varchar(1000) DEFAULT NULL,
+  `missao` varchar(1000) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `visao` varchar(1000) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `valores` varchar(1000) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_campus`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `campus`
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `campus_tarefa` (
   PRIMARY KEY (`id_campus_tarefa`),
   KEY `FK_campus_tarefa_campus` (`id_campus`),
   KEY `FK_campus_tarefa_tarefa` (`id_tarefa`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -146,12 +146,12 @@ CREATE TABLE IF NOT EXISTS `campus_tarefa` (
 DROP TABLE IF EXISTS `departamento`;
 CREATE TABLE IF NOT EXISTS `departamento` (
   `id_departamento` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(50) NOT NULL,
+  `nome` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `status` int DEFAULT NULL,
   `dt_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `dt_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_departamento`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -162,15 +162,15 @@ CREATE TABLE IF NOT EXISTS `departamento` (
 DROP TABLE IF EXISTS `documentos`;
 CREATE TABLE IF NOT EXISTS `documentos` (
   `id_documentos` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `caminho_arquivo` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nome` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `caminho_arquivo` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `status` int DEFAULT NULL,
   `data` date NOT NULL,
-  `tipo_arquivo` varchar(4) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `imagem` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `titulo` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tipo_arquivo` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `imagem` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `titulo` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_documentos`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `documentos`
@@ -195,18 +195,18 @@ CREATE TABLE IF NOT EXISTS `evento` (
   `id_evento` int NOT NULL AUTO_INCREMENT,
   `id_tipo_evento` int NOT NULL,
   `id_responsavel` int NOT NULL,
-  `titulo` varchar(255) NOT NULL,
-  `descricao` varchar(500) NOT NULL,
+  `titulo` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `descricao` varchar(500) COLLATE utf8mb4_general_ci NOT NULL,
   `dt_inicio` datetime NOT NULL,
   `dt_fim` datetime NOT NULL,
   `status` int NOT NULL,
-  `link` varchar(255) NOT NULL,
+  `link` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `dt_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `dt_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_evento`),
   KEY `FK_evento_tipo_evento` (`id_tipo_evento`),
   KEY `id_responsavel` (`id_responsavel`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `evento`
@@ -226,14 +226,37 @@ CREATE TABLE IF NOT EXISTS `feedback` (
   `id_feedback` int NOT NULL AUTO_INCREMENT,
   `id_pessoa` int NOT NULL,
   `id_departamento` int NOT NULL,
-  `titulo_feedback` varchar(50) NOT NULL,
-  `descricao_feedback` text NOT NULL,
+  `titulo_feedback` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `descricao_feedback` text COLLATE utf8mb4_general_ci NOT NULL,
   `avaliacao` int NOT NULL,
   `visualizacao` int DEFAULT NULL,
   PRIMARY KEY (`id_feedback`),
   KEY `FK_feedback_departamento` (`id_departamento`),
   KEY `FK_feedback_pessoa` (`id_pessoa`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `forum`
+--
+
+DROP TABLE IF EXISTS `forum`;
+CREATE TABLE IF NOT EXISTS `forum` (
+  `id_forum` int NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_pessoa` int NOT NULL,
+  `descricao` text COLLATE utf8mb4_general_ci NOT NULL,
+  `data` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_forum`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `forum`
+--
+
+INSERT INTO `forum` (`id_forum`, `titulo`, `id_pessoa`, `descricao`, `data`) VALUES
+(3, 'teste', 1, 'sdgadfgaf', '2024-04-18 21:44:52');
 
 -- --------------------------------------------------------
 
@@ -246,24 +269,24 @@ CREATE TABLE IF NOT EXISTS `forum_perguntas` (
   `id_forum_perguntas` int NOT NULL AUTO_INCREMENT,
   `id_pessoa` int NOT NULL,
   `id_departamento` int NOT NULL,
-  `titulo_pergunta` varchar(50) NOT NULL,
-  `descricao_pergunta` text NOT NULL,
+  `titulo_pergunta` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `descricao_pergunta` text COLLATE utf8mb4_general_ci NOT NULL,
   `visualizacao` int DEFAULT NULL,
   `qtd_resposta` int NOT NULL,
   `data_pergunta` datetime DEFAULT CURRENT_TIMESTAMP,
-  `id_topico` int DEFAULT NULL,
+  `id_topicos` int DEFAULT NULL,
   PRIMARY KEY (`id_forum_perguntas`),
   KEY `FK_forum_perguntas_departamento` (`id_departamento`),
   KEY `FK_forum_perguntas_pessoa` (`id_pessoa`),
-  KEY `FK_forum_perguntas_forum_topicos` (`id_topico`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `FK_forum_perguntas_forum_topicos` (`id_topicos`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `forum_perguntas`
 --
 
-INSERT INTO `forum_perguntas` (`id_forum_perguntas`, `id_pessoa`, `id_departamento`, `titulo_pergunta`, `descricao_pergunta`, `visualizacao`, `qtd_resposta`, `data_pergunta`, `id_topico`) VALUES
-(1, 1, 1, 'teste 1', 'descrição do teste 1', NULL, 0, '2024-04-25 21:48:55', NULL),
+INSERT INTO `forum_perguntas` (`id_forum_perguntas`, `id_pessoa`, `id_departamento`, `titulo_pergunta`, `descricao_pergunta`, `visualizacao`, `qtd_resposta`, `data_pergunta`, `id_topicos`) VALUES
+(1, 1, 1, 'teste 1', 'descrição do teste 1', NULL, 0, '2024-04-25 21:48:55', 2),
 (2, 1, 1, 'teste 2', 'descrição de teste 2', NULL, 0, '2024-04-25 21:49:19', NULL);
 
 -- --------------------------------------------------------
@@ -277,12 +300,12 @@ CREATE TABLE IF NOT EXISTS `forum_respostas` (
   `id_forum_respostas` int NOT NULL AUTO_INCREMENT,
   `id_forum_perguntas` int NOT NULL,
   `id_pessoa` int NOT NULL,
-  `resposta` text NOT NULL,
+  `resposta` text COLLATE utf8mb4_general_ci NOT NULL,
   `data_respostas` datetime NOT NULL,
   PRIMARY KEY (`id_forum_respostas`),
   KEY `FK_forum_respostas_forum_perguntas` (`id_forum_perguntas`),
   KEY `FK_forum_respostas_pessoa` (`id_pessoa`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -293,9 +316,9 @@ CREATE TABLE IF NOT EXISTS `forum_respostas` (
 DROP TABLE IF EXISTS `forum_topicos`;
 CREATE TABLE IF NOT EXISTS `forum_topicos` (
   `id_topicos` int NOT NULL AUTO_INCREMENT,
-  `descricao` varchar(200) NOT NULL,
+  `descricao` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_topicos`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `forum_topicos`
@@ -303,11 +326,10 @@ CREATE TABLE IF NOT EXISTS `forum_topicos` (
 
 INSERT INTO `forum_topicos` (`id_topicos`, `descricao`) VALUES
 (1, 'Todos os tópicos'),
-(2, 'Populares da semana'),
-(3, 'Mais Populares'),
-(4, 'Resolvidos'),
-(5, 'Não resolvidos'),
-(6, 'Sem respostas');
+(2, 'Mais Populares'),
+(3, 'Resolvidos'),
+(4, 'Não resolvidos'),
+(5, 'Sem respostas');
 
 -- --------------------------------------------------------
 
@@ -318,10 +340,10 @@ INSERT INTO `forum_topicos` (`id_topicos`, `descricao`) VALUES
 DROP TABLE IF EXISTS `grupo_acesso`;
 CREATE TABLE IF NOT EXISTS `grupo_acesso` (
   `id_grupo_acesso` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(50) NOT NULL,
+  `nome` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `status` int DEFAULT NULL,
   PRIMARY KEY (`id_grupo_acesso`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `grupo_acesso`
@@ -341,13 +363,13 @@ DROP TABLE IF EXISTS `item_tarefa`;
 CREATE TABLE IF NOT EXISTS `item_tarefa` (
   `id_item_tarefa` int NOT NULL AUTO_INCREMENT,
   `id_tarefa` int NOT NULL,
-  `nome` varchar(255) NOT NULL,
+  `nome` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `status` int DEFAULT NULL,
   `dt_begin` date DEFAULT NULL,
   `dt_end` date DEFAULT NULL,
   PRIMARY KEY (`id_item_tarefa`),
   KEY `id_tarefa` (`id_tarefa`)
-) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `item_tarefa`
@@ -385,15 +407,15 @@ DELIMITER ;
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE IF NOT EXISTS `menu` (
   `id_menu` int NOT NULL AUTO_INCREMENT,
-  `titulo` varchar(255) NOT NULL,
-  `url` varchar(255) NOT NULL,
+  `titulo` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `url` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `status` int DEFAULT NULL,
   `dt_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `dt_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ordem` int NOT NULL,
-  `descricao` varchar(255) DEFAULT NULL,
+  `descricao` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_menu`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `menu`
@@ -428,7 +450,7 @@ CREATE TABLE IF NOT EXISTS `participante` (
   PRIMARY KEY (`id_participante`),
   KEY `FK_participante_evento` (`id_evento`),
   KEY `FK_participante_pessoa` (`id_pessoa`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -441,13 +463,13 @@ CREATE TABLE IF NOT EXISTS `permissao` (
   `id_permissao` int NOT NULL AUTO_INCREMENT,
   `id_grupo_acesso` int NOT NULL,
   `id_menu` int NOT NULL,
-  `visualizar` char(1) NOT NULL DEFAULT 'N',
-  `editar` char(1) NOT NULL DEFAULT 'N',
-  `deletar` char(1) NOT NULL DEFAULT 'N',
+  `visualizar` char(1) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'N',
+  `editar` char(1) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'N',
+  `deletar` char(1) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'N',
   PRIMARY KEY (`id_permissao`),
   KEY `FK_permissao_grupo_acesso` (`id_grupo_acesso`),
   KEY `FK_permissao_menu` (`id_menu`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -458,21 +480,21 @@ CREATE TABLE IF NOT EXISTS `permissao` (
 DROP TABLE IF EXISTS `pessoa`;
 CREATE TABLE IF NOT EXISTS `pessoa` (
   `id_pessoa` int NOT NULL AUTO_INCREMENT,
-  `matricula` varchar(50) NOT NULL,
-  `nome` varchar(100) NOT NULL,
+  `matricula` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `nome` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `status` int DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `senha` varchar(255) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `senha` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `dt_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `dt_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `id_campus` int NOT NULL,
-  `id_departamento` int NOT NULL,
-  `telefone` varchar(15) DEFAULT NULL,
+  `id_departamento` int DEFAULT NULL,
+  `telefone` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_pessoa`),
   KEY `fk_pessoa_campus` (`id_campus`),
   KEY `FK_pessoa_departamento` (`id_departamento`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `pessoa`
@@ -501,7 +523,7 @@ CREATE TABLE IF NOT EXISTS `pessoa_acesso` (
   PRIMARY KEY (`id_pessoa_acesso`),
   KEY `FK_pessoa_acesso_pessoa` (`id_pessoa`),
   KEY `FK_pessoa_acesso_grupo_acesso` (`id_grupo_acesso`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `pessoa_acesso`
@@ -528,7 +550,7 @@ CREATE TABLE IF NOT EXISTS `pessoa_tarefa` (
   PRIMARY KEY (`id_pessoa_tarefa`),
   KEY `FK_pessoa_tarefa_pessoa` (`id_pessoa`),
   KEY `id_tarefa` (`id_tarefa`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `pessoa_tarefa`
@@ -546,14 +568,14 @@ INSERT INTO `pessoa_tarefa` (`id_pessoa_tarefa`, `id_pessoa`, `id_tarefa`, `stat
 DROP TABLE IF EXISTS `tarefa`;
 CREATE TABLE IF NOT EXISTS `tarefa` (
   `id_tarefa` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(150) NOT NULL,
+  `nome` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
   `dt_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `dt_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT NULL,
   `dt_begin` date DEFAULT NULL,
   `dt_end` date DEFAULT NULL,
   PRIMARY KEY (`id_tarefa`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `tarefa`
@@ -571,9 +593,9 @@ INSERT INTO `tarefa` (`id_tarefa`, `nome`, `dt_created`, `dt_updated`, `status`,
 DROP TABLE IF EXISTS `tipo_arquivo`;
 CREATE TABLE IF NOT EXISTS `tipo_arquivo` (
   `id_tipo_arquivo` int NOT NULL,
-  `descricao` varchar(200) NOT NULL,
-  `formato` varchar(4) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `descricao` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
+  `formato` varchar(4) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `tipo_arquivo`
@@ -594,10 +616,10 @@ INSERT INTO `tipo_arquivo` (`id_tipo_arquivo`, `descricao`, `formato`) VALUES
 DROP TABLE IF EXISTS `tipo_evento`;
 CREATE TABLE IF NOT EXISTS `tipo_evento` (
   `id_tipo_evento` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) DEFAULT NULL,
+  `nome` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` int DEFAULT NULL,
   PRIMARY KEY (`id_tipo_evento`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
