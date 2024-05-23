@@ -14,5 +14,5 @@ if ($response->rowCount() > 0)
     while ($resultado = $response->fetch(PDO::FETCH_ASSOC)) 
     {                      
 ?>
-<a href="javascript:void(0)" class="nav-link nav-link-faded"><?= $resultado['descricao'] ?></a>
+<a href="forum.php?id_topicos=<?= $resultado['id_topicos'] ?>" class="nav-link nav-link-faded"><?= $resultado['descricao'] ?></a>
 <?php }} ?>
