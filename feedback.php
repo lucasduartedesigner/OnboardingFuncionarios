@@ -4,22 +4,42 @@
 
   <?php include_once "template/head.php"; ?>
 
-  <body>
+<body>
 
-    <?php include_once "template/header.php"; ?>
+<?php include_once "template/header.php"; ?>
 
     <main role="main" class="container">
-      <div class="row mt-1">
-        <div class="col-md-12">
-          <h2 class="featurette-heading fw-normal lh-1 mb-3 mt-5">Feedback e Avaliação</h2>
-          <p class="mb-4 mt-2">Os novos colaboradores têm a oportunidade de fornecer feedback sobre o processo de integração, compartilhando suas impressões, sugestões de melhorias e eventuais preocupações.</p>
-        </div>
-      </div>
+        <section class="py-1 text-center container">
+            <div class="row py-lg-2">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light"><b>Feedback</b></h1>
+                    <p class="lead text-body-secondary">
+                        Os novos colaboradores têm a oportunidade de fornecer feedback sobre o processo de integração,
+                         compartilhando suas impressões, sugestões de melhorias e eventuais preocupações.
+                    </p>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <?php include_once "template/footer.php"; ?>
+<main class="container">
 
+<?php 
+    if(!empty($_GET['id']))
+    {
+        include_once('edit/feedback.php');
+    }
+    else
+    {
+        include_once('list/feedback.php');
+    }
+
+?>
+</main>
+
+    <?php include_once "modal/feedback.php"; ?>
+    <?php include_once "template/footer.php"; ?>
     <?php include_once "template/js.php"; ?>
 
-  </body>
+</body>
 </html>

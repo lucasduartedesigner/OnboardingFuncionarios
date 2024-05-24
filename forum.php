@@ -8,8 +8,6 @@
 
 <?php include_once "template/header.php"; ?>
 
-<?php include_once "template/config.php"; ?>
-
     <main role="main" class="container">
         <section class="py-1 text-center container">
             <div class="row py-lg-2">
