@@ -1,3 +1,4 @@
+
 TABELA CAMPUS
 
 CONSULTAR
@@ -23,8 +24,11 @@ TABELA CAMPUS_TAREFA
 
 CONSULTAR
 
-SELECT id_campus_tarefa, id_campus, id_tarefa, status
-FROM campus_tarefa;
+SELECT campus_tarefa.id_campus_tarefa, campus.nome, tarefa.id_tarefa, tarefa.nome
+FROM campus_tarefa
+JOIN campus ON campus_tarefa.id_campus = campus.id_campus
+JOIN tarefa ON campus_tarefa.id_tarefa = tarefa.id_tarefa
+ORDER BY campus_tarefa.id_campus_tarefa;
 
 INSERIR
 
@@ -83,8 +87,11 @@ TABELA EVENTO
 
 CONSULTAR
 
-SELECT id_evento, id_tipo_evento, id_responsavel, titulo, descricao, inicio, fim, status, link, dt_created, dt_updated
-FROM evento;
+SELECT evento.titulo, tipo_evento.nome, pessoa.nome
+FROM evento 
+JOIN tipo_evento ON evento.id_tipo_evento = tipo_evento.id_tipo_evento 
+JOIN pessoa ON evento.id_responsavel = pessoa.id_pessoa 
+ORDER BY evento.id_evento;
 
 INSERIR
 
