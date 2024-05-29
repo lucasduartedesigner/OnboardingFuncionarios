@@ -37,7 +37,10 @@
     $response->bindParam(':titulo', $titulo, PDO::PARAM_STR);
     $response->bindParam(':status', $status, PDO::PARAM_STR);
 
+
     //Executa a insert 
     $response->execute();
 
-?>
+
+
+?>   

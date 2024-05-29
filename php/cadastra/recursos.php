@@ -16,9 +16,9 @@
 
     //Monta insert em uma string
     $consulta = "INSERT INTO documentos
-                 (nome, caminho_arquivo, tipo_arquivo, imagem, titulo, status) 
+                 (nome, caminho_arquivo, tipo_arquivo, imagem, titulo, status, data) 
                  VALUES
-                 (:nome, :caminho_arquivo, :tipo_arquivo, :imagem, :titulo, :status)";
+                 (:nome, :caminho_arquivo, :tipo_arquivo, :imagem, :titulo, :status, now())";
 
     //Prepara o insert para o banco
     $response = $conn->prepare($consulta);
