@@ -70,7 +70,7 @@
                     f.descricao_pergunta, p.nome, f.data_pergunta , f.visualizacao, f.qtd_resposta
                     FROM forum_perguntas f 
                     inner join pessoa p on f.id_pessoa = p.id_pessoa
-                    left join forum_topicos t on f.id_topicos = t.id_topicos
+                    left join forum_topicos t on id_topicos = t.id_topicos
                     $condicao";
 
                     //Prepara a consulta para o banco
