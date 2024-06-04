@@ -1,0 +1,31 @@
+CONSULTA NO BANCO 
+
+SELECT nome, titulo, caminho_arquivo, tipo_arquivo, imagem 
+FROM documentos 
+WHERE status = 1 
+AND tipo_arquivo = 'mp4'
+ORDER BY data
+
+SELECT p.nome, e.titulo 
+FROM evento e
+INNER JOIN pessoa p ON e.id_responsavel = p.id_pessoa 
+WHERE e.status = 1 
+AND p.id_pessoa = 1
+ORDER BY dt_inicio
+
+SELECT p.*, r.*
+FROM forum_respostas r
+INNER JOIN forum_perguntas p ON r.id_forum_perguntas = p.id_forum_perguntas 
+ORDER BY r.data_respostas
+
+INSERT INTO forum_respostas
+                 (id_forum_respostas, id_forum_perguntas, titulo, descricao, dt_inicio, dt_fim, status) 
+                 VALUES
+                 ('1', '2', 'TESTE', 'DESCRIÇÃO TESTE', '2024-05-16', '2024-05-16', 1)
+
+INSERIR DADOS 
+
+INSERT INTO evento
+                 (id_tipo_evento, id_responsavel, titulo, descricao, dt_inicio, dt_fim, status) 
+                 VALUES
+                 ('1', '2', 'TESTE', 'DESCRIÇÃO TESTE', '2024-05-16', '2024-05-16', 1)
