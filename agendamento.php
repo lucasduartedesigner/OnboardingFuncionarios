@@ -48,39 +48,46 @@
                     $dt_begin = dataHoraToBR($resultado['dt_begin']);
                     $dt_end   = dataHoraToBR($resultado['dt_end']);
 
-                    if($resultado['status'] == 1)
+                    switch ($resultado['status']) 
                     {
-                        $status = 'Finalizado';
-                        $status_color = 'text-bg-success';
+                        case 1:
+                            $status = "Agendado"; $status_color = 'text-bg-primary';
+                            break;
+                        case 2:
+                            $status = "Em andamento"; $status_color = 'text-bg-info';
+                            break;
+                        case 3:
+                            $status = "Realizado"; $status_color = 'text-bg-success';
+                            break;
+                        case 4:
+                            $status = "Cancelado"; $status_color = 'text-bg-danger';
+                            break;
+                        default:
+                            $status = "Inválido"; $status_color = 'text-bg-warning';
                     }
-                    else
-                    {
-                        $status = 'Pendente';
-                        $status_color = 'text-bg-warning';
-                    }
-
             ?>
-            <div class="col-4 mb-5">
+            <div class="col-6 mb-5">
                 <div class="card">
                   <div class="card-body">
                     <h5 class="card-title d-flex justify-content-between"><?= $resultado['titulo'] ?><span class="badge <?= $status_color ?>"><?= $status ?></span></h5>
                   </div>
                   <ul class="list-group list-group-flush">
                     <?php
-                        $sql_item = "SELECT it.id_item_tarefa, it.id_tarefa, it.nome, it.status, it.dt_begin, it.dt_end
-                                     FROM item_tarefa it 
-                                     LEFT JOIN pessoa_tarefa pt ON pt.id_tarefa = it.id_tarefa AND pt.id_pessoa = :id_pessoa
-                                     WHERE it.status IS NOT NULL
-                                     AND it.id_tarefa = :id_tarefa
-                                     GROUP BY it.id_item_tarefa, it.id_tarefa, it.nome, it.status, it.dt_begin, it.dt_end
-                                     ORDER BY it.id_item_tarefa ";
+                        $sql_item = "SELECT pt.id_participante, p.nome, p.email
+                                     FROM participante pt 
+                                     INNER JOIN pessoa p ON pt.id_pessoa = p.id_pessoa
+                                     WHERE pt.status IS NOT NULL
+                                     AND pt.id_pessoa = :id_pessoa
+                                     AND pt.id_evento = :id_evento
+                                     GROUP BY pt.id_participante, p.nome, p.email
+                                     ORDER BY p.nome ";
 
                         //Prepara a consulta para o banco
                         $res_item = $conn->prepare($sql_item);
 
                         //Passa os parametros via bind para evitar SQL Inject
                         $res_item->bindParam(':id_pessoa', $_SESSION['id_pessoa'], PDO::PARAM_STR);
-                        $res_item->bindParam(':id_tarefa', $resultado['id_tarefa'], PDO::PARAM_STR);
+                        $res_item->bindParam(':id_evento', $resultado['id_evento'], PDO::PARAM_STR);
 
                         //Executa a consulta 
                         $res_item->execute();
@@ -97,12 +104,12 @@
 
                                 echo "<li class='list-group-item'>";
                                 echo "<div class='my-2 form-check'>
-                                        <input type='checkbox' class='form-check-input itemtarefa' id='".$result_item['id_item_tarefa']."' $checked>
-                                        <label class='form-check-label' for='".$result_item['id_item_tarefa']."'>".$result_item['nome']."</label>
+                                        <input type='checkbox' class='form-check-input itemtarefa' id='".$result_item['id_participante']."' $checked>
+                                        <label class='form-check-label' for='".$result_item['id_participante']."'>".$result_item['nome']."</label>
                                       </div>";
                                 echo "<div class='text-muted d-grid d-flex justify-content-between' style='font-size: .85em;'>
-                                        <small>".$data."</small>
-                                        <a onclick='itemTarefa(". $resultado['id_tarefa'] . ", " . $result_item['id_item_tarefa'].")' class='btn btn-sm me-1'>
+                                        
+                                        <a onclick='itemTarefa(". $resultado['id_evento'] . ", " . $result_item['id_participante'].")' class='btn btn-sm me-1'>
                                           <i class='fa-solid fa-ellipsis-vertical'></i>
                                         </a>
                                       </div>";
@@ -113,11 +120,11 @@
                   </ul>
                   <div class="card-body d-grid d-flex justify-content-between">
                     <div>
-                        <a onclick="tarefa(<?= $resultado['id_evento'] ?>)" class="btn btn-sm me-1 rounded-circle btn-success">
+                        <a onclick="evento(<?= $resultado['id_evento'] ?>)" class="btn btn-sm me-1 rounded-circle btn-success">
                             <i class="fa-solid fa-edit"></i>
                         </a>
-                        <a onclick="itemTarefa(<?= $resultado['id_evento'] ?>)" class="btn btn-sm me-1 rounded-circle btn-success">
-                            <i class="fa-solid fa-plus"></i>
+                        <a onclick="participante(<?= $resultado['id_evento'] ?>)" class="btn btn-sm me-1 rounded-circle btn-success">
+                            <i class="fa-solid fa-user"></i>
                         </a>
                         <a class="btn btn-sm btn-danger rounded-circle deletar" data-nome="<?= $resultado['titulo'] ?>" data-id="<?= $resultado['id_evento'] ?>" data-table="evento">
                             <i class="fa-solid fa-trash"></i>
