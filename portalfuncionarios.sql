@@ -82,7 +82,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `update_timestamps` ()   BEGIN
     CLOSE cur;
 END$$
 
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -284,6 +283,23 @@ CREATE TABLE IF NOT EXISTS `forum_respostas` (
   KEY `FK_forum_respostas_pessoa` (`id_pessoa`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Acionadores `forum_respostas`
+--
+DROP TRIGGER IF EXISTS `atualizar_qtd_resposta`;
+DELIMITER $$
+CREATE TRIGGER `atualizar_qtd_resposta` AFTER INSERT ON `forum_respostas` FOR EACH ROW BEGIN
+    DECLARE total_respostas INT;
+    
+    -- Contar o número de respostas para a pergunta específica
+    SELECT COUNT(*) INTO total_respostas FROM forum_respostas WHERE id_forum_perguntas = NEW.id_forum_perguntas;
+    
+    -- Atualizar a coluna qtd_respostas na tabela forum_perguntas
+    UPDATE forum_perguntas SET qtd_resposta = total_respostas WHERE id_forum_perguntas = NEW.id_forum_perguntas;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -302,12 +318,11 @@ CREATE TABLE IF NOT EXISTS `forum_topicos` (
 --
 
 INSERT INTO `forum_topicos` (`id_topicos`, `descricao`) VALUES
-(1, 'Todos os tópicos'),
-(2, 'Populares da semana'),
-(3, 'Mais Populares'),
-(4, 'Resolvidos'),
-(5, 'Não resolvidos'),
-(6, 'Sem respostas');
+(1, 'Mais Populares'),
+(2, 'Resolvidos'),
+(3, 'Não Resolvidos'),
+(4, 'Sem resposta');
+COMMIT;
 
 -- --------------------------------------------------------
 
