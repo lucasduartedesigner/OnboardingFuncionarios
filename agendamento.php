@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php include_once "template/config.php"; ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -94,7 +93,7 @@
                             {
 
                                 $checked = (!empty($result_item['status'])) ? 'checked' : '';
-                                $data = (!empty($result_item['dt_begin']) && !empty($result_item['dt_begin'])) ? dataToBR($result_item['dt_begin'])." até ". dataToBR($result_item['dt_end']) : '';
+                                //$data = (!empty($result_item['dt_begin']) && !empty($result_item['dt_begin'])) ? //dataToBR($result_item['dt_begin'])." até ". dataToBR($result_item['dt_end']) : '';
 
                                 echo "<li class='list-group-item'>";
                                 echo "<div class='my-2 form-check'>
@@ -250,30 +249,4 @@
 
     </script>
   </body>
-=======
-<?php include_once "template/config.php"; ?>
-<!DOCTYPE html>
-<html lang="pt-br">
-
-  <?php include_once "template/head.php"; ?>
-
-  <body>
-
-    <?php include_once "template/header.php"; ?>
-
-    <main role="main" class="container">
-      <div class="row mt-1">
-        <div class="col-md-12">
-          <h2 class="featurette-heading fw-normal lh-1 mb-3 mt-5">Agendamento de Reuniões e Treinamentos</h2>
-          <p class="mb-4 mt-2"> A plataforma permite agendar reuniões individuais com membros da equipe, sessões de treinamento e apresentações sobre diferentes aspectos da empresa, sua cultura e processos de trabalho.</p>
-        </div>
-      </div>
-    </main>
-
-    <?php include_once "template/footer.php"; ?>
-
-    <?php include_once "template/js.php"; ?>
-
-  </body>
->>>>>>> 6de3e2f9dc8878a2f59a1fcdca1a8cd17121abe6
 </html>
