@@ -1,0 +1,508 @@
+
+TABELA CAMPUS
+
+CONSULTAR
+
+SELECT id_campus, nome, titulo, texto, url, imagem, status, dt_created, dt_updated
+FROM campus;
+
+INSERIR
+
+INSERT INTO campus
+(id_campus, nome, titulo, texto, url, imagem, status, dt_created, dt_updated)
+VALUES(0, 'TESTE1', 'TESTE2', 'TESTE3', 'TESTE4', 'TESTE5', 0, CURRENT_TIMESTAMP, '');
+ 
+
+ALTERAR
+
+UPDATE TABLE campus
+SET nome='', titulo='', texto='', url='', imagem='', status=0, dt_created=CURRENT_TIMESTAMP, dt_updated=''
+WHERE id_campus=0;
+
+
+TABELA CAMPUS_TAREFA
+
+CONSULTAR
+
+SELECT campus_tarefa.id_campus_tarefa, campus.nome, tarefa.id_tarefa, tarefa.nome
+FROM campus_tarefa
+JOIN campus ON campus_tarefa.id_campus = campus.id_campus
+JOIN tarefa ON campus_tarefa.id_tarefa = tarefa.id_tarefa
+ORDER BY campus_tarefa.id_campus_tarefa;
+
+INSERIR
+
+INSERT INTO campus_tarefa
+(id_campus_tarefa, id_campus, id_tarefa, status)
+VALUES(1, 1, 1, 1);
+
+ALTERAR
+
+UPDATE campus_tarefa
+SET id_campus=1, id_tarefa=1, status=1
+WHERE id_campus_tarefa=1;
+
+TABELA CATEGORIA
+
+CONSULTAR
+
+SELECT id_categoria, nome_categoria, descricao_categoria
+FROM categoria;
+
+INSERIR
+
+INSERT INTO categoria
+(id_categoria, nome_categoria, descricao_categoria)
+VALUES(0, 'TESTE', 'TESTE1');
+
+
+ALTERAR
+
+UPDATE categoria
+SET nome_categoria='TESTE1', descricao_categoria='TESTE1'
+WHERE id_categoria=1;
+
+
+TABELA DEPARTAMENTO
+
+CONSULTAR
+
+SELECT id_departamento, nome, status
+FROM departamento;
+
+INSERIR
+
+INSERT INTO departamento
+(id_departamento, nome, status)
+VALUES(1, 'TESTE1', '1');
+
+ALTERAR
+
+UPDATE departamento
+SET nome='TESTE', status='0'
+WHERE id_departamento=1;
+
+
+TABELA EVENTO
+
+CONSULTAR
+
+SELECT evento.titulo, tipo_evento.nome, pessoa.nome
+FROM evento 
+JOIN tipo_evento ON evento.id_tipo_evento = tipo_evento.id_tipo_evento 
+JOIN pessoa ON evento.id_responsavel = pessoa.id_pessoa 
+ORDER BY evento.id_evento;
+
+INSERIR
+
+INSERT INTO evento
+(id_evento, id_tipo_evento, id_responsavel, titulo, descricao, inicio, fim, status, link, dt_created, dt_updated)
+VALUES(1, 1, 1, 'TESTE', 'TESTE', '2024/05/16', '2024/05/17', 0, 'WWW.COM', '2024/05/16', '2024/05/16');
+
+ALTERAR
+
+UPDATE evento
+SET id_tipo_evento=1, id_responsavel=1, titulo='TESTE1', descricao='TESTE1', inicio='2024/05/15', fim='2024/05/17', status=1, link='WWW.WWW.COM.BR', dt_created='2024/04/17', dt_updated='2024/05/14'
+WHERE id_evento=0;
+
+TABELA FEEDBACK
+
+CONSULTAR
+
+select feedback.*, pessoa.nome ,departamento.nome 
+from feedback 
+join pessoa  on feedback.id_pessoa  = pessoa.id_pessoa 
+join departamento on feedback.id_departamento  = departamento.id_departamento 
+order by feedback.id_feedback ;
+
+INSERIR
+
+INSERT INTO feedback
+(id_feedback, id_pessoa, id_departamento, titulo_feedback, descricao_feedback, avaliacao, visualizacao)
+VALUES(0, 0, 0, 'TESTE', 'TESTE', '1', 0);
+
+ALTERAR
+
+UPDATE feedback
+SET id_pessoa=1, id_departamento=1, titulo_feedback='TESTE1', descricao_feedback='TESTE1', avaliacao='2', visualizacao=1
+WHERE id_feedback=0;
+
+
+TABELA FORUM_PERGUNTAS
+
+CONSULTAR
+
+select forum_perguntas.titulo_pergunta, pessoa.nome, departamento.nome 
+from forum_perguntas
+join pessoa on forum_perguntas.id_pessoa = pessoa.id_pessoa 
+join departamento on forum_perguntas.id_departamento = departamento.id_departamento 
+order by forum_perguntas.id_forum_perguntas  ;
+
+INSERIR
+
+INSERT INTO forum_perguntas
+(id_forum_perguntas, id_pessoa, id_departamento, titulo_pergunta, descricao_pergunta, visualizacao, qtd_resposta, data_pergunta)
+VALUES(0, 0, 0, 'TESTE', 'TESTE', 0, 0, '2024/05/16');
+
+ALTERAR
+
+UPDATE forum_perguntas
+SET id_pessoa=1, id_departamento=1, titulo_pergunta='TESTE1', descricao_pergunta='TESTE1', visualizacao=1, qtd_resposta=1, data_pergunta='2024/05/17'
+WHERE id_forum_perguntas=0;
+
+TABELA FORUM_RESPOSTAS
+
+CONSULTAR
+
+select forum_respostas.resposta, forum_perguntas.titulo_pergunta, pessoa.nome 
+from forum_respostas
+join forum_perguntas on forum_respostas.id_forum_perguntas = forum_perguntas.id_forum_perguntas  
+join pessoa on forum_perguntas.id_pessoa = pessoa.id_pessoa 
+order by forum_respostas.data_respostas ;
+
+INSERIR
+
+INSERT INTO forum_respostas
+(id_forum_perguntas, id_forum_respostas, id_pessoa, resposta, data_respostas)
+VALUES(0, 0, 0, 'TESTE', '2024/05/16');
+
+ALTERAR
+
+UPDATE forum_respostas
+SET id_forum_perguntas=1, id_pessoa=1, resposta='ETSTE1', data_respostas='2024/05/16'
+WHERE id_forum_respostas=0;
+
+
+TABELA FORUM_TOPICOS
+
+CONSULTAR
+
+select forum_topicos.id_topicos, pessoa.nome, departamento.nome 
+from forum_topicos
+join pessoa on forum_topicos.id_pessoa = pessoa.id_pessoa 
+join departamento on forum_topicos.id_departamento = departamento.id_departamento 
+order by forum_topicos.id_topicos ;
+
+INSERIR
+
+INSERT INTO forum_topicos
+(id_topicos, id_pessoa, id_departamento)
+VALUES(0, 0, 0);
+
+ALTERAR
+
+UPDATE forum_topicos
+SET id_pessoa=1, id_departamento=1
+WHERE id_topicos=1;
+
+
+TABELA GRUPO_ACESSO
+
+CONSULTAR
+
+SELECT id_grupo_acesso, nome, status
+FROM grupo_acesso;
+
+INSERIR
+
+INSERT INTO grupo_acesso
+(id_grupo_acesso, nome, status)
+VALUES(0, 'TESTE', 0);
+
+ALTERAR
+
+UPDATE grupo_acesso
+SET nome='TESTE1', status=1
+WHERE id_grupo_acesso=0;
+
+
+TABELA ITEM_TAREFA
+
+CONSULTAR
+
+select item_tarefa.nome, tarefa.nome
+from item_tarefa 
+join tarefa on item_tarefa.id_tarefa = tarefa.id_tarefa 
+where item_tarefa.status = 1;
+
+INSERIR
+
+INSERT INTO item_tarefa
+(id_item_tarefa, id_tarefa, nome, status, dt_begin, dt_end)
+VALUES(0, 0, 'TESTE', 0, '2024/05/16', '2024/05/16');
+
+ALTERAR
+
+UPDATE item_tarefa
+SET id_tarefa=1, nome='TESTE1', status=1, dt_begin='2024/05/17', dt_end='2024/05/17'
+WHERE id_item_tarefa=0;
+
+
+TABELA MENU
+
+CONSULTAR
+
+SELECT id_menu, titulo, url, status, dt_created, dt_updated, ordem
+FROM menu;
+
+INSERIR
+
+INSERT INTO menu
+(id_menu, titulo, url, status, dt_created, dt_updated, ordem)
+VALUES(0, 'TESTE', 'WWW.COM', 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0);
+
+ALTERAR
+
+UPDATE menu
+SET titulo='TESTE1', url='WWW.COM,BR', status=1, dt_created=CURRENT_TIMESTAMP, dt_updated=CURRENT_TIMESTAMP, ordem=1
+WHERE id_menu=0;
+
+
+TABELA PALAVRA_CHAVE
+
+CONSULTAR
+
+SELECT id_palavra_chave, palavra_chave
+FROM palavra_chave;
+
+INSERIR
+
+INSERT INTO palavra_chave
+(id_palavra_chave, palavra_chave)
+VALUES(0, 'TESTE');
+
+ALTERAR
+
+UPDATE palavra_chave
+SET palavra_chave='TESTE1'
+WHERE id_palavra_chave=0;
+
+
+TABELA PARTICIPANTE
+
+CONSULTAR
+
+select participante.id_pessoa, evento.id_evento 
+from participante 
+join evento on participante.id_evento = evento.id_evento ;
+
+INSERIR
+
+INSERT INTO participante
+(id_pessoa, id_evento, status, dt_created, dt_updated)
+VALUES(0, 0, 0, '2024/05/20', '2024/05/20');
+
+ALTERAR
+
+UPDATE participante
+SET id_pessoa=1, id_evento=1, status=1, dt_created='2024/05/19', dt_updated='2024/05/19';
+
+
+
+TABELA PERMISSAO
+
+CONSULTAR
+
+select permissao.id_permissao, grupo_acesso.id_grupo_acesso, menu.id_menu 
+from permissao 
+join grupo_acesso on permissao.id_grupo_acesso = grupo_acesso.id_grupo_acesso 
+join menu  on permissao.id_menu = menu.id_menu ;
+
+INSERIR
+
+INSERT INTO permissao
+(id_permissao, id_grupo_acesso, id_menu, visualizar, editar, deletar)
+VALUES(0, 0, 1, 'N', 'N', 'N');
+
+ALTERAR
+
+UPDATE permissao
+SET id_grupo_acesso=1, id_menu=1, visualizar='S', editar='S', deletar='S'
+WHERE id_permissao=0;
+
+TABELA PESSOA
+
+CONSULTAR
+
+SELECT id_pessoa, id_departamento, id_campus, matricula, nome, status, telefone, email, token, senha, dt_created, dt_updated
+FROM pessoa;
+
+INSERIR
+
+INSERT INTO pessoa
+(id_pessoa, id_departamento, id_campus, matricula, nome, status, telefone, email, token, senha, dt_created, dt_updated)
+VALUES(0, 0, 0, '000000', 'TESTE', 0, '21123456789', 'TESTE@TESTE1.COM', 'QWERTYUIOP', '1234567', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+ALTERAR
+
+UPDATE pessoa
+SET id_departamento=1, id_campus=1, matricula='000001', nome='TESTE1', status=1, telefone='22123456789', email='TESTE1@TESTE.COM', token='ASDFGHJKLÇ', senha=''123456789, dt_created=CURRENT_TIMESTAMP, dt_updated=CURRENT_TIMESTAMP
+WHERE id_pessoa=0;
+
+
+TABELA PESSOA_ACESSO
+
+CONSULTAR
+
+select pessoa_acesso.id_pessoa_acesso, pessoa.nome, grupo_acesso.nome 
+from pessoa_acesso 
+join pessoa on pessoa_acesso.id_pessoa = pessoa.id_pessoa 
+join grupo_acesso on pessoa_acesso.id_grupo_acesso = grupo_acesso.id_grupo_acesso
+where grupo_acesso.nome = 'admin';
+
+INSERIR
+
+INSERT INTO pessoa_acesso
+(id_pessoa_acesso, id_pessoa, id_grupo_acesso, status)
+VALUES(0, 0, 0, 0);
+
+ALTERAR
+
+UPDATE pessoa_acesso
+SET id_pessoa=1, id_grupo_acesso=1, status=1
+WHERE id_pessoa_acesso=0;
+
+
+TABELA PESSOA_TAREFA
+
+CONSULTAR
+
+select pessoa.nome, tarefa.nome
+from pessoa_tarefa
+join pessoa on pessoa_tarefa.id_pessoa = pessoa.id_pessoa 
+join tarefa on pessoa_tarefa.id_tarefa = tarefa.id_tarefa ;
+
+INSERIR
+
+INSERT INTO pessoa_tarefa
+(id_pessoa_tarefa, id_pessoa, id_tarefa, status, dt_created, dt_updated)
+VALUES(0, 0, 0, 0, '2024/05/20', '2024/05/19');
+
+ALTERAR
+
+UPDATE pessoa_tarefa
+SET id_pessoa=1, id_tarefa=1, status=1, dt_created='2024/05/19', dt_updated='2024/05/19'
+WHERE id_pessoa_tarefa=0;
+
+
+TABELA RECURSO_CATEGORIA
+
+CONSULTAR
+
+select recursos.nome_recurso, categoria.nome_categoria
+from recurso_categoria 
+join recursos on recurso_categoria.id_recursos = recursos.id_recursos
+join categoria on recurso_categoria.id_categoria = categoria.id_categoria 
+where categoria.id_categoria = 1;
+
+INSERIR
+
+INSERT INTO recurso_categoria
+(id_recursos, id_categoria)
+VALUES(0, 0);
+
+ALTERAR
+
+UPDATE recurso_categoria
+SET 
+WHERE id_recursos=0 AND id_categoria=0;
+
+
+
+TABELA RECURSO_PALAVRA_CHAVE
+
+CONSULTAR
+
+select recursos.nome_recurso , palavra_chave.palavra_chave 
+from recurso_palavra_chave 
+join recursos  on recurso_palavra_chave.id_recursos = recursos.id_recursos 
+join palavra_chave on recurso_palavra_chave.id_palavra_chave = palavra_chave.id_palavra_chave ;
+
+INSERT INTO recurso_palavra_chave
+(id_recursos, id_palavra_chave)
+VALUES(0, 0);
+
+ALTERAR
+
+UPDATE recurso_palavra_chave
+SET id_recursos=1, id_palavra_chave=1;
+
+
+TABELA RECURSOS
+
+select recursos.nome_recurso, tipo_recurso.nome 
+from recursos 
+join tipo_recurso on recursos.id_recursos = tipo_recurso.id_tipo_recurso
+where recursos.id_recursos = 1;
+
+INSERIR
+
+INSERT INTO recursos
+(id_recursos, nome_recurso, descricao_recurso, arquivo_recurso, data_criacao, data_atualizacao, id_tipo_recurso)
+VALUES(0, 'TESTE', 'TESTE', ?, '2024/05/20', '2024/05/20', 0);
+
+ALTERAR
+
+UPDATE recursos
+SET nome_recurso='TESTE1', descricao_recurso='TESTE1', arquivo_recurso=?, data_criacao='2024/05/19', data_atualizacao='2024/05/19', id_tipo_recurso=1
+WHERE id_recursos=0;
+
+
+TABELA TAREFA
+
+CONSULTAR
+
+SELECT id_tarefa, nome, status, dt_created, dt_updated, dt_begin, dt_end
+FROM tarefa;
+
+INSERIR
+
+INSERT INTO tarefa
+(id_tarefa, nome, status, dt_created, dt_updated, dt_begin, dt_end)
+VALUES(0, 'TESTE', 0, '2024/05/20', '2024/05/20', '2024/05/20', '2024/05/20');
+
+ALTERAR
+
+UPDATE tarefa
+SET nome='TESTE1', status=1, dt_created='2024/05/19', dt_updated='2024/05/19', dt_begin='2024/05/19', dt_end='2024/05/19'
+WHERE id_tarefa=0;
+
+
+TABELA TIPO_EVENTO
+
+CONSULTAR
+
+SELECT id_tipo_evento, nome, status
+FROM tipo_evento;
+
+INSERIR
+
+INSERT INTO tipo_evento
+(id_tipo_evento, nome, status)
+VALUES(0, 'TESTE', 0);
+
+ALTERAR
+
+UPDATE tipo_evento
+SET nome='TESTE1', status=1
+WHERE id_tipo_evento=0;
+
+
+TABELA TIPO_RECURSO
+
+CONSULTAR
+
+SELECT id_tipo_recurso, nome
+FROM tipo_recurso;
+
+INSERIR
+
+INSERT INTO tipo_recurso
+(id_tipo_recurso, nome)
+VALUES(0, 'TESTE');
+
+ALTERAR
+
+UPDATE tipo_recurso
+SET nome='TESTE1'
+WHERE id_tipo_recurso=0;
