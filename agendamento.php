@@ -78,7 +78,6 @@
                                      FROM participante pt 
                                      INNER JOIN pessoa p ON pt.id_pessoa = p.id_pessoa
                                      WHERE pt.status IS NOT NULL
-                                     AND pt.id_pessoa = :id_pessoa
                                      AND pt.id_evento = :id_evento
                                      GROUP BY pt.id_participante, pt.status, p.nome, p.email
                                      ORDER BY p.nome ";
@@ -87,7 +86,6 @@
                         $res_item = $conn->prepare($sql_item);
 
                         //Passa os parametros via bind para evitar SQL Inject
-                        $res_item->bindParam(':id_pessoa', $_SESSION['id_pessoa'], PDO::PARAM_STR);
                         $res_item->bindParam(':id_evento', $resultado['id_evento'], PDO::PARAM_STR);
 
                         //Executa a consulta 
@@ -140,44 +138,42 @@
     </main>
 
     <?php include_once "modal/evento.php"; ?>
-    <?php //include_once "modal/participante.php"; ?>
+    <?php include_once "modal/participante.php"; ?>
     <?php include_once "template/footer.php"; ?>
     <?php include_once "template/js.php"; ?>
 
     <script>
 
-        function itemTarefa(id, item)
+        function participante(id, item)
         {
             if(item)
             {
-                $('#id_item_tarefa').val(item)
+                $('#id_participante').val(item)
 
-                $('#form-item-tarefa').attr('action', 'php/edit/itemtarefa.php')
+                $('#form-participante').attr('action', 'php/edit/participante.php')
 
                 $.ajax({
                     type: 'POST',
-                    url: 'php/search/item_tarefa.php',
+                    url: 'php/search/participante.php',
                     data: { id : item },
                     dataType: 'json',
                 }).done(function(response) {
 
-                    $('#nome1').val(response['nome'])
-                    $('#dt_begin1').val(response['dt_begin'])
-                    $('#dt_end1').val(response['dt_end'])
+                    $('#nome').val(response['nome'])
 
                     if(response['status'] == 1)
                     {
                         $('#status1').prop('checked', true);
                     }
 
-                    $('#modalItemTarefa').modal('toggle')
+                    $('#modalParticipante').modal('toggle')
                 });
             }
             else
             {
-                $('#id_tarefa1').val(id)
-                
-                $('#modalItemTarefa').modal('toggle')
+                $('#id_evento1').val(id)
+
+                $('#modalParticipante').modal('toggle')
             }
         }
 
