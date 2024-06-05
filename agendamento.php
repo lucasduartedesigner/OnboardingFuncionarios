@@ -25,9 +25,10 @@
 
             $consulta = "SELECT e.id_evento, e.titulo, e.descricao, e.status, e.dt_begin, e.dt_end
                          FROM evento e 
-                         INNER JOIN participante pt ON pt.id_evento = e.id_evento AND pt.id_pessoa = :id_pessoa
+                         INNER JOIN participante pt ON pt.id_evento = e.id_evento 
                          INNER JOIN tipo_evento te ON te.id_tipo_evento = e.id_tipo_evento
                          WHERE e.status IS NOT NULL
+                         AND :id_pessoa IN (pt.id_pessoa, e.id_responsavel)
                          GROUP BY e.id_evento, e.titulo, e.descricao, e.status, e.dt_begin, e.dt_end ";
 
             //Prepara a consulta para o banco
@@ -73,13 +74,13 @@
                   </div>
                   <ul class="list-group list-group-flush">
                     <?php
-                        $sql_item = "SELECT pt.id_participante, p.nome, p.email
+                        $sql_item = "SELECT pt.id_participante, pt.status, p.nome, p.email
                                      FROM participante pt 
                                      INNER JOIN pessoa p ON pt.id_pessoa = p.id_pessoa
                                      WHERE pt.status IS NOT NULL
                                      AND pt.id_pessoa = :id_pessoa
                                      AND pt.id_evento = :id_evento
-                                     GROUP BY pt.id_participante, p.nome, p.email
+                                     GROUP BY pt.id_participante, pt.status, p.nome, p.email
                                      ORDER BY p.nome ";
 
                         //Prepara a consulta para o banco
@@ -98,18 +99,15 @@
                             //Coloca os dados retornados em uma variavel
                             while ($result_item = $res_item->fetch(PDO::FETCH_ASSOC)) 
                             {
-
                                 $checked = (!empty($result_item['status'])) ? 'checked' : '';
-                                //$data = (!empty($result_item['dt_begin']) && !empty($result_item['dt_begin'])) ? //dataToBR($result_item['dt_begin'])." até ". dataToBR($result_item['dt_end']) : '';
 
                                 echo "<li class='list-group-item'>";
-                                echo "<div class='my-2 form-check'>
-                                        <input type='checkbox' class='form-check-input itemtarefa' id='".$result_item['id_participante']."' $checked>
+                                 echo "<div class='text-muted d-grid d-flex justify-content-between' style='font-size: .85em;'>
+                                        <div class='my-2 form-check'>
+                                        <input type='checkbox' class='form-check-input participante' id='".$result_item['id_participante']."' $checked>
                                         <label class='form-check-label' for='".$result_item['id_participante']."'>".$result_item['nome']."</label>
-                                      </div>";
-                                echo "<div class='text-muted d-grid d-flex justify-content-between' style='font-size: .85em;'>
-                                        
-                                        <a onclick='itemTarefa(". $resultado['id_evento'] . ", " . $result_item['id_participante'].")' class='btn btn-sm me-1'>
+                                        </div>
+                                        <a onclick='participante(". $resultado['id_evento'] . ", " . $result_item['id_participante'].")' class='btn btn-sm me-1'>
                                           <i class='fa-solid fa-ellipsis-vertical'></i>
                                         </a>
                                       </div>";
@@ -183,33 +181,32 @@
             }
         }
 
-        function tarefa(id)
+        function evento(id)
         {
-            $('#id_tarefa').val(id)
+            $('#id_evento').val(id)
 
-            $('#formTarefa').attr('action', 'php/edit/tarefa.php')
-            
+            $('#formEvento').attr('action', 'php/edit/evento.php')
+
             $.ajax({
                 type: 'POST',
-                url: 'php/search/tarefa.php',
+                url: 'php/search/evento.php',
                 data: { id : id },
                 dataType: 'json',
             }).done(function(response) {
-                
-                $('#nome').val(response['nome'])
+
+                $('#titulo').val(response['titulo'])
                 $('#dt_begin').val(response['dt_begin'])
                 $('#dt_end').val(response['dt_end'])
+                $('#tipo_evento').val(response['id_tipo_evento'])
+                $('#status').val(response['status'])
+                $('#descricao').val(response['descricao'])
+                $('#link').val(response['link'])
 
-                if(response['status'] == 1)
-                {
-                    $('#status').prop('checked', true);
-                }
-
-                $('#modalTarefa').modal('toggle');
+                $('#modalEvento').modal('toggle');
             });
         }
 
-        $('.itemtarefa').change(function(){
+        $('.participante').change(function(){
 
             var id = $(this).attr('id')
             var status
@@ -225,9 +222,9 @@
 
             $.ajax({
                 type: 'POST',
-                url: 'php/check/itemtarefa.php',
+                url: 'php/check/participante.php',
                 data: { 
-                        id : id,
+                        id     : id,
                         status : status
                       }
             })

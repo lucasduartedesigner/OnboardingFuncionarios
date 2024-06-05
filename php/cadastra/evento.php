@@ -9,19 +9,20 @@
     include_once "../function/data.php";
 
     //Receber os dados do formulario
-    $titulo      = $_POST['titulo'];
-    $dt_begin    = dataHoraToUS($_POST['dt_begin']);
-    $dt_end      = dataHoraToUS($_POST['dt_end']);
-    $tipo_evento = $_POST['tipo_evento'];
-    $status      = (!empty($_POST['status'])) ? $_POST['status'] : 0;
-    $descricao   = $_POST['descricao'];
-    $link        = $_POST['link'];
+    $titulo         = $_POST['titulo'];
+    $dt_begin       = dataHoraToUS($_POST['dt_begin']);
+    $dt_end         = dataHoraToUS($_POST['dt_end']);
+    $tipo_evento    = $_POST['tipo_evento'];
+    $status         = (!empty($_POST['status'])) ? $_POST['status'] : 0;
+    $descricao      = $_POST['descricao'];
+    $link           = $_POST['link'];
+    $id_responsavel = $_POST['id_responsavel'];
 
     //Monta insert em uma string
     $consulta = "INSERT INTO evento 
-                 (titulo, dt_begin, dt_end, id_tipo_evento, status, descricao, link) 
+                 (titulo, dt_begin, dt_end, id_tipo_evento, status, descricao, link, id_responsavel) 
                  VALUES
-                 (:titulo, :dt_begin, :dt_end, :tipo_evento, :status, :descricao, :link)";
+                 (:titulo, :dt_begin, :dt_end, :tipo_evento, :status, :descricao, :link, :id_responsavel)";
 
     //Prepara o insert para o banco
     $response = $conn->prepare($consulta);
@@ -34,6 +35,7 @@
     $response->bindParam(':status', $status, PDO::PARAM_STR);
     $response->bindParam(':descricao', $descricao, PDO::PARAM_STR);
     $response->bindParam(':link', $link, PDO::PARAM_STR);
+    $response->bindParam(':id_responsavel', $_SESSION['id_pessoa'], PDO::PARAM_STR);
 
     //Executa a insert 
     $response->execute();
