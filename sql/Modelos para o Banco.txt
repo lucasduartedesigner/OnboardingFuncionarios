@@ -109,8 +109,11 @@ TABELA FEEDBACK
 
 CONSULTAR
 
-SELECT id_feedback, id_pessoa, id_departamento, titulo_feedback, descricao_feedback, avaliacao, visualizacao
-FROM feedback;
+select feedback.*, pessoa.nome ,departamento.nome 
+from feedback 
+join pessoa  on feedback.id_pessoa  = pessoa.id_pessoa 
+join departamento on feedback.id_departamento  = departamento.id_departamento 
+order by feedback.id_feedback ;
 
 INSERIR
 
@@ -129,8 +132,11 @@ TABELA FORUM_PERGUNTAS
 
 CONSULTAR
 
-SELECT id_forum_perguntas, id_pessoa, id_departamento, titulo_pergunta, descricao_pergunta, visualizacao, qtd_resposta, data_pergunta
-FROM forum_perguntas;
+select forum_perguntas.titulo_pergunta, pessoa.nome, departamento.nome 
+from forum_perguntas
+join pessoa on forum_perguntas.id_pessoa = pessoa.id_pessoa 
+join departamento on forum_perguntas.id_departamento = departamento.id_departamento 
+order by forum_perguntas.id_forum_perguntas  ;
 
 INSERIR
 
@@ -148,8 +154,11 @@ TABELA FORUM_RESPOSTAS
 
 CONSULTAR
 
-SELECT id_forum_perguntas, id_forum_respostas, id_pessoa, resposta, data_respostas
-FROM forum_respostas;
+select forum_respostas.resposta, forum_perguntas.titulo_pergunta, pessoa.nome 
+from forum_respostas
+join forum_perguntas on forum_respostas.id_forum_perguntas = forum_perguntas.id_forum_perguntas  
+join pessoa on forum_perguntas.id_pessoa = pessoa.id_pessoa 
+order by forum_respostas.data_respostas ;
 
 INSERIR
 
@@ -168,8 +177,11 @@ TABELA FORUM_TOPICOS
 
 CONSULTAR
 
-SELECT id_topicos, id_pessoa, id_departamento
-FROM forum_topicos;
+select forum_topicos.id_topicos, pessoa.nome, departamento.nome 
+from forum_topicos
+join pessoa on forum_topicos.id_pessoa = pessoa.id_pessoa 
+join departamento on forum_topicos.id_departamento = departamento.id_departamento 
+order by forum_topicos.id_topicos ;
 
 INSERIR
 
@@ -208,8 +220,10 @@ TABELA ITEM_TAREFA
 
 CONSULTAR
 
-SELECT id_item_tarefa, id_tarefa, nome, status, dt_begin, dt_end
-FROM item_tarefa;
+select item_tarefa.nome, tarefa.nome
+from item_tarefa 
+join tarefa on item_tarefa.id_tarefa = tarefa.id_tarefa 
+where item_tarefa.status = 1;
 
 INSERIR
 
@@ -268,8 +282,9 @@ TABELA PARTICIPANTE
 
 CONSULTAR
 
-SELECT id_pessoa, id_evento, status, dt_created, dt_updated
-FROM participante;
+select participante.id_pessoa, evento.id_evento 
+from participante 
+join evento on participante.id_evento = evento.id_evento ;
 
 INSERIR
 
@@ -288,8 +303,10 @@ TABELA PERMISSAO
 
 CONSULTAR
 
-SELECT id_permissao, id_grupo_acesso, id_menu, visualizar, editar, deletar
-FROM permissao;
+select permissao.id_permissao, grupo_acesso.id_grupo_acesso, menu.id_menu 
+from permissao 
+join grupo_acesso on permissao.id_grupo_acesso = grupo_acesso.id_grupo_acesso 
+join menu  on permissao.id_menu = menu.id_menu ;
 
 INSERIR
 
@@ -327,8 +344,11 @@ TABELA PESSOA_ACESSO
 
 CONSULTAR
 
-SELECT id_pessoa_acesso, id_pessoa, id_grupo_acesso, status
-FROM pessoa_acesso;
+select pessoa_acesso.id_pessoa_acesso, pessoa.nome, grupo_acesso.nome 
+from pessoa_acesso 
+join pessoa on pessoa_acesso.id_pessoa = pessoa.id_pessoa 
+join grupo_acesso on pessoa_acesso.id_grupo_acesso = grupo_acesso.id_grupo_acesso
+where grupo_acesso.nome = 'admin';
 
 INSERIR
 
@@ -347,8 +367,10 @@ TABELA PESSOA_TAREFA
 
 CONSULTAR
 
-SELECT id_pessoa_tarefa, id_pessoa, id_tarefa, status, dt_created, dt_updated
-FROM pessoa_tarefa;
+select pessoa.nome, tarefa.nome
+from pessoa_tarefa
+join pessoa on pessoa_tarefa.id_pessoa = pessoa.id_pessoa 
+join tarefa on pessoa_tarefa.id_tarefa = tarefa.id_tarefa ;
 
 INSERIR
 
@@ -367,8 +389,11 @@ TABELA RECURSO_CATEGORIA
 
 CONSULTAR
 
-SELECT id_recursos, id_categoria
-FROM recurso_categoria;
+select recursos.nome_recurso, categoria.nome_categoria
+from recurso_categoria 
+join recursos on recurso_categoria.id_recursos = recursos.id_recursos
+join categoria on recurso_categoria.id_categoria = categoria.id_categoria 
+where categoria.id_categoria = 1;
 
 INSERIR
 
@@ -388,8 +413,10 @@ TABELA RECURSO_PALAVRA_CHAVE
 
 CONSULTAR
 
-SELECT id_recursos, id_palavra_chave
-FROM recurso_palavra_chave;
+select recursos.nome_recurso , palavra_chave.palavra_chave 
+from recurso_palavra_chave 
+join recursos  on recurso_palavra_chave.id_recursos = recursos.id_recursos 
+join palavra_chave on recurso_palavra_chave.id_palavra_chave = palavra_chave.id_palavra_chave ;
 
 INSERT INTO recurso_palavra_chave
 (id_recursos, id_palavra_chave)
@@ -403,8 +430,10 @@ SET id_recursos=1, id_palavra_chave=1;
 
 TABELA RECURSOS
 
-SELECT id_recursos, nome_recurso, descricao_recurso, arquivo_recurso, data_criacao, data_atualizacao, id_tipo_recurso
-FROM recursos;
+select recursos.nome_recurso, tipo_recurso.nome 
+from recursos 
+join tipo_recurso on recursos.id_recursos = tipo_recurso.id_tipo_recurso
+where recursos.id_recursos = 1;
 
 INSERIR
 
