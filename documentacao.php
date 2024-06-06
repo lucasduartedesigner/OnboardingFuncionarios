@@ -18,7 +18,7 @@
         <p>
         <a href="documentacao.php" class="btn btn-success">Todos</a>
         <?php 
-        $consulta = "SELECT * FROM tipo_arquivo";
+        $consulta = "SELECT * FROM tipo_arquivo ";
 
         //Prepara a consulta para o banco
         $response = $conn->prepare($consulta);
@@ -63,7 +63,7 @@
         FROM documentos 
         WHERE status = 1 
         $cond_arquivo
-        ORDER BY data";
+        ORDER BY ordem ";
 
         //Prepara a consulta para o banco
         $response = $conn->prepare($consulta);
