@@ -1,7 +1,7 @@
 <?php 
 
-    $consulta = "UPDATE forum_perguntas SET visualizacao = visualizacao + 1
-                WHERE id_forum_perguntas = :id";
+    $consulta = "UPDATE feedback SET visualizacao = visualizacao + 1
+                WHERE id_feedback = :id";
 
                 //Prepara a consulta para o banco
                 $response = $conn->prepare($consulta);
@@ -11,11 +11,10 @@
                 //Executa a consulta 
                 $response->execute();
 
-    $consulta = "SELECT f.id_forum_perguntas, f.titulo_pergunta, f.id_pessoa, f.id_departamento, f.descricao_pergunta, p.nome, f.data_pergunta 
-                FROM forum_perguntas f 
+    $consulta = "SELECT f.id_feedback, f.titulo_feedback, f.id_pessoa, f.descricao_feedback, p.nome, 
+                FROM feedback f 
                 inner join pessoa p on f.id_pessoa = p.id_pessoa
-                WHERE f.id_forum_perguntas = :id
-                AND f.status = 1";
+                WHERE f.id_feedback = :id";
 
             //Prepara a consulta para o banco
             $response = $conn->prepare($consulta);
@@ -37,26 +36,25 @@
                                     <div class="card-header" style="background: #389C81">
                                         <!-- titulo -->
                                         <h6> 
-                                            <a href="forum.php?id=<?= $resultado['id_forum_perguntas'] ?>" class="text-body"> 
-                                            <?= $resultado['titulo_pergunta'] ?> 
+                                            <a href="forum.php?id=<?= $resultado['id_feedback'] ?>" class="text-body"> 
+                                            <?= $resultado['titulo_feedback'] ?> 
                                             </a>
                                         </h6>
                                         
                                     </div>
                                     <div class="media-body">
-                                        <p class="text-secondary"> <?= $resultado['descricao_pergunta'] ?> </p>    
+                                        <p class="text-secondary"> <?= $resultado['descricao_feedback'] ?> </p>    
                                             <div class="text-muted small ">
                                                 <!-- icone resposta mesagem --> 
                                             <span data-bs-toggle="modal" data-bs-target="#resposta-modal"><i class="far fa-comment ml-1"></i> Nova Mensagem</span>                                                                   
-                                            <a class="btn btn-sm btn-danger rounded-circle deletar" data-nome="<?= $resultado['descricao_pergunta'] ?>" 
-                                            data-id="<?= $resultado['id_forum_perguntas'] ?>" data-table="forum_perguntas">
+                                            <a class="btn btn-sm btn-danger rounded-circle deletar" data-nome="<?= $resultado['descricao_feedback'] ?>" 
+                                            data-id="<?= $resultado['id_feedback'] ?>" data-table="feedback">
                                                 <i class="fa-solid fa-trash"></i>
                                             </a>
                                             </div>                                                                                                                           
                                     </div>
                                     <div class="card-footer ">
-                                        <p class="text-muted mb-0"> Criado por <a href="javascript:void(0)"> <?= $resultado['nome'] ?></a> há <span class="text-secondary font-weight-bold">
-                                        <?= datetimeDiferencaEmMinutos($resultado['data_pergunta']) ?> minutos atrás.</span></p>  
+                                        <p class="text-muted mb-0"> Criado por <a href="javascript:void(0)"> <?= $resultado['nome'] ?></a></p>  
                                     </div>
                                 </div>                                    
                         </div>                                                                                            
@@ -69,9 +67,9 @@
 
 <?php                                                        
 
-    $consulta = "SELECT r.id_forum_respostas, r.id_forum_perguntas, r.id_pessoa, r.resposta, r.data_respostas, p.nome  FROM forum_respostas r 
+    $consulta = "SELECT r.id_forum_respostas, r.id_feedback, r.id_pessoa, r.resposta, r.data_respostas, p.nome  FROM forum_respostas r 
                 inner join pessoa p on r.id_pessoa = p.id_pessoa
-                WHERE r.id_forum_perguntas = :id";
+                WHERE r.id_feedback = :id";
 
     //Prepara a consulta para o banco
     $response = $conn->prepare($consulta);
