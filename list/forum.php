@@ -93,7 +93,7 @@
                          f.descricao_pergunta, p.nome, f.data_pergunta, f.visualizacao, f.qtd_resposta
                   FROM forum_perguntas f 
                   INNER JOIN pessoa p ON f.id_pessoa = p.id_pessoa
-                  LEFT JOIN forum_topicos t ON f.id_topicos = t.id_topicos
+                  LEFT JOIN forum_topicos t ON f.id_topico = t.id_topicos
                   WHERE f.status IN (1,2)";
               
               switch ($id_topicos) {

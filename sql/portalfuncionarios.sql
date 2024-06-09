@@ -253,12 +253,13 @@ CREATE TABLE IF NOT EXISTS `forum_perguntas` (
   `visualizacao` int DEFAULT NULL,
   `qtd_resposta` int NOT NULL,
   `data_pergunta` datetime DEFAULT CURRENT_TIMESTAMP,
-  `id_topico` int DEFAULT NULL,
+  `id_topico` int NOT NULL DEFAULT '1',
+  `status` int DEFAULT '1',
   PRIMARY KEY (`id_forum_perguntas`),
   KEY `FK_forum_perguntas_departamento` (`id_departamento`),
   KEY `FK_forum_perguntas_pessoa` (`id_pessoa`),
   KEY `FK_forum_perguntas_forum_topicos` (`id_topico`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Despejando dados para a tabela `forum_perguntas`
@@ -305,11 +306,10 @@ CREATE TABLE IF NOT EXISTS `forum_topicos` (
 
 INSERT INTO `forum_topicos` (`id_topicos`, `descricao`) VALUES
 (1, 'Todos os tópicos'),
-(2, 'Populares da semana'),
-(3, 'Mais Populares'),
-(4, 'Resolvidos'),
-(5, 'Não resolvidos'),
-(6, 'Sem respostas');
+(2, 'Mais Populares'),
+(3, 'Resolvidos'),
+(4, 'Não resolvidos'),
+(5, 'Sem respostas');
 
 -- --------------------------------------------------------
 
