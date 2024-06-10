@@ -74,12 +74,12 @@
                   </div>
                   <ul class="list-group list-group-flush">
                     <?php
-                        $sql_item = "SELECT pt.id_participante, pt.status, p.nome, p.email
+                        $sql_item = "SELECT pt.id_participante, pt.id_pessoa, pt.status, p.nome, p.email
                                      FROM participante pt 
                                      INNER JOIN pessoa p ON pt.id_pessoa = p.id_pessoa
                                      WHERE pt.status IS NOT NULL
                                      AND pt.id_evento = :id_evento
-                                     GROUP BY pt.id_participante, pt.status, p.nome, p.email
+                                     GROUP BY pt.id_participante, pt.id_pessoa, pt.status, p.nome, p.email
                                      ORDER BY p.nome ";
 
                         //Prepara a consulta para o banco
@@ -105,7 +105,7 @@
                                         <input type='checkbox' class='form-check-input participante' id='".$result_item['id_participante']."' $checked>
                                         <label class='form-check-label' for='".$result_item['id_participante']."'>".$result_item['nome']."</label>
                                         </div>
-                                        <a onclick='participante(". $resultado['id_evento'] . ", " . $result_item['id_participante'].")' class='btn btn-sm me-1'>
+                                        <a onclick='participante(". $resultado['id_evento'] . ", " . $result_item['id_pessoa']. ", " . $result_item['id_participante'].")' class='btn btn-sm me-1'>
                                           <i class='fa-solid fa-ellipsis-vertical'></i>
                                         </a>
                                       </div>";
@@ -144,8 +144,30 @@
 
     <script>
 
-        function participante(id, item)
+        function participante(id, item, participante)
         {
+            $('#id_evento1').val(id)
+
+            $('#id_participante').val(participante)
+
+            $.ajax({
+                type: 'POST',
+                url: 'php/select/participante.php',
+                data: { id : id, item : item },
+                success: function(response) {
+
+					//Preenche select com dados
+					$('.select_participante').html(response)
+
+                    $('#form-participante').attr('action', 'php/edit/participante.php')
+
+					//Abre o modal
+					$('#modalParticipante').modal('toggle')
+				}
+            });
+
+            /*
+
             if(item)
             {
                 $('#id_participante').val(item)
@@ -175,6 +197,8 @@
 
                 $('#modalParticipante').modal('toggle')
             }
+
+            */
         }
 
         function evento(id)

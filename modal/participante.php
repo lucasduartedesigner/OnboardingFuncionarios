@@ -15,7 +15,7 @@
                   <div class="col-sm-12">
                     <div class="mb-3">
                       <label for="nome" class="form-label">Nome</label>
-                      <select id="id_pessoa" name="id_pessoa" class="form-control">
+                      <select id="id_pessoa" name="id_pessoa" class="form-control select_participante">
                           <?php
 
                             $sql_nome = "SELECT p.id_pessoa, p.nome
