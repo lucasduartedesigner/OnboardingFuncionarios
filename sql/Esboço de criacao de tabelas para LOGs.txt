@@ -1,0 +1,83 @@
+/*'criacao de duas tabela para teste dos logs'*/
+
+create table cliente (
+    cpf int  not null primary key,
+    nome varchar null (255),
+    endereco varchar null (255)
+
+);
+
+
+create table funcionarios(
+    cpf int not null primary key,
+    nome varchar (255),
+    endereco varchar (255)
+);
+
+
+/*'criaçao da tabela de LOG ( onde sera armazenada os dados feitos da modificacoes)'*/
+
+create table Logs(
+    tabela varchar(40),
+    acao varchar (15),
+    usuario varchar(70),
+    data_hora datetime,
+    chave varchar (255),
+    antes varchar (4000),
+    depois varchar (4000)
+);
+
+
+/*'Criacao das Triggers'
+'nessa trigger de INSERT a coluna ANTES deve ser NULL, pois como nao há valores anteriores os dados sao nulos!'
+ reparar tambem que, o campo DEPOIS esta dentro do '(parenteses)' que vem seguido de um 'concat' para concatenar os valores,
+separados por um '|' .
+*/
+
+
+delimiter $$
+create trigger 'tr01'.'trigger_log_insert' after insert
+    on 'tr01'.'cliente' /*note que a trigger "tr01" é criada dentro da tabela cliente pois é seguida do '.cliente' */
+    for each row 
+ begin
+        insert into Logs (tabela, acao, usuario, data_hora, chave, antes, depois)
+        values ('cliente', 'INSERT', current_user, now(), new.cpf, null,
+        concat(new.cpf, '|', new.nome, '|', new.endereco))/* os valores da tabela no qual teve modificaçao, se tivesse mais dados teriam que conter dentro tambem*/
+ end$$
+ delimiter;
+
+
+
+/* 'Criacao de uma trigger para UPDATE'
+    note que nessa trigger de UPDATE a coluna ANTES deve ser preenchida com os dados anteriomente contidos nela
+    porem contidos com a nomeclatura .OLD que indica que os dados sao 'velhos'.
+*/
+
+delimiter $$
+create trigger 'tr01'.'trigger_log_update' after UPDATE
+    on 'tr01'.'cliente'
+    for each row
+begin
+    insert into Logs (tabela, acao, usuario, data_hora, chave, antes, depois)
+    values ('cliente', 'INSERT', current_user, now(), new.cpf, 
+    concat(old.cpf, '|', old.nome, '|', old.endereco),
+    concat(new.cpf, '|', new.nome, '|', new.endereco));
+end$$
+delimiter;
+
+
+/*' Criacao de uma Trigger Para DELETE'
+nota se que dentro dessa trigger de DELETE a ação ANTES é a coluna que contem os dados das tabelas que no caso foi deletada,
+e a coluna DEPOIS é a que recebe o Valor NULL, pois como os dados foram apagados nao há dados para preencher.*/
+
+delimiter$$
+
+create trigger 'tr01'.'trigger_log_insert' after DELETE
+    on 'tr01'.'cliente'
+    for each row 
+ begin
+        insert into Logs (tabela, acao, usuario, data_hora, chave, antes, depois)
+        values ('cliente', 'INSERT', current_user, now(), new.cpf,
+        concat(old.cpf, '|', old.nome, '|', old.endereco), null,)
+ end$$
+ delimiter;
