@@ -9,27 +9,28 @@
     include_once "../function/data.php";
 
     //Receber os dados do formulario
-    $titulo_feedback     = $_POST['titulo_feedback'];
-    $id_pessoa     = $_POST['id_pessoa'];
-    $id_departamento     = $_POST['id_departamento'];
-    $descricao_feedback     = $_POST['descricao_feedback'];
+    $avaliacao          = $_POST['avaliacao'];
+    $titulo_feedback    = $_POST['titulo_feedback'];
+    $id_pessoa          = $_POST['id_pessoa'];
+    $id_departamento    = $_POST['id_departamento'];
+    $descricao_feedback = $_POST['descricao_feedback'];
     
 
     //Monta insert em uma string
     $consulta = "INSERT INTO feedback 
-                 (titulo_feedback, id_pessoa, id_departamento, descricao_feedback) 
+                 (avaliacao, titulo_feedback, id_pessoa, id_departamento, descricao_feedback) 
                  VALUES
-                 (:titulo_feedback, :id_pessoa, :id_departamento, :descricao_feedback)";
+                 (:avaliacao, :titulo_feedback, :id_pessoa, :id_departamento, :descricao_feedback)";
 
     //Prepara o insert para o banco
     $response = $conn->prepare($consulta);
 
     //Passa os parametros via bind para evitar SQL Inject
+    $response->bindParam(':avaliacao', $avaliacao, PDO::PARAM_STR);
     $response->bindParam(':titulo_feedback', $titulo_feedback, PDO::PARAM_STR);
     $response->bindParam(':id_pessoa', $id_pessoa, PDO::PARAM_STR);
     $response->bindParam(':id_departamento', $id_departamento, PDO::PARAM_STR);
     $response->bindParam(':descricao_feedback', $descricao_feedback, PDO::PARAM_STR);
-
 
     //Executa a insert 
     $response->execute();
