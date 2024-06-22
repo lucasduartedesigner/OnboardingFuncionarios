@@ -211,7 +211,7 @@ CREATE TABLE `forum_perguntas` (
   `id_departamento` int NOT NULL,
   `titulo_pergunta` varchar(50) NOT NULL,
   `descricao_pergunta` text NOT NULL,
-  `visualizacao` int DEFAULT NULL,
+  `visualizacao` int NOT NULL DEFAULT '0',
   `qtd_resposta` int NOT NULL,
   `data_pergunta` datetime DEFAULT CURRENT_TIMESTAMP,
   `id_topico` int NOT NULL DEFAULT '1',
@@ -251,6 +251,19 @@ CREATE TABLE `forum_respostas` (
   KEY `FK_forum_respostas_pessoa` (`id_pessoa`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Acionadores `forum_respostas`
+--
+DROP TRIGGER IF EXISTS `atualiza_qtd_respostas`;
+DELIMITER $$
+CREATE TRIGGER `atualiza_qtd_respostas` AFTER INSERT ON `forum_respostas` FOR EACH ROW BEGIN
+    UPDATE forum_perguntas
+    SET qtd_resposta = qtd_resposta + 1
+    WHERE id_forum_perguntas = NEW.id_forum_perguntas;
+END
+$$
+DELIMITER ;
 
 --
 -- Dumping data for table `forum_respostas`
