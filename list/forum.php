@@ -166,3 +166,63 @@
         </div>
     </div>
 </div>
+
+<!-- PAGINAÇÃO -->
+<?php
+
+// Inicializa a variável de página com o valor padrão de 1
+$pagina = 1;
+
+// Verifica se o parâmetro 'pagina' foi passado na URL e valida como um inteiro
+if (isset($_GET['pagina'])) {
+    $pagina = filter_input(INPUT_GET, "pagina", FILTER_VALIDATE_INT);
+}
+
+// Se a validação falhar, define a página como 1
+if (!$pagina) {
+    $pagina = 1;
+}
+
+// Define o limite de registros por página
+$limite = 4;
+
+// Calcula o índice inicial para a consulta SQL
+$inicio = ($pagina - 1) * $limite; // Ajusta para garantir que o início esteja correto
+
+// Prepara a consulta para obter os dados da página atual com limite e offset
+$stmt = $conn->prepare("SELECT * FROM forum_perguntas ORDER BY id_forum_perguntas LIMIT :inicio, :limite");
+$stmt->bindValue(':inicio', $inicio, PDO::PARAM_INT); // Vincula o valor de início
+$stmt->bindValue(':limite', $limite, PDO::PARAM_INT); // Vincula o valor de limite
+$stmt->execute(); // Executa a consulta
+$result = $stmt->fetchAll(); // Obtém todos os resultados
+
+// Consulta para obter o número total de registros na tabela
+$registros = $conn->query("SELECT COUNT(id_forum_perguntas) count FROM forum_perguntas")->fetch()["count"];
+
+// Calcula o número total de páginas necessárias
+$paginas = ceil($registros / $limite);
+?>
+
+<!-- Início da navegação de paginação -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <!-- Link para a primeira página -->
+        <li class="page-item <?php if ($pagina == 1) echo 'disabled'; ?>">
+            <a class="page-link" href="?pagina=1">Início</a>
+        </li>
+        <!-- Link para a página anterior, se não estiver na primeira página -->
+        <?php if ($pagina > 1): ?>
+            <li class="page-item"><a class="page-link" href="?pagina=<?= $pagina - 1 ?>"><?= $pagina - 1 ?></a></li>
+        <?php endif; ?>
+        <!-- Link para a página atual, marcado como ativo -->
+        <li class="page-item active"><a class="page-link" href="?pagina=<?= $pagina ?>"><?= $pagina ?></a></li>
+        <!-- Link para a próxima página, se não estiver na última página -->
+        <?php if ($pagina < $paginas): ?>
+            <li class="page-item"><a class="page-link" href="?pagina=<?= $pagina + 1 ?>"><?= $pagina + 1 ?></a></li>
+        <?php endif; ?>
+        <!-- Link para a última página -->
+        <li class="page-item <?php if ($pagina == $paginas) echo 'disabled'; ?>">
+            <a class="page-link" href="?pagina=<?= $paginas ?>">Última</a>
+        </li>
+    </ul>
+</nav>
