@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: localhost    Database: portalfuncionarios
 -- ------------------------------------------------------
@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -229,7 +229,7 @@ CREATE TABLE `forum_perguntas` (
 
 LOCK TABLES `forum_perguntas` WRITE;
 /*!40000 ALTER TABLE `forum_perguntas` DISABLE KEYS */;
-INSERT INTO `forum_perguntas` VALUES (1,1,1,'teste 1','descrição do teste 1',NULL,0,'2024-04-25 21:48:55',0,1),(2,1,1,'teste 2','descrição de teste 2',NULL,0,'2024-04-25 21:49:19',0,1);
+INSERT INTO `forum_perguntas` VALUES (1,1,1,'teste 1','descrição do teste 1',0,0,'2024-04-25 21:48:55',0,1),(2,1,1,'teste 2','descrição de teste 2',0,0,'2024-04-25 21:49:19',0,1);
 /*!40000 ALTER TABLE `forum_perguntas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,19 +251,6 @@ CREATE TABLE `forum_respostas` (
   KEY `FK_forum_respostas_pessoa` (`id_pessoa`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Acionadores `forum_respostas`
---
-DROP TRIGGER IF EXISTS `atualiza_qtd_respostas`;
-DELIMITER $$
-CREATE TRIGGER `atualiza_qtd_respostas` AFTER INSERT ON `forum_respostas` FOR EACH ROW BEGIN
-    UPDATE forum_perguntas
-    SET qtd_resposta = qtd_resposta + 1
-    WHERE id_forum_perguntas = NEW.id_forum_perguntas;
-END
-$$
-DELIMITER ;
 
 --
 -- Dumping data for table `forum_respostas`
@@ -351,40 +338,6 @@ LOCK TABLES `item_tarefa` WRITE;
 INSERT INTO `item_tarefa` VALUES (40,17,'item tarefa 2',0,'2024-06-04','2024-06-04'),(37,16,'Primeiro envio de arquivo',0,'2024-05-28','2024-05-29'),(39,17,'item tarefa 1',0,'2024-06-04','2024-06-04'),(38,16,'Clonar repositorio',0,'2024-06-01','2024-06-02'),(36,16,'Como criar um repositorio',0,'2024-05-27','2024-05-27'),(35,15,'Pagina de Boas vindas',0,'2024-02-01','2024-02-29'),(34,15,'Tela de Login',0,'2024-02-01','2024-02-29'),(33,15,'Cadastro de Usuário',0,'2024-01-01','2024-01-31');
 /*!40000 ALTER TABLE `item_tarefa` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_item_tarefa_insert` AFTER INSERT ON `item_tarefa` FOR EACH ROW BEGIN
-    CALL update_tarefa_status(NEW.id_tarefa);
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_item_tarefa_update` AFTER UPDATE ON `item_tarefa` FOR EACH ROW BEGIN
-    CALL update_tarefa_status(NEW.id_tarefa);
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `logs`
@@ -540,65 +493,6 @@ LOCK TABLES `pessoa` WRITE;
 INSERT INTO `pessoa` VALUES (2,'2345','João da Silva',1,'joaosilva@unifeso.edu.br','961e50d73bfdd3edbbd46188ecbde30a3936d83d9d4a35899fa16ac8b4ffbc35','$2y$10$r1Nt0YGZ.HsZuNnA57RO5uNgv2W.1ZN8LX2pMkFRkQfPWWJA0hA5G','2024-03-20 19:13:42','2024-03-20 19:13:42',6,0,NULL),(4,'062168','Hugo',0,'hugo@gmail.com','4c86cf5d0745caa4e1661559b7b8271043fb22021c8853b0c073e108ef586f57','$2y$10$kcVjh1YHGU4FTxn4jlim7um6o4o0ACiZrZg5DmyoXqd7Djn5oXli2','2024-04-05 01:34:56','2024-04-16 21:44:02',3,0,NULL),(3,'06004672','Gabriel Guedes',1,'gabrielguedes00@hotmail.com','c8b082d35ba2a8b2765828cccaa2496d8a6a095d7410f8b3544461ca606bcdc0','$2y$10$HU0..v1MrAzAxCEKnivJpOVtcvwGeM4fBnHPSVF9gnx1bP7rJP9ES','2024-03-21 01:04:07','2024-03-21 01:04:07',3,0,NULL),(1,'073842','Lucas',1,'lucasduarte@feso.edu.br','3b42bf0d3d3aa83495d431704bf36ab49688dbd23f978e1e91008924418f1d52','$2y$10$CzlnkuUeeuxUI10RSOSOpOlcstrI60Y0aj484O5gpKZqOP6gq6MC2','2024-03-20 18:04:57','2024-04-17 01:07:19',5,0,NULL),(5,'111222','Ronald',1,'ronaldmc@gmail.com','d8094448cd1aa6b88815a7c2a064c4b772b2d2da04d21295a13916dfd32feb4c','$2y$10$9b6EF6YTat3Bc4k0l/hoSOx5NNXecpyc84vq/ka.zsSz7pWryOZMy','2024-04-16 20:52:46','2024-04-16 20:52:46',6,0,NULL),(10,'111446688','rafael',1,'rafael@gmail.com','a960e61280734fb017f6d97d48b8a6c4913e146035279e4b564a640116f78e88','$2y$10$TWrd2mjNgq2/HsRs84BUm.qSV6URu9fFTYCZfFgtgPsCe4k1sUePe','2024-06-18 17:41:30','2024-06-18 17:41:30',5,0,NULL),(15,'111446688','rafael',1,'rafael@gmail.com','a960e61280734fb017f6d97d48b8a6c4913e146035279e4b564a640116f78e88','$2y$10$TWrd2mjNgq2/HsRs84BUm.qSV6URu9fFTYCZfFgtgPsCe4k1sUePe','2024-06-18 17:44:13','2024-06-18 17:44:13',5,0,NULL);
 /*!40000 ALTER TABLE `pessoa` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trigger_log_insert` AFTER INSERT ON `pessoa` FOR EACH ROW begin
-    insert into Logs (tabela, acao, usuario, data_hora, chave, antes, depois)
-    values ('pessoa', 'INSERT', current_user, now(), new.id_pessoa, null,
-           concat(new.id_pessoa, new.matricula, new.nome, new.status, new.email, new.token, new.senha, new.id_campus, new.id_departamento, new.telefone));
-end */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trigger_log_update` AFTER UPDATE ON `pessoa` FOR EACH ROW begin
-    insert into Logs (tabela, acao, usuario, data_hora, chave, antes, depois)
-    values ('pessoa', 'UPDATE', current_user, now(), new.id_pessoa,
-			concat(old.id_pessoa, old.matricula, old.nome, old.status, old.email, old.token, old.senha, old.id_campus, old.id_departamento, old.telefone),
-           concat(new.id_pessoa, new.matricula, new.nome, new.status, new.email, new.token, new.senha, new.id_campus, new.id_departamento, new.telefone));
-end */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trigger_log_delete` AFTER DELETE ON `pessoa` FOR EACH ROW begin
-    insert into Logs (tabela, acao, usuario, data_hora, chave, antes, depois)
-    values ('pessoa', 'DELETE', current_user, now(), old.id_pessoa,
-			concat(old.id_pessoa, old.matricula, old.nome, old.status, old.email, old.token, old.senha, old.id_campus, old.id_departamento, old.telefone),
-          null);
-end */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `pessoa_acesso`
@@ -735,95 +629,6 @@ LOCK TABLES `tipo_evento` WRITE;
 INSERT INTO `tipo_evento` VALUES (1,'Reunião',1),(2,'Treinamento',1),(3,'Palestra',1),(4,'Confraternização',1),(5,'Desligamento Coletivo',NULL),(7,'Desligamento Coletivo',1),(6,'teste 2',NULL),(8,'teste',NULL),(9,'teste3333',NULL);
 /*!40000 ALTER TABLE `tipo_evento` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'portalfuncionarios'
---
-/*!50003 DROP PROCEDURE IF EXISTS `update_tarefa_status` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_tarefa_status`(IN `tarefa_id` INT)
-BEGIN
-    DECLARE total_status INT;
-    DECLARE total_concluidos INT;
-
-    -- Conta quantos itens de tarefa estão marcados como concluídos (status = 1)
-    SELECT COUNT(*) INTO total_status
-    FROM item_tarefa
-    WHERE id_tarefa = tarefa_id AND status = 1;
-
-    -- Conta quantos itens de tarefa existem para a tarefa
-    SELECT COUNT(*) INTO total_concluidos
-    FROM item_tarefa
-    WHERE id_tarefa = tarefa_id;
-
-    -- Se todos os itens de tarefa para essa tarefa estiverem marcados como concluídos, atualize o status da tarefa para 1
-    IF total_status = total_concluidos THEN
-        UPDATE tarefa SET status = 1 WHERE id_tarefa = tarefa_id;
-    -- Se houver itens de tarefa marcados como concluídos, mas não todos, atualize o status da tarefa para 0
-    ELSEIF total_status > 0 THEN
-        UPDATE tarefa SET status = 0 WHERE id_tarefa = tarefa_id;
-    -- Se não houver nenhum item de tarefa marcado como concluído, atualize o status da tarefa para 0
-    ELSE
-        UPDATE tarefa SET status = 0 WHERE id_tarefa = tarefa_id;
-    END IF;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `update_timestamps` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_timestamps`()
-BEGIN
-    DECLARE done INT DEFAULT 0;
-    DECLARE table_name VARCHAR(255);
-    DECLARE cur CURSOR FOR 
-        SELECT TABLE_NAME 
-        FROM INFORMATION_SCHEMA.TABLES 
-        WHERE TABLE_SCHEMA = 'your_database_name';
-
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
-
-    OPEN cur;
-
-    read_loop: LOOP
-        FETCH cur INTO table_name;
-        IF done THEN
-            LEAVE read_loop;
-        END IF;
-        
-        SET @alter_sql = CONCAT('ALTER TABLE ', table_name, 
-                                ' ADD COLUMN IF NOT EXISTS dt_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,',
-                                ' ADD COLUMN IF NOT EXISTS dt_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;');
-        PREPARE stmt FROM @alter_sql;
-        EXECUTE stmt;
-        DEALLOCATE PREPARE stmt;
-    END LOOP;
-
-    CLOSE cur;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -834,4 +639,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-18 14:47:42
+-- Dump completed on 2024-06-24 16:05:38
