@@ -9,17 +9,16 @@
     include_once "../function/data.php";
 
     //Receber os dados do formulario
-    $titulo_pergunta     = $_POST['titulo_pergunta'];
-    $id_pessoa     = $_POST['id_pessoa'];
-    $id_departamento     = $_POST['id_departamento'];
-    $descricao_pergunta     = $_POST['descricao_pergunta'];
-    
+    $titulo_pergunta    = $_POST['titulo_pergunta'];
+    $id_pessoa          = $_POST['id_pessoa'];
+    $id_departamento    = $_POST['id_departamento'];
+    $descricao_pergunta = $_POST['descricao_pergunta'];
 
     //Monta insert em uma string
     $consulta = "INSERT INTO forum_perguntas 
-                 (titulo_pergunta, id_pessoa, id_departamento, descricao_pergunta) 
+                 (titulo_pergunta, id_pessoa, id_departamento, descricao_pergunta, status) 
                  VALUES
-                 (:titulo_pergunta, :id_pessoa, :id_departamento, :descricao_pergunta)";
+                 (:titulo_pergunta, :id_pessoa, :id_departamento, :descricao_pergunta, 1)";
 
     //Prepara o insert para o banco
     $response = $conn->prepare($consulta);
@@ -29,7 +28,6 @@
     $response->bindParam(':id_pessoa', $id_pessoa, PDO::PARAM_STR);
     $response->bindParam(':id_departamento', $id_departamento, PDO::PARAM_STR);
     $response->bindParam(':descricao_pergunta', $descricao_pergunta, PDO::PARAM_STR);
-
 
     //Executa a insert 
     $response->execute();
